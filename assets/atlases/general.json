@@ -1,0 +1,68 @@
+{"frames": [
+
+{
+	"filename": "1",
+	"frame": {"x":105,"y":194,"w":26,"h":27},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":151,"y":54,"w":26,"h":27},
+	"sourceSize": {"w":254,"h":254}
+},
+{
+	"filename": "9",
+	"frame": {"x":2,"y":2,"w":188,"h":188},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":33,"y":33,"w":188,"h":188},
+	"sourceSize": {"w":254,"h":254}
+},
+{
+	"filename": "ball",
+	"frame": {"x":2,"y":194,"w":99,"h":99},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":14,"w":99,"h":99},
+	"sourceSize": {"w":127,"h":127}
+},
+{
+	"filename": "ballShadow",
+	"frame": {"x":2,"y":297,"w":118,"h":43},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":118,"h":43},
+	"sourceSize": {"w":118,"h":43}
+},
+{
+	"filename": "basket_back",
+	"frame": {"x":2,"y":373,"w":161,"h":23},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":161,"h":23},
+	"sourceSize": {"w":161,"h":23}
+},
+{
+	"filename": "basket_front",
+	"frame": {"x":2,"y":344,"w":160,"h":25},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":160,"h":25},
+	"sourceSize": {"w":160,"h":25}
+},
+{
+	"filename": "basket_wall",
+	"frame": {"x":105,"y":225,"w":22,"h":43},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":43},
+	"sourceSize": {"w":22,"h":43}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "general.png",
+	"format": "RGBA8888",
+	"size": {"w":192,"h":398},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:9951d7f2aa9a3bddd478d6aca204b091:90cdebc17c38d632bd40ac24fe2bff90:49afdaefc8003509a7dad15a6a269fdc$"
+}
+}
