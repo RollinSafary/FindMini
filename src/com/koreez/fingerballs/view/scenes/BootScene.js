@@ -1,12 +1,12 @@
-import { Scene } from 'phaser'
 import { SCENE_BOOT, GENERAL_ASSETS_KEY } from '../../constants/Constants'
 import {
   onLoadStart,
   onFileLoadComplete,
   onLoadComplete,
 } from '../../constants/LoaderEvents'
+import FingerBallsScene from './FingerBallsScene'
 
-export default class BootScene extends Scene {
+export default class BootScene extends FingerBallsScene {
   static NAME = 'BootScene'
   static START = `${BootScene.NAME}Start`
   static FILE_LOAD_COMPLETE = `${BootScene.NAME}FileLoadComplete`

@@ -1,8 +1,8 @@
-import Phaser from 'phaser'
 import { gameConfig } from '../../constants/GameConfig'
 import { SCENE_GAME, GENERAL_ASSETS_KEY } from '../../constants/Constants'
+import FingerBallsScene from './FingerBallsScene'
 
-export default class GameScene extends Phaser.Scene {
+export default class GameScene extends FingerBallsScene {
   static NAME = 'GameScene'
   static START = `${GameScene.NAME}Start`
 
@@ -12,11 +12,59 @@ export default class GameScene extends Phaser.Scene {
 
   createPreview () {
     const preview = this.add
-      .image(gameConfig.width / 2, gameConfig.height * 0.528, 'preview')
+      .image(gameConfig.width / 2, gameConfig.height * 0.5, 'preview')
       .setAlpha(0.5)
     preview.setScale(gameConfig.width / preview.width)
   }
+
   create () {
+    this.add
+      .image(0, 0, GENERAL_ASSETS_KEY, 'back')
+      .setOrigin(0)
+      .setScale(2)
+      .setDepth(-110)
+
+    this.add
+      .image(
+        gameConfig.width / 2,
+        gameConfig.height * 0.873,
+        GENERAL_ASSETS_KEY,
+        'ground',
+      )
+      .setScale(2)
+      .setDepth(-109)
+    this.add
+      .image(
+        gameConfig.width / 2,
+        gameConfig.height * 0.45,
+        GENERAL_ASSETS_KEY,
+        'wall',
+      )
+      .setScale(2)
+      .setDepth(-108)
+
+    this.add
+      .image(
+        gameConfig.width / 2,
+        gameConfig.height * 0.873,
+        GENERAL_ASSETS_KEY,
+        'blur',
+      )
+      .setAlpha(0.07)
+      .setScale(4, 0.6)
+      .setDepth(-107)
+
+    this.add
+      .image(
+        gameConfig.width / 2,
+        gameConfig.height * 0.5,
+        GENERAL_ASSETS_KEY,
+        'square',
+      )
+      .setAlpha(0.1)
+      .setScale(150, 0.5)
+      .setDepth(100)
+
     this.ball = new Ball(this)
     // this.matter.world.setBounds()
     const basketsOptions = [
@@ -37,17 +85,17 @@ export default class GameScene extends Phaser.Scene {
 
     const scoreZone = this.matter.add.rectangle(
       gameConfig.width / 2,
-      gameConfig.height / 2 + gameConfig.height * 0.4 / 2,
-      gameConfig.width * 0.9,
-      gameConfig.height * 0.4,
+      gameConfig.height / 2 + gameConfig.height * 0.37 / 2,
+      gameConfig.width * 0.98,
+      gameConfig.height * 0.37,
       { label: 'ScoreZone', isStatic: true, isSensor: true },
     )
 
     const ground = this.matter.add.rectangle(
       gameConfig.width / 2,
-      gameConfig.height * 0.97,
-      gameConfig.width * 0.9,
-      gameConfig.height * 0.05,
+      gameConfig.height * 0.925,
+      gameConfig.width * 0.98,
+      gameConfig.height * 0.1,
       { label: 'Ground', isStatic: true },
     )
 
@@ -182,7 +230,6 @@ class Basket extends Phaser.GameObjects.Group {
       'basket_back',
     )
     this.basketBack.depth = -100
-    console.warn(this.basketBack)
     this.basketFront = this.scene.add.image(
       x - side * 75,
       y + 10,
@@ -254,7 +301,7 @@ class Ball extends Phaser.GameObjects.Group {
   onFirstPointerDown (pointer) {
     console.log('once')
     this.circ.setStatic(false)
-    this.circ.setBounce(0.75)
+    this.circ.setBounce(0.55)
     this.circ.applyForce({ x: Phaser.Math.Between(-0.7, 0.7), y: -1 })
     this.circ.on('pointerdown', this.onBallPointerDown, this)
   }
@@ -274,12 +321,18 @@ class Ball extends Phaser.GameObjects.Group {
   }
 
   createLights () {
-    this.light1 = this.scene.add
-      .image(this.circ.x, this.circ.x, GENERAL_ASSETS_KEY, 1)
-      .setScale(0.5)
-    this.light9 = this.scene.add
-      .image(this.circ.x, this.circ.y, GENERAL_ASSETS_KEY, 9)
-      .setScale(0.5)
+    this.light1 = this.scene.add.image(
+      this.circ.x,
+      this.circ.x,
+      GENERAL_ASSETS_KEY,
+      1,
+    )
+    this.light9 = this.scene.add.image(
+      this.circ.x,
+      this.circ.y,
+      GENERAL_ASSETS_KEY,
+      9,
+    )
   }
 
   updateLights () {
@@ -292,7 +345,7 @@ class Ball extends Phaser.GameObjects.Group {
   createShadow () {
     this.shadow = this.scene.add.image(
       0,
-      gameConfig.height * 0.945,
+      gameConfig.height * 0.875,
       GENERAL_ASSETS_KEY,
       'ballShadow',
     )

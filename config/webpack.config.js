@@ -12,7 +12,7 @@ const parts = require('./webpack.parts.config')
 
 const paths = {
   base: path.resolve('src'),
-  app: path.resolve('src/FingerBallsGame.js'),
+  app: path.resolve('src/com/koreez/fingerballs/FingerBallsGame.js'),
   dist: path.resolve('dist'),
   template: path.resolve('index.html'),
 }
@@ -85,30 +85,33 @@ const commonProductionConfig = envVar => {
   return merge([
     parts.cleanup([paths.dist]),
 
-    parts.minifyJavaScript(envVar),
-
     parts.envVar(envVar),
 
-    parts.extractChunks([
-      {
-        name: 'vendor',
-        minChunks: parts.isVendor,
-      },
-      {
-        async: 'async-common',
-        children: true,
-        deepChildren: true,
-        minChunks: 2,
-      },
-      {
-        name: 'manifest',
-        minChunks: Infinity,
-      },
-    ]),
-
-    parts.scopeHoisting(),
-
     parts.attachRevision(),
+
+    {
+      performance: {
+        // maxEntrypointSize: 1200000,
+        // maxAssetSize: 1200000,
+      },
+      optimization: {
+        splitChunks: {
+          chunks: 'async',
+          minSize: 30000,
+          minChunks: 1,
+          maxAsyncRequests: 5,
+          maxInitialRequests: 3,
+          name: true,
+          cacheGroups: {
+            commons: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendor',
+              chunks: 'all',
+            },
+          },
+        },
+      },
+    },
   ])
 }
 

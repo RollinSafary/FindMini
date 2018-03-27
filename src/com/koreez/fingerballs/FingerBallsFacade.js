@@ -5,6 +5,8 @@ import BootScene from './view/scenes/BootScene'
 import GameScene from './view/scenes/GameScene'
 import BootSceneMediator from './view/scenes/BootSceneMediator'
 import GameSceneMediator from './view/scenes/GameSceneMediator'
+import PlayerVOProxy from './model/PlayerVOProxy'
+import SavePlayerVOCommand from './controller/player/SavePlayerVOCommand'
 
 const consoleArgs = [
   ``,
@@ -17,10 +19,10 @@ const consoleArgs = [
 
 export default class FingerBallsFacade extends Facade {
   static getInstance (key) {
-    if (!Facade.instanceMap.has(key)) {
-      Facade.instanceMap.set(key, new FingerBallsFacade(key))
+    if (!Facade.instanceMap[key]) {
+      Facade.instanceMap[key] = new FingerBallsFacade(key)
     }
-    return Facade.instanceMap.get(key)
+    return Facade.instanceMap[key]
   }
 
   static NAME = 'FingerBallsFacade'
@@ -40,6 +42,7 @@ export default class FingerBallsFacade extends Facade {
     super.initializeController()
 
     this.registerCommand(FingerBallsFacade.STARTUP, StartupCommand)
+    this.registerCommand(PlayerVOProxy.INITIALIZE_SUCCESS, SavePlayerVOCommand)
   }
 
   initializeView () {

@@ -3,6 +3,7 @@ import 'babel-polyfill'
 import { gameConfig } from './constants/GameConfig'
 import { Facade } from '@koreez/pure-mvc'
 import FingerBallsFacade from './FingerBallsFacade'
+import firebase from 'firebase'
 
 const consoleArgs = [
   `%c %c %c  FingerBalls  %c %c `,
@@ -13,6 +14,8 @@ const consoleArgs = [
   `background: ${'#c8ffc8'}`,
 ]
 
+export const PLAYER_COLLECTION_NAME = 'PlayerObjects'
+
 export default class FingerBallsGame extends Phaser.Game {
   static NAME = 'FingerBallsGame'
 
@@ -22,8 +25,18 @@ export default class FingerBallsGame extends Phaser.Game {
     this.resize()
     console.log.apply(console, consoleArgs)
 
+    this.init()
     Facade.getInstance = FingerBallsFacade.getInstance
     this.facade = Facade.getInstance(FingerBallsFacade.NAME)
+  }
+
+  init () {
+    firebase.initializeApp({
+      apiKey: 'AIzaSyCvnD8pqdipJTMnqVfWEs5DypD7sQktvWY',
+      authDomain: 'finger-balls.firebaseapp.com',
+      projectId: 'finger-balls',
+      storageBucket: 'finger-balls.appspot.com',
+    })
   }
 
   resize () {

@@ -14,34 +14,34 @@ export default class FingerBallsSceneMediator extends Mediator {
   }
 
   onSceneBoot () {
-    this.facade.sendNotification(this.viewComponent.constructor.BOOT)
+    this.sendNotification(this.viewComponent.constructor.BOOT)
   }
 
   onScenePause () {
-    this.facade.sendNotification(this.viewComponent.constructor.PAUSE)
+    this.sendNotification(this.viewComponent.constructor.PAUSE)
   }
 
   onSceneResume () {
-    this.facade.sendNotification(this.viewComponent.constructor.RESUME)
+    this.sendNotification(this.viewComponent.constructor.RESUME)
   }
 
   onSceneSleep () {
-    this.facade.sendNotification(this.viewComponent.constructor.SLEEP)
+    this.sendNotification(this.viewComponent.constructor.SLEEP)
   }
 
   onSceneWake () {
-    this.facade.sendNotification(this.viewComponent.constructor.WAKE)
+    this.sendNotification(this.viewComponent.constructor.WAKE)
   }
 
   onSceneStart () {
-    this.facade.sendNotification(this.viewComponent.constructor.START)
+    this.sendNotification(this.viewComponent.constructor.START)
   }
 
   onSceneShutdown () {
-    this.facade.sendNotification(this.viewComponent.constructor.SHUTDOWN)
+    this.sendNotification(this.viewComponent.constructor.SHUTDOWN)
   }
 
   onSceneDestroy () {
-    this.facade.sendNotification(this.viewComponent.constructor.DESTROY)
+    this.sendNotification(this.viewComponent.constructor.DESTROY)
   }
 }

@@ -16,7 +16,7 @@ export const gameConfig = {
         height: 960 + 200,
         thickness: 64,
       },
-      debug: true,
+      debug: false,
       enableSleeping: true,
       debugBodyColor: 0x00ffff,
       gravity: {

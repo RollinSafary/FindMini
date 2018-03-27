@@ -1,6 +1,5 @@
 const webpack = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin')
 const GitRevisionPlugin = require('git-revision-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
@@ -48,21 +47,6 @@ exports.sourceMaps = method => ({
   devtool: method,
 })
 
-exports.minifyJavaScript = env => ({
-  plugins: [
-    new UglifyWebpackPlugin({
-      // Compression specific options
-      compress: {
-        // remove warnings
-        warnings: false,
-
-        // Drop console statements
-        drop_console: env === 'production',
-      },
-    }),
-  ],
-})
-
 exports.envVar = env => ({
   plugins: [
     new webpack.DefinePlugin({
@@ -71,19 +55,6 @@ exports.envVar = env => ({
       WEBGL_RENDERER: JSON.stringify(false),
     }),
   ],
-})
-
-exports.extractChunks = bundles => ({
-  plugins: [
-    new webpack.HashedModuleIdsPlugin(),
-    ...bundles.map(bundle => new webpack.optimize.CommonsChunkPlugin(bundle)),
-  ],
-})
-
-exports.isVendor = module => /node_modules/.test(module.resource)
-
-exports.scopeHoisting = () => ({
-  plugins: [new webpack.optimize.ModuleConcatenationPlugin()],
 })
 
 exports.attachRevision = () => ({

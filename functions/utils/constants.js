@@ -1,0 +1,4 @@
+module.exports = {
+  APP_SECRET: 'b286b9dfd41e0e0c7f32ac08c6821e98',
+  AUTHENTICATE_TIMESTAMP_THRESHOLD: 100
+}
