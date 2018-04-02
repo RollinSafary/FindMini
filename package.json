@@ -1,8 +1,8 @@
 {
-  "name": "finger-balls",
+  "name": "find-mini",
   "version": "1.0.0",
-  "description": "Basket Ball",
-  "author": "Koreez <hello@koreez.com> <http://www.koreez.com>",
+  "description": "Reaction game",
+  "author": "RollinSafary <rollinsafary@hotmail.com> <http://www.rollinsafary.com>",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config config/webpack.config.js --env production  --mode production --progress",
