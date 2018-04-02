@@ -1,6 +1,6 @@
 import { Mediator } from '@koreez/pure-mvc'
 
-export default class FingerBallsSceneMediator extends Mediator {
+export default class FindMiniSceneMediator extends Mediator {
   constructor (name, viewComponent) {
     super(name, viewComponent)
     this.viewComponent.sys.events.on('boot', this.onSceneBoot, this)

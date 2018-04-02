@@ -2,11 +2,11 @@ import Phaser from 'phaser'
 import 'babel-polyfill'
 import { gameConfig } from './constants/GameConfig'
 import { Facade } from '@koreez/pure-mvc'
-import FingerBallsFacade from './FingerBallsFacade'
+import FindMiniFacade from './FindMiniFacade'
 import firebase from 'firebase'
 
 const consoleArgs = [
-  `%c %c %c  FingerBalls  %c %c `,
+  `%c %c %c  FindMini  %c %c `,
   `background: ${'#c8ffc8'}`,
   `background: ${'#96ff96'}`,
   `color: ${'#0003ff'}; background: ${'#00FF00'};`,
@@ -16,8 +16,8 @@ const consoleArgs = [
 
 export const PLAYER_COLLECTION_NAME = 'PlayerObjects'
 
-export default class FingerBallsGame extends Phaser.Game {
-  static NAME = 'FingerBallsGame'
+export default class FindMiniGame extends Phaser.Game {
+  static NAME = 'FindMiniGame'
 
   constructor (config) {
     super(config)
@@ -26,8 +26,8 @@ export default class FingerBallsGame extends Phaser.Game {
     console.log.apply(console, consoleArgs)
 
     this.init()
-    Facade.getInstance = FingerBallsFacade.getInstance
-    this.facade = Facade.getInstance(FingerBallsFacade.NAME)
+    Facade.getInstance = FindMiniFacade.getInstance
+    this.facade = Facade.getInstance(FindMiniFacade.NAME)
   }
 
   init () {
@@ -61,6 +61,6 @@ export default class FingerBallsGame extends Phaser.Game {
 
 document.onreadystatechange = () => {
   if (document.readyState === 'complete') {
-    window.game = new FingerBallsGame(gameConfig)
+    window.game = new FindMiniGame(gameConfig)
   }
 }

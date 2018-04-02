@@ -11,7 +11,7 @@ import {
   setFirebaseDataAsync,
 } from '../utils/utils'
 import _ from 'lodash'
-import { PLAYER_COLLECTION_NAME } from '../FingerBallsGame'
+import { PLAYER_COLLECTION_NAME } from '../FindMiniGame'
 import moment from 'moment'
 
 export default class PlayerVOProxy extends Proxy {

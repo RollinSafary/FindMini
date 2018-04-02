@@ -1,8 +1,8 @@
 import { SCENE_GAME } from '../../constants/Constants'
 import BootScene from './BootScene'
-import FingerBallsSceneMediator from './FingerBallsSceneMediator'
+import FindMiniSceneMediator from './FindMiniSceneMediator'
 
-export default class GameSceneMediator extends FingerBallsSceneMediator {
+export default class GameSceneMediator extends FindMiniSceneMediator {
   static NAME = 'GameSceneMediator'
 
   constructor (viewComponent) {

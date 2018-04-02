@@ -12,7 +12,7 @@ const parts = require('./webpack.parts.config')
 
 const paths = {
   base: path.resolve('src'),
-  app: path.resolve('src/com/safary/findmini/FingerBallsGame.js'),
+  app: path.resolve('src/com/safary/findmini/FindMiniGame.js'),
   dist: path.resolve('dist'),
   template: path.resolve('index.html'),
 }

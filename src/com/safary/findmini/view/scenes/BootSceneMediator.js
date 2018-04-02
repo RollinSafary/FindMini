@@ -1,9 +1,9 @@
 import { SCENE_BOOT } from '../../constants/Constants'
-import FingerBallsFacade from '../../FingerBallsFacade'
+import FindMiniFacade from '../../FindMiniFacade'
 import BootScene from './BootScene'
-import FingerBallsSceneMediator from './FingerBallsSceneMediator'
+import FindMiniSceneMediator from './FindMiniSceneMediator'
 
-export default class BootSceneMediator extends FingerBallsSceneMediator {
+export default class BootSceneMediator extends FindMiniSceneMediator {
   static NAME = 'BootSceneMediator'
 
   constructor (viewComponent) {
@@ -11,12 +11,12 @@ export default class BootSceneMediator extends FingerBallsSceneMediator {
   }
 
   listNotificationInterests () {
-    return [FingerBallsFacade.STARTUP]
+    return [FindMiniFacade.STARTUP]
   }
 
   handleNotification (notificationName) {
     switch (notificationName) {
-      case FingerBallsFacade.STARTUP:
+      case FindMiniFacade.STARTUP:
         this.viewComponent.events.on('loadComplete', this.onLoadComplete, this)
         this.viewComponent.events.on(
           'fileLoadComplete',

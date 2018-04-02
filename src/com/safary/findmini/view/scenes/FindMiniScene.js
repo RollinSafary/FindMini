@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 
-export default class FingerBallsScene extends Phaser.Scene {
+export default class FindMiniScene extends Phaser.Scene {
   constructor (name) {
     super(name)
     this.constructor['BOOT'] = `${name}BootNotification`

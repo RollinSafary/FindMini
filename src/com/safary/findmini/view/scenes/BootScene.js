@@ -4,9 +4,9 @@ import {
   onFileLoadComplete,
   onLoadComplete,
 } from '../../constants/LoaderEvents'
-import FingerBallsScene from './FingerBallsScene'
+import FindMiniScene from './FindMiniScene'
 
-export default class BootScene extends FingerBallsScene {
+export default class BootScene extends FindMiniScene {
   static NAME = 'BootScene'
   static START = `${BootScene.NAME}Start`
   static FILE_LOAD_COMPLETE = `${BootScene.NAME}FileLoadComplete`

@@ -17,16 +17,16 @@ const consoleArgs = [
   `background: ${'#c8c8ff'}`,
 ]
 
-export default class FingerBallsFacade extends Facade {
+export default class FindMiniFacade extends Facade {
   static getInstance (key) {
     if (!Facade.instanceMap[key]) {
-      Facade.instanceMap[key] = new FingerBallsFacade(key)
+      Facade.instanceMap[key] = new FindMiniFacade(key)
     }
     return Facade.instanceMap[key]
   }
 
-  static NAME = 'FingerBallsFacade'
-  static STARTUP = `${FingerBallsFacade.NAME}StartUp`
+  static NAME = 'FindMiniFacade'
+  static STARTUP = `${FindMiniFacade.NAME}StartUp`
 
   initializeFacade () {
     setTimeout(() => {
@@ -41,7 +41,7 @@ export default class FingerBallsFacade extends Facade {
   initializeController () {
     super.initializeController()
 
-    this.registerCommand(FingerBallsFacade.STARTUP, StartupCommand)
+    this.registerCommand(FindMiniFacade.STARTUP, StartupCommand)
     this.registerCommand(PlayerVOProxy.INITIALIZE_SUCCESS, SavePlayerVOCommand)
   }
 
@@ -58,7 +58,7 @@ export default class FingerBallsFacade extends Facade {
   }
 
   startup () {
-    this.sendNotification(FingerBallsFacade.STARTUP)
+    this.sendNotification(FindMiniFacade.STARTUP)
   }
 
   sendNotification (notificationName, ...args) {
