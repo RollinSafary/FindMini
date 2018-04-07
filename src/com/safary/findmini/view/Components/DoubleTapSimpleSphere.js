@@ -3,9 +3,8 @@ import SphereView from './SphereView'
 export default class DoubleTapSimpleSphere extends SphereView {
   constructor (scene, x, y, number) {
     super(scene, x, y, number)
-    this.createBody(0x00ffff, 0xff0000, 0x008080, number)
-    this.hitArea.on('pointerup', this.onClick, this)
-    this.doubleTap = true
+    this.createBody(0x2faabc, 0xfc0134, 0x377695, number)
+    this.createZone()
   }
 
   createBody (bgColor, secondBgColor, centerColor, number) {

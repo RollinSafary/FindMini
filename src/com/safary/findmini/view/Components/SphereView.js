@@ -8,7 +8,12 @@ export default class SphereView extends Phaser.GameObjects.Container {
     this.centerShapes = []
     this.texts = []
     this.createShapes()
-    this.createZone()
+    this.rotationSpeed = Math.random() * 0.05
+    this.ySpeed = 30 + this.rotationSpeed * 600
+    this.xSpeed = 20 + this.rotationSpeed * 400
+    this.xMultiplier = 1
+    this.yMultiplier = 1
+    this.rotationMultiplier = 1
   }
 
   createBody () {}
@@ -83,26 +88,47 @@ export default class SphereView extends Phaser.GameObjects.Container {
   }
 
   createZone () {
-    this.hitArea = this.scene.add.zone(this.x, this.y).setCircleDropZone(30)
+    this.hitArea = this.scene.add.zone(this.x, this.y).setCircleDropZone(40)
     this.add(this.hitArea)
     this.hitArea.setInteractive()
     this.hitArea.depth = 10
+    this.hitArea.on('pointerdown', this.onClick, this)
+    console.warn(this.hitArea)
+
+    const graphics = this.scene.add.graphics({ fillStyle: { color: 0x000000 } })
+    graphics.fillRectShape(this.hitArea)
   }
 
   update () {
-    this.hitArea.x = this.x
-    this.hitArea.y = this.y
+    // this.move()
+    if (this.hitArea) {
+      this.hitArea.x = this.x
+      this.hitArea.y = this.y
+    }
+  }
+
+  move () {
+    this.rotation += this.rotationSpeed * this.rotationMultiplier
+    if (this.x >= this.scene.endX || this.x <= this.scene.startX) {
+      this.rotationMultiplier *= -1
+      this.xMultiplier *= -1
+    }
+    if (this.y >= this.scene.endY || this.y <= this.scene.startY) {
+      this.rotationMultiplier *= -1
+      this.yMultiplier *= -1
+    }
+    this.x += this.xSpeed / 10 * this.xMultiplier
+    this.y += this.ySpeed / 10 * this.yMultiplier
   }
 
   onClick () {
+    console.warn('clicked')
     this.scene.events.emit('onSphereCLick', this)
   }
 
   onClickAction () {
     this.scene.events.emit('onSphereMustDestroy', this)
   }
-
-  emitDestroy () {}
 
   get number () {
     if (!this.numberText) {
