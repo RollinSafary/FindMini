@@ -45,7 +45,8 @@
     "@koreez/pure-mvc": "^2.1.1",
     "babel-polyfill": "^6.26.0",
     "firebase": "^4.10.0",
+    "firebase-admin": "^5.11.0",
     "moment": "^2.20.1",
-    "phaser": "^3.3.0"
+    "phaser": "git+https://github.com/photonstorm/phaser.git"
   }
 }

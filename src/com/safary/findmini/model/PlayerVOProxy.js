@@ -147,9 +147,7 @@ export default class PlayerVOProxy extends Proxy {
           signature: 'someSignature', // playerInfo.getSignature(),
         }),
       )
-      console.warn(verification)
       const verificationJson = await verification.json()
-      console.warn(verificationJson)
       if (verificationJson.error) {
         console.error(verificationJson.error.message)
         reject(verificationJson.error)
