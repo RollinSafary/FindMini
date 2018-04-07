@@ -93,8 +93,6 @@ export default class SphereView extends Phaser.GameObjects.Container {
     this.hitArea.setInteractive()
     this.hitArea.depth = 10
     this.hitArea.on('pointerdown', this.onClick, this)
-    console.warn(this.hitArea)
-
     const graphics = this.scene.add.graphics({ fillStyle: { color: 0x000000 } })
     graphics.fillRectShape(this.hitArea)
   }
@@ -122,7 +120,6 @@ export default class SphereView extends Phaser.GameObjects.Container {
   }
 
   onClick () {
-    console.warn('clicked')
     this.scene.events.emit('onSphereCLick', this)
   }
 
