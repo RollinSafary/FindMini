@@ -15,9 +15,23 @@ export default class GameScene extends FindMiniScene {
   create () {
     this.distance = 30
     this.startX = this.distance
-    this.startY = this.distance
+    this.startY = this.distance + 50
     this.endX = gameConfig.width - this.distance
     this.endY = gameConfig.height - this.distance
+    this.createBackground()
+    this.createNavigationView()
+  }
+
+  createBackground () {
+    this.background = this.add
+      .sprite(0, 0, 'background')
+      .setScale(2)
+  }
+
+  createNavigationView () {
+    this.navigationContainer = this.add.container(0, 0)
+    this.gameNavigation = new GameNavigationView(this)
+    this.navigationContainer.add(this.gameNavigation)
   }
 
   startNewGame (options) {
