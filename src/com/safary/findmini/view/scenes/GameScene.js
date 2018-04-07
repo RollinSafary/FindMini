@@ -2,6 +2,7 @@ import { gameConfig } from '../../constants/GameConfig'
 import { SCENE_GAME } from '../../constants/Constants'
 import FindMiniScene from './FindMiniScene'
 import Phaser from 'phaser'
+import GameNavigationView from '../Components/GameNavigationView'
 
 export default class GameScene extends FindMiniScene {
   static NAME = 'GameScene'
@@ -77,6 +78,9 @@ export default class GameScene extends FindMiniScene {
   }
   destroySphere (target) {
     target.destroy()
+    if (this.spheresContainer.list.length === 0) {
+      this.events.emit('levelComplete')
+    }
   }
 
   update () {
