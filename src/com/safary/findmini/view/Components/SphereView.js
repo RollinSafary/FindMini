@@ -100,7 +100,7 @@ export default class SphereView extends Phaser.GameObjects.Container {
   }
 
   update () {
-    // this.move()
+    this.move()
     if (this.hitArea) {
       this.hitArea.x = this.x
       this.hitArea.y = this.y
