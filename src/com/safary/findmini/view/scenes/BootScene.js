@@ -21,12 +21,13 @@ export default class BootScene extends FindMiniScene {
   }
 
   preload () {
-    this.load.image('preview', 'assets/preview.png')
-    this.load.atlas(
-      GENERAL_ASSETS_KEY,
-      'assets/atlases/general.png',
-      'assets/atlases/general.json',
-    )
+    this.load.image('background', 'assets/background.jpg')
+    this.load.image('button', 'assets/button.png')
+    // this.load.atlas(
+    //   GENERAL_ASSETS_KEY,
+    //   'assets/atlases/general.png',
+    //   'assets/atlases/general.json',
+    // )
     this.load.on('start', this.onLoadStart, this)
     this.load.on('load', this.onFileLoadComplete, this)
     this.load.on('complete', this.onLoadComplete, this)
