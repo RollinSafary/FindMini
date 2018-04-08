@@ -61,9 +61,9 @@ export default class GameScene extends FindMiniScene {
   clearConditions (conditionsView, options) {
     this.conditionsContainer.alpha = 1
     this.tweens.add({
-      targets: this.conditionsContainer,
+      targets: conditionsView.list,
       alpha: 0,
-      duration: 1000,
+      duration: 300,
       ease: 'Power1',
       onComplete: () => {
         conditionsView.destroy()

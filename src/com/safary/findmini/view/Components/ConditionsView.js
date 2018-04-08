@@ -96,6 +96,30 @@ export default class ConditionsView extends Phaser.GameObjects.Container {
     this.add(text)
   }
 
+  createButton(x, y, text, hook, context, ...args) {
+    const button = this.scene.add
+      .sprite(x, y, 'button')
+      .setInteractive()
+    button.on('pointerdown', () => {
+      button.setScale(-1)
+    }, this)
+    button.on('pointerup', () => {
+      button.setScale(1)
+      hook.apply(context, args)
+    }, this)
+    button.on('pointerout', () => {
+      button.setScale(1)
+    })
+    this.add
+      .text(x, y, text, {
+        fontFamily: 'Arial',
+        fontSize: 36,
+        color: '#feffc5',
+      })
+      .setOrigin(0.5)
+    return button
+  }
+
   emitOkay () {
     this.scene.events.emit('okayButtonClicked', this)
   }

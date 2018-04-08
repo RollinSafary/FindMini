@@ -1,6 +1,7 @@
 import { SCENE_NAVIGATION } from '../../constants/Constants'
 import FindMiniScene from './FindMiniScene'
 import { gameConfig } from '../../constants/GameConfig'
+import { createButton } from '../../utils/utils'
 
 export default class NavigationScene extends FindMiniScene {
   static NAME = 'NavigationScene'
@@ -22,33 +23,11 @@ export default class NavigationScene extends FindMiniScene {
   }
 
   createPlayButton () {
-    this.playButton = this.add
-      .sprite(gameConfig.width / 2, gameConfig.height / 3, 'button')
-      .setScale(0.5)
-      .setInteractive()
-    this.playButton.on('pointerup', this.onStartGameClick, this)
-    this.add
-      .text(this.playButton.x, this.playButton.y, 'Start Game', {
-        fontFamily: 'Arial',
-        fontSize: 36,
-        color: '#feffc5',
-      })
-      .setOrigin(0.5)
+    createButton(this, gameConfig.width / 2, gameConfig.height / 3, 'Start Game', this.onStartGameClick, this)
   }
 
   createHardCoreButton () {
-    this.hardCoreButton = this.add
-      .sprite(gameConfig.width / 2, gameConfig.height / 2, 'button')
-      .setScale(0.5)
-      .setInteractive()
-    this.hardCoreButton.on('pointerup', this.onHardCoreClick, this)
-    this.add
-      .text(this.hardCoreButton.x, this.hardCoreButton.y, 'Hard Core', {
-        fontFamily: 'Arial',
-        fontSize: 36,
-        color: '#feffc5',
-      })
-      .setOrigin(0.5)
+    createButton(this, gameConfig.width / 2, gameConfig.height / 2, 'Hardcore', this.onHardCoreClick, this)
   }
 
   onStartGameClick () {
@@ -58,4 +37,27 @@ export default class NavigationScene extends FindMiniScene {
   onHardCoreClick () {
     this.events.emit('onHardCoreClick')
   }
+
+  // createButton(x, y, text, hook, context, ...args) {
+  //   const button = this.add
+  //     .sprite(x, y, 'button')
+  //     .setInteractive()
+  //   button.on('pointerdown', () => {
+  //     button.setScale(-1)
+  //   }, this)
+  //   button.on('pointerup', () => {
+  //     button.setScale(1)
+  //     hook.apply(context, args)
+  //   }, this)
+  //   button.on('pointerout', () => {
+  //     button.setScale(1)
+  //   })
+  //   this.add
+  //     .text(x, y, text, {
+  //       fontFamily: 'Arial',
+  //       fontSize: 36,
+  //       color: '#feffc5',
+  //     })
+  //     .setOrigin(0.5)
+  // }
 }

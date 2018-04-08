@@ -36,4 +36,31 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
     window.game.scene.stop(SCENE_NAVIGATION)
     this.sendNotification(NavigationScene.START_GAME)
   }
+
+  // createButton(scene, x, y, text, hook, context, ...args) {
+  //   const buttonContainer = scene.add.container(0, 0)
+  //   const button = scene.add
+  //     .sprite(x, y, 'button')
+  //     .setInteractive()
+  //   button.on('pointerdown', () => {
+  //     button.setScale(-1)
+  //   }, this)
+  //   button.on('pointerup', () => {
+  //     button.setScale(1)
+  //     hook.apply(context, args)
+  //   }, this)
+  //   button.on('pointerout', () => {
+  //     button.setScale(1)
+  //   })
+  //   const text = scene.add
+  //     .text(x, y, text, {
+  //       fontFamily: 'Arial',
+  //       fontSize: 36,
+  //       color: '#feffc5',
+  //     })
+  //     .setOrigin(0.5)
+  //   buttonContainer.add(button)
+  //   buttonContainer.add(text)
+  //   return buttonContainer
+  // }
 }

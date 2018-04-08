@@ -16,6 +16,7 @@ export default class SphereView extends Phaser.GameObjects.Container {
     this.xMultiplier = Math.random() * 10 > 5 ? 1 : -1
     this.yMultiplier = Math.random() * 10 > 5 ? 1 : -1
     this.rotationMultiplier = 1
+    this.moveEnabled = false
   }
 
   createBody () {}
@@ -101,10 +102,20 @@ export default class SphereView extends Phaser.GameObjects.Container {
 
   update () {
     this.move()
+    if (this.moveEnabled) {
+    }
     if (this.hitArea) {
       this.hitArea.x = this.x
       this.hitArea.y = this.y
     }
+  }
+
+  enableMove () {
+    this.moveEnabled = true
+  }
+
+  disableMove () {
+    this.moveEnabled = false
   }
 
   move () {
@@ -135,5 +146,11 @@ export default class SphereView extends Phaser.GameObjects.Container {
       return -1
     }
     return parseInt(this.numberText.text)
+  }
+
+  destroy () {
+    this.hitArea.off('pointerdown', this.onClick, this)
+    this.hitArea = null
+    super.destroy()
   }
 }

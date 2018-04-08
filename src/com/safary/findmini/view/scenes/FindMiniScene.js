@@ -12,4 +12,8 @@ export default class FindMiniScene extends Phaser.Scene {
     this.constructor['SHUTDOWN'] = `${name}ShutdownNotification`
     this.constructor['DESTROY'] = `${name}DestroyNotification`
   }
+
+  addChild (child) {
+    this.sys.displayList.add(child)
+  }
 }
