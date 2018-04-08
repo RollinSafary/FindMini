@@ -48,6 +48,9 @@ export default class ConditionsView extends Phaser.GameObjects.Container {
       const key = keys[i]
       const type = OBJECT_TYPES[key]
       const count = conditions[key]
+      if (count <= 0) {
+        continue
+      }
       const condition = this.createCondition(type, count)
       condition.x = this.backgroundRectangle.x + 50
       condition.y = this.backgroundRectangle.y + 150 + i * 75
@@ -75,6 +78,16 @@ export default class ConditionsView extends Phaser.GameObjects.Container {
   }
 
   createOkayButton () {
+    this.okayButtonDown = this.scene.add
+      .image(
+        gameConfig.width / 2,
+        this.backgroundRectangle.bottom - 100,
+        'button',
+      )
+      .setInteractive()
+      .setScale(-1)
+      .setOrigin(0.5)
+    this.okayButtonDown.visible = false
     this.okayButton = this.scene.add
       .image(
         gameConfig.width / 2,
@@ -83,7 +96,7 @@ export default class ConditionsView extends Phaser.GameObjects.Container {
       )
       .setInteractive()
       .setOrigin(0.5)
-      .setScale(0.5)
+    this.add(this.okayButtonDown)
     this.add(this.okayButton)
     const text = this.scene.add
       .text(this.okayButton.x, this.okayButton.y, `OKAY`, {
@@ -92,32 +105,20 @@ export default class ConditionsView extends Phaser.GameObjects.Container {
         color: '#ffffff',
       })
       .setOrigin(0.5)
-    this.okayButton.on('pointerup', this.emitOkay, this)
+    this.okayButton.on('pointerdown', () => {
+      this.okayButtonDown.visible = true
+      this.okayButton.visible = false
+    }, this)
+    this.okayButtonDown.on('pointerup', () => {
+      this.okayButtonDown.visible = false
+      this.okayButton.visible = true
+      this.emitOkay()
+    }, this)
+    this.okayButtonDown.on('pointerout', () => {
+      this.okayButtonDown.visible = false
+      this.okayButton.visible = true
+    }, this)
     this.add(text)
-  }
-
-  createButton(x, y, text, hook, context, ...args) {
-    const button = this.scene.add
-      .sprite(x, y, 'button')
-      .setInteractive()
-    button.on('pointerdown', () => {
-      button.setScale(-1)
-    }, this)
-    button.on('pointerup', () => {
-      button.setScale(1)
-      hook.apply(context, args)
-    }, this)
-    button.on('pointerout', () => {
-      button.setScale(1)
-    })
-    this.add
-      .text(x, y, text, {
-        fontFamily: 'Arial',
-        fontSize: 36,
-        color: '#feffc5',
-      })
-      .setOrigin(0.5)
-    return button
   }
 
   emitOkay () {

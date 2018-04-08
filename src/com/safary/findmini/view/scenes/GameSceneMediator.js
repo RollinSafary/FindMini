@@ -1,6 +1,7 @@
 import { OBJECT_TYPES } from '../../constants/Constants'
 import FindMiniSceneMediator from './FindMiniSceneMediator'
 import NavigationScene from './NavigationScene'
+import PlayerVOProxy from "../../model/PlayerVOProxy";
 
 export default class GameSceneMediator extends FindMiniSceneMediator {
   static NAME = 'GameSceneMediator'
@@ -22,14 +23,10 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
   handleNotification (notificationName) {
     switch (notificationName) {
       case NavigationScene.START_GAME:
-        // window.game.scene.start(SCENE_GAME)
-        const levelInfo = {
-          SimpleSphere: 3,
-          DoubleTapSimpleSphere: 1,
-        }
-        const level = 1
+        this.playerVOProxy = this.facade.retrieveProxy(PlayerVOProxy.NAME)
+        const level = this.playerVOProxy.vo.level
+        const levelInfo = this.playerVOProxy.levelInfo()
         this.viewComponent.showConditions(level, levelInfo)
-
         break
     }
   }
@@ -48,10 +45,7 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
   }
 
   createLevel (conditionsView) {
-    const levelInfo = {
-      SimpleSphere: 3,
-      DoubleTapSimpleSphere: 1,
-    }
+    const levelInfo = this.playerVOProxy.levelInfo()
     const options = this.createOptionsArray(levelInfo)
     this.viewComponent.startNewGame(conditionsView, options)
   }

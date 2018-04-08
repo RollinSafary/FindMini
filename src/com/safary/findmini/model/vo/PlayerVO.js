@@ -10,6 +10,7 @@ export default class PlayerVO extends UserVO {
     this._retentionBonus = false
     this._friends = []
     this._sessionNumber = -1
+    this._level = 1
   }
 
   set installTimestemp (value) {
@@ -26,6 +27,10 @@ export default class PlayerVO extends UserVO {
 
   set hasRetentionBonus (value) {
     this._retentionBonus = value
+  }
+
+  set level (value) {
+    this._level = value
   }
   // ---------------------------- GETTERS -------------------------------
   get installTimestemp () {
@@ -62,6 +67,10 @@ export default class PlayerVO extends UserVO {
 
   get isNewInstall () {
     return !(this.pets.length > 0)
+  }
+
+  get level () {
+    return this._level
   }
 }
 

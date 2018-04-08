@@ -31,6 +31,7 @@ export default class PlayerVOProxy extends Proxy {
       trailing: true,
       leading: true,
     })
+    console.warn('hasanq')
   }
 
   get vo () {
@@ -40,7 +41,6 @@ export default class PlayerVOProxy extends Proxy {
   async initialize () {
     try {
       const json = await this._authenticateMe()
-      console.warn(json)
       console.log('PlayerVOProxy initialize : ', json)
       if (!json) {
         this.sendNotification(PlayerVOProxy.INITIALIZE_SUCCESS)
@@ -119,7 +119,7 @@ export default class PlayerVOProxy extends Proxy {
       return
     }
     if (deyDiff <= 2 * A_DAY_IN_MILLISECONDS) {
-      this._upRetention(false)
+      // this._upRetention(false)
       return
     }
     this._updateRetention(true)
@@ -148,7 +148,6 @@ export default class PlayerVOProxy extends Proxy {
           signature: 'someSignature', // playerInfo.getSignature(),
         }),
       )
-
       const verificationJson = await verification.json()
       if (verificationJson.error) {
         console.error(verificationJson.error.message)
@@ -158,7 +157,6 @@ export default class PlayerVOProxy extends Proxy {
       const success = await firebase
         .auth()
         .signInWithCustomToken(verificationJson.token)
-      console.warn(success)
       if (
         success.message ||
         !firebase.auth().currentUser ||
@@ -172,5 +170,13 @@ export default class PlayerVOProxy extends Proxy {
       )
       resolve(doc.exists ? doc.data() : {})
     })
+  }
+
+  levelInfo () {
+    const level = this.vo.level
+    return {
+      SimpleSphere: level + 5,
+      DoubleTapSimpleSphere: level - 5,
+    }
   }
 }
