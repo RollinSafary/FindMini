@@ -1,7 +1,7 @@
 import { SCENE_GAME, SCENE_NAVIGATION } from '../../constants/Constants'
 import BootScene from './BootScene'
 import FindMiniSceneMediator from './FindMiniSceneMediator'
-import NavigationScene from "./NavigationScene";
+import NavigationScene from './NavigationScene'
 
 export default class NavigationSceneMediator extends FindMiniSceneMediator {
   static NAME = 'NavigationSceneMediator'
@@ -12,7 +12,11 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
 
   onRegister () {
     super.onRegister()
-    this.viewComponent.events.on('onStartGameClick', this.onStartGameClick, this)
+    this.viewComponent.events.on(
+      'onStartGameClick',
+      this.onStartGameClick,
+      this,
+    )
   }
 
   listNotificationInterests () {
@@ -22,7 +26,7 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
   handleNotification (notificationName) {
     switch (notificationName) {
       case BootScene.LOAD_COMPLETE:
-        // window.game.scene.start(SCENE_NAVIGATION)
+        window.game.scene.start(SCENE_NAVIGATION)
         break
     }
   }

@@ -1,7 +1,6 @@
-import { SCENE_GAME, OBJECT_TYPES } from '../../constants/Constants'
-import BootScene from './BootScene'
+import { OBJECT_TYPES } from '../../constants/Constants'
 import FindMiniSceneMediator from './FindMiniSceneMediator'
-import NavigationScene from "./NavigationScene";
+import NavigationScene from './NavigationScene'
 
 export default class GameSceneMediator extends FindMiniSceneMediator {
   static NAME = 'GameSceneMediator'
@@ -13,22 +12,24 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
   onRegister () {
     super.onRegister()
     this.viewComponent.events.on('levelComplete', this.onLevelComplete, this)
+    this.viewComponent.events.on('okayButtonClicked', this.createLevel, this)
   }
 
   listNotificationInterests () {
-    return [BootScene.LOAD_COMPLETE]
+    return [NavigationScene.START_GAME]
   }
 
   handleNotification (notificationName) {
     switch (notificationName) {
-      case BootScene.LOAD_COMPLETE:
-        window.game.scene.start(SCENE_GAME)
+      case NavigationScene.START_GAME:
+        // window.game.scene.start(SCENE_GAME)
         const levelInfo = {
           SimpleSphere: 3,
           DoubleTapSimpleSphere: 1,
         }
-        const options = this.createOptionsArray(levelInfo)
-        this.viewComponent.startNewGame(options)
+        const level = 1
+        this.viewComponent.showConditions(level, levelInfo)
+
         break
     }
   }
@@ -44,6 +45,15 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
       }
     }
     return options
+  }
+
+  createLevel (conditionsView) {
+    const levelInfo = {
+      SimpleSphere: 3,
+      DoubleTapSimpleSphere: 1,
+    }
+    const options = this.createOptionsArray(levelInfo)
+    this.viewComponent.startNewGame(conditionsView, options)
   }
 
   onLevelComplete () {

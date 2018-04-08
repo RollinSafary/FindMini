@@ -3,6 +3,7 @@ import { SCENE_GAME } from '../../constants/Constants'
 import FindMiniScene from './FindMiniScene'
 import Phaser from 'phaser'
 import GameNavigationView from '../Components/GameNavigationView'
+import ConditionsView from '../Components/ConditionsView'
 
 export default class GameScene extends FindMiniScene {
   static NAME = 'GameScene'
@@ -22,10 +23,20 @@ export default class GameScene extends FindMiniScene {
     this.createNavigationView()
   }
 
+  showConditions (level, conditions) {
+    if (this.conditionsContainer) {
+      this.conditionsContainer.destroy()
+      this.conditionsContainer = null
+      this.conditionsView = null
+    }
+    this.conditionsContainer = this.add.container(0, 0)
+    this.conditionsView = new ConditionsView(this, level, conditions)
+    this.conditionsContainer.add(this.conditionsView)
+  }
+
   createBackground () {
-    this.background = this.add
-      .sprite(0, 0, 'background')
-      .setScale(2)
+    this.background = this.add.sprite(0, 0, 'background').setScale(2)
+    this.background.depth = -1000
   }
 
   createNavigationView () {
@@ -34,12 +45,27 @@ export default class GameScene extends FindMiniScene {
     this.navigationContainer.add(this.gameNavigation)
   }
 
-  startNewGame (options) {
+  startNewGame (conditionsView, options) {
     this.events.on('onSphereCLick', this.onSphereClick, this)
     this.events.on('onSphereMustDestroy', this.destroySphere, this)
     this.clearWorld()
-    this.createNumbersArray(options.length)
-    this.createSpheres(options)
+    this.clearConditions(conditionsView, options)
+  }
+
+  clearConditions (conditionsView, options) {
+    this.conditionsContainer.alpha = 1
+    this.tweens.add({
+      targets: this.conditionsContainer,
+      alpha: 0,
+      duration: 1000,
+      ease: 'Power1',
+      onComplete: () => {
+        conditionsView.destroy()
+        this.conditionsContainer.destroy()
+        this.createNumbersArray(options.length)
+        this.createSpheres(options)
+      },
+    })
   }
 
   clearWorld () {

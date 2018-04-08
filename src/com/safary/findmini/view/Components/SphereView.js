@@ -1,6 +1,8 @@
 import Phaser from 'phaser'
 
 export default class SphereView extends Phaser.GameObjects.Container {
+  static DESCRIPTION = 'tap once to clear'
+
   constructor (scene, x, y, number) {
     super(scene, x, y)
     this.depth = -number
@@ -11,8 +13,8 @@ export default class SphereView extends Phaser.GameObjects.Container {
     this.rotationSpeed = Math.random() * 0.05
     this.ySpeed = 30 + this.rotationSpeed * 600
     this.xSpeed = 20 + this.rotationSpeed * 400
-    this.xMultiplier = 1
-    this.yMultiplier = 1
+    this.xMultiplier = Math.random() * 10 > 5 ? 1 : -1
+    this.yMultiplier = Math.random() * 10 > 5 ? 1 : -1
     this.rotationMultiplier = 1
   }
 

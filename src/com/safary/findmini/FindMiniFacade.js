@@ -50,7 +50,7 @@ export default class FindMiniFacade extends Facade {
   initializeView () {
     super.initializeView()
     window.game.scene.add(SCENE_BOOT, BootScene)
-    // window.game.scene.add(SCENE_NAVIGATION, NavigationScene)
+    window.game.scene.add(SCENE_NAVIGATION, NavigationScene)
     window.game.scene.add(SCENE_GAME, GameScene)
     this.registerMediator(
       new BootSceneMediator(window.game.scene.getScene(SCENE_BOOT)),
@@ -58,9 +58,9 @@ export default class FindMiniFacade extends Facade {
     this.registerMediator(
       new GameSceneMediator(window.game.scene.getScene(SCENE_GAME)),
     )
-    // this.registerMediator(
-    //   new NavigationSceneMediator(window.game.scene.getScene(SCENE_NAVIGATION)),
-    // )
+    this.registerMediator(
+      new NavigationSceneMediator(window.game.scene.getScene(SCENE_NAVIGATION)),
+    )
   }
 
   startup () {
