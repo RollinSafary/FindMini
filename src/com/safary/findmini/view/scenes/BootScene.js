@@ -23,6 +23,11 @@ export default class BootScene extends FindMiniScene {
   preload () {
     this.load.image('background', 'assets/background.jpg')
     this.load.image('button', 'assets/button.png')
+    this.load.audio('theme', [
+      'assets/sounds/background.ogg',
+      'assets/audio/background.mp3',
+    ])
+    this.load.audio('hit', ['assets/sounds/hit.ogg', 'assets/audio/hit.mp3'])
     // this.load.atlas(
     //   GENERAL_ASSETS_KEY,
     //   'assets/atlases/general.png',
