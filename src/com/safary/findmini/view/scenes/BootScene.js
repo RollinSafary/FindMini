@@ -1,4 +1,4 @@
-import { SCENE_BOOT, GENERAL_ASSETS_KEY } from '../../constants/Constants'
+import { SCENE_BOOT } from '../../constants/Constants'
 import {
   onLoadStart,
   onFileLoadComplete,
@@ -21,18 +21,16 @@ export default class BootScene extends FindMiniScene {
   }
 
   preload () {
-    this.load.image('background', 'assets/background.jpg')
+    this.load.image('background0', 'assets/background0.jpg')
+    this.load.image('background1', 'assets/background1.jpg')
     this.load.image('button', 'assets/button.png')
+    this.load.image('level', 'assets/level.png')
+    this.load.image('levelDisabled', 'assets/levelDisabled.png')
     this.load.audio('theme', [
       'assets/sounds/background.ogg',
       'assets/audio/background.mp3',
     ])
     this.load.audio('hit', ['assets/sounds/hit.ogg', 'assets/audio/hit.mp3'])
-    // this.load.atlas(
-    //   GENERAL_ASSETS_KEY,
-    //   'assets/atlases/general.png',
-    //   'assets/atlases/general.json',
-    // )
     this.load.on('start', this.onLoadStart, this)
     this.load.on('load', this.onFileLoadComplete, this)
     this.load.on('complete', this.onLoadComplete, this)
@@ -53,6 +51,13 @@ export default class BootScene extends FindMiniScene {
       file.type,
       file.src,
     )
+  }
+  create () {
+    this.createBackground(parseInt(Math.random() * 2))
+  }
+  createBackground (bgType) {
+    this.background = this.add.sprite(0, 0, `background${bgType}`).setScale(2)
+    this.background.depth = -1000
   }
 
   onLoadComplete (loader) {

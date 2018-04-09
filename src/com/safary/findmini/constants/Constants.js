@@ -3,6 +3,7 @@ import DoubleTapSimpleSphere from '../view/Components/DoubleTapSimpleSphere'
 
 export const SCENE_BOOT = 'boot'
 export const SCENE_GAME = 'game'
+export const SCENE_LEVEL = 'level'
 export const SCENE_NAVIGATION = 'navigation'
 export const GENERAL_ASSETS_KEY = 'general'
 export const A_DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000

@@ -8,6 +8,7 @@ import ConditionsView from '../Components/ConditionsView'
 export default class GameScene extends FindMiniScene {
   static NAME = 'GameScene'
   static START = `${GameScene.NAME}Start`
+  static LEVEL_COMPLETE = `${GameScene.NAME}LevelComplete`
 
   constructor () {
     super(SCENE_GAME)
@@ -20,16 +21,16 @@ export default class GameScene extends FindMiniScene {
     this.endX = gameConfig.width - this.distance
     this.endY = gameConfig.height - this.distance
     this.createBackgroundMusic()
-    this.createBackground()
     this.createNavigationView()
   }
 
   createBackgroundMusic () {
-    this.backgroundMusic = this.sound.add('theme')
+    this.backgroundMusic = this.sound.add('theme', 'background')
     this.backgroundMusic.play(true)
   }
 
   showConditions (level, conditions) {
+    this.level = level
     if (this.conditionsContainer) {
       this.conditionsContainer.destroy()
       this.conditionsContainer = null
@@ -40,19 +41,17 @@ export default class GameScene extends FindMiniScene {
     this.conditionsContainer.add(this.conditionsView)
   }
 
-  createBackground () {
-    this.background = this.add.sprite(0, 0, 'background').setScale(2)
-    this.background.depth = -1000
-  }
-
   createNavigationView () {
+    if (this.navigationContainer) {
+      return
+    }
     this.navigationContainer = this.add.container(0, 0)
     this.gameNavigation = new GameNavigationView(this)
     this.navigationContainer.add(this.gameNavigation)
   }
 
   startNewGame (conditionsView, options) {
-    this.events.on('onSphereCLick', this.onSphereClick, this)
+    this.events.on('onSphereClick', this.onSphereClick, this)
     this.events.on('onSphereMustDestroy', this.destroySphere, this)
     this.clearWorld()
     this.clearConditions(conditionsView, options)
@@ -125,7 +124,7 @@ export default class GameScene extends FindMiniScene {
   destroySphere (target) {
     target.destroy()
     if (this.spheresContainer.list.length === 0) {
-      this.events.emit('levelComplete')
+      this.events.emit('levelComplete', this.level)
     }
   }
 

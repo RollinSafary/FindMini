@@ -11,7 +11,7 @@ export default class ConditionsView extends Phaser.GameObjects.Container {
   createBody (level, conditions) {
     this.createBackground(level)
     this.createConditions(conditions)
-    this.createOkayButton()
+    this.createOkayButton(level)
   }
 
   createBackground (level) {
@@ -77,7 +77,7 @@ export default class ConditionsView extends Phaser.GameObjects.Container {
     return container
   }
 
-  createOkayButton () {
+  createOkayButton (level) {
     this.okayButtonDown = this.scene.add
       .image(
         gameConfig.width / 2,
@@ -112,7 +112,7 @@ export default class ConditionsView extends Phaser.GameObjects.Container {
     this.okayButtonDown.on('pointerup', () => {
       this.okayButtonDown.visible = false
       this.okayButton.visible = true
-      this.emitOkay()
+      this.emitOkay(level)
     }, this)
     this.okayButtonDown.on('pointerout', () => {
       this.okayButtonDown.visible = false
@@ -121,8 +121,8 @@ export default class ConditionsView extends Phaser.GameObjects.Container {
     this.add(text)
   }
 
-  emitOkay () {
-    this.scene.events.emit('okayButtonClicked', this)
+  emitOkay (level) {
+    this.scene.events.emit('okayButtonClicked', this, level)
   }
 
   destroy () {

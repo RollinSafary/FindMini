@@ -13,6 +13,7 @@ import {
 import _ from 'lodash'
 import { PLAYER_COLLECTION_NAME } from '../FindMiniGame'
 import moment from 'moment'
+import Phaser from 'phaser'
 
 export default class PlayerVOProxy extends Proxy {
   static NAME = 'PlayerVOProxy'
@@ -25,13 +26,15 @@ export default class PlayerVOProxy extends Proxy {
   static FRIENDS_READY = PlayerVOProxy.NAME + 'FriendsReady'
   static FRIENDS_DISTRIBUTED = PlayerVOProxy.NAME + 'FriendsDistributed'
 
+  static LEVEL_COMPLETE = PlayerVOProxy.NAME + 'LevelComplete'
+
   constructor (playerVO) {
     super(PlayerVOProxy.NAME, playerVO)
     this._throttleSave = _.throttle(this._save.bind(this), 2000, {
       trailing: true,
       leading: true,
     })
-    console.warn('hasanq')
+    this.vo.theme = Phaser.Math.Between(0, 1)
   }
 
   get vo () {
@@ -172,11 +175,17 @@ export default class PlayerVOProxy extends Proxy {
     })
   }
 
-  levelInfo () {
-    const level = this.vo.level
+  levelInfo (level) {
     return {
-      SimpleSphere: level + 5,
+      SimpleSphere: level + 1,
       DoubleTapSimpleSphere: level - 5,
     }
+  }
+
+  levelComplete (level) {
+    if (this.vo.level === level) {
+      this.vo.level++
+    }
+    this.sendNotification(PlayerVOProxy.LEVEL_COMPLETE)
   }
 }

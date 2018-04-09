@@ -43,20 +43,23 @@ export const urlWithParams = (url, params) => {
   return urlObject
 }
 
-export const createButton = (scene, x, y, text, hook, context, ...args) => {
+export const createButton = (scene, x, y, key, text, scale, hook, context, ...args) => {
   const buttonContainer = scene.add.container(0, 0)
   const button = scene.add
-    .sprite(x, y, 'button')
+    .sprite(x, y, key)
+    .setScale(scale)
     .setInteractive()
   button.on('pointerdown', () => {
-    button.setScale(-1)
+    button.setScale(-scale)
   }, this)
   button.on('pointerup', () => {
-    button.setScale(1)
-    hook.apply(context, args)
+    button.setScale(scale)
+    if (hook) {
+      hook.apply(context, args)
+    }
   }, this)
   button.on('pointerout', () => {
-    button.setScale(1)
+    button.setScale(scale)
   })
   const buttonText = scene.add
     .text(x, y, text, {
@@ -65,6 +68,7 @@ export const createButton = (scene, x, y, text, hook, context, ...args) => {
       color: '#feffc5',
     })
     .setOrigin(0.5)
+    .setScale(scale)
   buttonContainer.add(button)
   buttonContainer.add(buttonText)
   return buttonContainer

@@ -1,8 +1,9 @@
-import { SCENE_GAME, SCENE_NAVIGATION } from '../../constants/Constants'
+import { SCENE_LEVEL, SCENE_NAVIGATION } from '../../constants/Constants'
 import BootScene from './BootScene'
 import FindMiniSceneMediator from './FindMiniSceneMediator'
 import NavigationScene from './NavigationScene'
-
+import PlayerVOProxy from '../../model/PlayerVOProxy'
+import LevelSceneMediator from './LevelSceneMediator'
 export default class NavigationSceneMediator extends FindMiniSceneMediator {
   static NAME = 'NavigationSceneMediator'
 
@@ -26,41 +27,22 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
   handleNotification (notificationName) {
     switch (notificationName) {
       case BootScene.LOAD_COMPLETE:
+        this.playerVOProxy = this.facade.retrieveProxy(PlayerVOProxy.NAME)
+        this.viewComponent.createBackground(this.playerVOProxy.vo.theme)
         window.game.scene.start(SCENE_NAVIGATION)
         break
     }
   }
 
   onStartGameClick () {
-    window.game.scene.start(SCENE_GAME)
-    window.game.scene.stop(SCENE_NAVIGATION)
+    this.registerLevelSceneMediator()
     this.sendNotification(NavigationScene.START_GAME)
   }
 
-  // createButton(scene, x, y, text, hook, context, ...args) {
-  //   const buttonContainer = scene.add.container(0, 0)
-  //   const button = scene.add
-  //     .sprite(x, y, 'button')
-  //     .setInteractive()
-  //   button.on('pointerdown', () => {
-  //     button.setScale(-1)
-  //   }, this)
-  //   button.on('pointerup', () => {
-  //     button.setScale(1)
-  //     hook.apply(context, args)
-  //   }, this)
-  //   button.on('pointerout', () => {
-  //     button.setScale(1)
-  //   })
-  //   const text = scene.add
-  //     .text(x, y, text, {
-  //       fontFamily: 'Arial',
-  //       fontSize: 36,
-  //       color: '#feffc5',
-  //     })
-  //     .setOrigin(0.5)
-  //   buttonContainer.add(button)
-  //   buttonContainer.add(text)
-  //   return buttonContainer
-  // }
+  registerLevelSceneMediator () {
+    if (this.facade.hasMediator(LevelSceneMediator.NAME)) {
+      return
+    }
+    this.facade.registerMediator(new LevelSceneMediator(null))
+  }
 }

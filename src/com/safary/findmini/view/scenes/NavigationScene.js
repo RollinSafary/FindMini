@@ -2,6 +2,7 @@ import { SCENE_NAVIGATION } from '../../constants/Constants'
 import FindMiniScene from './FindMiniScene'
 import { gameConfig } from '../../constants/GameConfig'
 import { createButton } from '../../utils/utils'
+import Phaser from 'phaser'
 
 export default class NavigationScene extends FindMiniScene {
   static NAME = 'NavigationScene'
@@ -13,21 +14,21 @@ export default class NavigationScene extends FindMiniScene {
   }
 
   create () {
-    this.createBackground()
     this.createPlayButton()
     this.createHardCoreButton()
   }
 
-  createBackground () {
-    this.background = this.add.sprite(0, 0, 'background').setScale(2)
+  createBackground (bgType) {
+    this.background = this.add.sprite(0, 0, `background${bgType}`).setScale(2)
+    this.background.depth = -100
   }
 
   createPlayButton () {
-    createButton(this, gameConfig.width / 2, gameConfig.height / 3, 'Start Game', this.onStartGameClick, this)
+    createButton(this, gameConfig.width / 2, gameConfig.height / 3, 'button', 'Start Game', 1, this.onStartGameClick, this)
   }
 
   createHardCoreButton () {
-    createButton(this, gameConfig.width / 2, gameConfig.height / 2, 'Hardcore', this.onHardCoreClick, this)
+    createButton(this, gameConfig.width / 2, gameConfig.height / 2, 'button', 'Hardcore', 1, this.onHardCoreClick, this)
   }
 
   onStartGameClick () {

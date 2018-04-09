@@ -3,6 +3,13 @@ import { Mediator } from '@koreez/pure-mvc'
 export default class FindMiniSceneMediator extends Mediator {
   constructor (name, viewComponent) {
     super(name, viewComponent)
+    if (!this.viewComponent) {
+      return
+    }
+    this.setListeners()
+  }
+
+  setListeners () {
     this.viewComponent.sys.events.on('boot', this.onSceneBoot, this)
     this.viewComponent.sys.events.on('pause', this.onScenePause, this)
     this.viewComponent.sys.events.on('resume', this.onSceneResume, this)
@@ -43,5 +50,9 @@ export default class FindMiniSceneMediator extends Mediator {
 
   onSceneDestroy () {
     this.sendNotification(this.viewComponent.constructor.DESTROY)
+  }
+
+  get gameScene () {
+    return window.game.scene
   }
 }

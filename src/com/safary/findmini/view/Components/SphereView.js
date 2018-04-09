@@ -133,7 +133,7 @@ export default class SphereView extends Phaser.GameObjects.Container {
   }
 
   onClick () {
-    this.scene.events.emit('onSphereCLick', this)
+    this.scene.events.emit('onSphereClick', this)
   }
 
   onClickAction () {
