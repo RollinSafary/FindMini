@@ -20,13 +20,13 @@ export default class GameScene extends FindMiniScene {
     this.startY = this.distance + 50
     this.endX = gameConfig.width - this.distance
     this.endY = gameConfig.height - this.distance
-    this.createBackgroundMusic()
+    // this.createBackgroundMusic()
     this.createNavigationView()
   }
 
   createBackgroundMusic () {
-    this.backgroundMusic = this.sound.add('theme', 'background')
-    this.backgroundMusic.play(true)
+    this.backgroundMusic = this.sound.add('theme')
+    this.backgroundMusic.play()
   }
 
   showConditions (level, conditions) {

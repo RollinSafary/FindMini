@@ -148,9 +148,8 @@ export default class SphereView extends Phaser.GameObjects.Container {
     return parseInt(this.numberText.text)
   }
 
-  destroy () {
+  preDestroy () {
     this.hitArea.off('pointerdown', this.onClick, this)
     this.hitArea = null
-    super.destroy()
   }
 }

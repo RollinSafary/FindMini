@@ -52,7 +52,6 @@ export default class LevelSceneMediator extends FindMiniSceneMediator {
       window.game.scene.remove(SCENE_LEVEL)
     }
     this.gameScene.bootQueue()
-    console.warn(this.gameScene)
     this.gameScene.add(SCENE_LEVEL, LevelScene, true)
     this.gameScene.bootQueue()
     this.viewComponent = this.gameScene.getScene(SCENE_LEVEL)
