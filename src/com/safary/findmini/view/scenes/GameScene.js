@@ -1,5 +1,5 @@
 import { gameConfig } from '../../constants/GameConfig'
-import { SCENE_GAME } from '../../constants/Constants'
+import { BOMB_NAME, SCENE_GAME } from '../../constants/Constants'
 import FindMiniScene from './FindMiniScene'
 import Phaser from 'phaser'
 import GameNavigationView from '../Components/GameNavigationView'
@@ -9,6 +9,7 @@ export default class GameScene extends FindMiniScene {
   static NAME = 'GameScene'
   static START = `${GameScene.NAME}Start`
   static LEVEL_COMPLETE = `${GameScene.NAME}LevelComplete`
+  static LEVEL_FAILED = `${GameScene.NAME}LevelFailed`
 
   constructor () {
     super(SCENE_GAME)
@@ -116,6 +117,9 @@ export default class GameScene extends FindMiniScene {
   checkToRemove (target) {
     for (const sphere of this.spheresContainer.list) {
       if (target.number > sphere.number) {
+        if (sphere.name === BOMB_NAME) {
+          continue
+        }
         return false
       }
     }
@@ -123,7 +127,7 @@ export default class GameScene extends FindMiniScene {
   }
   destroySphere (target) {
     target.destroy()
-    if (this.spheresContainer.list.length === 0) {
+    if (this.chekcWinConditions()) {
       this.events.emit('levelComplete', this.level)
     }
   }
@@ -134,5 +138,21 @@ export default class GameScene extends FindMiniScene {
         sphere.update()
       }
     }
+  }
+
+  createGift (x, y) {
+
+  }
+
+  chekcWinConditions () {
+    if (this.spheresContainer.list.length === 0) {
+      return true
+    }
+    for (const sphere of this.spheresContainer.list) {
+      if (sphere.name !== BOMB_NAME) {
+        return false
+      }
+    }
+    return true
   }
 }

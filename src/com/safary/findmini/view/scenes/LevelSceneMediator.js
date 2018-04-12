@@ -4,6 +4,7 @@ import NavigationScene from './NavigationScene'
 import LevelScene from './LevelScene'
 import PlayerVOProxy from '../../model/PlayerVOProxy'
 import GameSceneMediator from './GameSceneMediator'
+import GameScene from "./GameScene";
 
 export default class LevelSceneMediator extends FindMiniSceneMediator {
   static NAME = 'LevelSceneMediator'
@@ -13,7 +14,7 @@ export default class LevelSceneMediator extends FindMiniSceneMediator {
   }
 
   listNotificationInterests () {
-    return [NavigationScene.START_GAME, PlayerVOProxy.LEVEL_COMPLETE]
+    return [NavigationScene.START_GAME, PlayerVOProxy.LEVEL_COMPLETE, GameScene.LEVEL_FAILED]
   }
 
   onRegister () {
@@ -23,6 +24,7 @@ export default class LevelSceneMediator extends FindMiniSceneMediator {
 
   handleNotification (notificationName) {
     switch (notificationName) {
+      case GameScene.LEVEL_FAILED:
       case PlayerVOProxy.LEVEL_COMPLETE:
       case NavigationScene.START_GAME:
         this.recreateViewComponent()

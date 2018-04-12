@@ -1,8 +1,9 @@
 
 import SphereView from './SphereView'
+import { BOMB_NAME } from '../../../constants/Constants'
 
-export default class DoubleTapSimpleSphere extends SphereView {
-  static DESCRIPTION = 'need to tap twice'
+export default class DoubleTapDangerButton extends SphereView {
+  static DESCRIPTION = 'it contains a bomb,\ndon\'t tap on it'
 
   constructor (scene, x, y, number) {
     super(scene, x, y, number)
@@ -14,11 +15,15 @@ export default class DoubleTapSimpleSphere extends SphereView {
     this.createBackgroundCircle(bgColor)
     this.createBackgroundCircle(secondBgColor)
     this.createCenterCircle(centerColor)
+    this.createCenterCircle(secondBgColor)
     this.createNumberText(number, '#ffffff')
+    this.name = BOMB_NAME
   }
 
   onClickAction () {
     this.removeFrontLayerBackground()
-    this.onClickAction = super.onClickAction
+    this.onClickAction = () => {
+      this.scene.events.emit('bombClick')
+    }
   }
 }

@@ -54,7 +54,6 @@ export const createButton = (scene, x, y, key, text, hook, context, ...args) => 
   button.on('pointerup', () => {
     button.setScale(1)
     if (hook) {
-      console.warn(hook)
       hook.apply(context, args)
     }
   }, this)

@@ -70,5 +70,17 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
     super.setListeners()
     this.viewComponent.events.on('levelComplete', this.onLevelComplete, this)
     this.viewComponent.events.on('okayButtonClicked', this.createLevel, this)
+    this.viewComponent.events.on('bombClick', this.onBombClick, this)
+    this.viewComponent.events.on('giftClicked', this.onGiftClick, this)
+  }
+
+  onBombClick () {
+    this.sendNotification(GameScene.LEVEL_FAILED)
+    this.gameScene.remove(SCENE_GAME)
+    this.gameScene.bootQueue()
+  }
+
+  onGiftClick (x, y) {
+    this.viewComponent.createGift(x, y)
   }
 }

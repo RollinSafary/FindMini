@@ -177,8 +177,10 @@ export default class PlayerVOProxy extends Proxy {
 
   levelInfo (level) {
     return {
-      SimpleSphere: level + 1,
-      DoubleTapSimpleSphere: level - 5,
+      SimpleSphere: level + parseInt(level / 3),
+      DoubleTapSimpleSphere: parseInt(level / 5),
+      DoubleTapDangerButton: parseInt(level / 10),
+      GiftSphere: 1,
     }
   }
 
