@@ -32,7 +32,7 @@ export default class FindMiniGame extends Phaser.Game {
 
   init () {
     firebase.initializeApp({
-      apiKey: 'AIzaSyCvnD8pqdipJTMnqVfWEs5DypD7sQktvWY',
+      apiKey: 'AIzaSyDlyacq5Fz3O4GtwncjV2hKM9CM3RkCt9g',
       authDomain: 'find-mini.firebaseapp.com',
       projectId: 'find-mini',
       storageBucket: 'find-mini.appspot.com',
