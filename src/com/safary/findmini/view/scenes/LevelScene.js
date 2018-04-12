@@ -40,7 +40,7 @@ export default class LevelScene extends FindMiniScene {
 
   createDisabledLevel (level) {
     const position = this.generatePosition()
-    const levelButton = createButton(this, position.x, position.y, 'levelDisabled', level, 0.5)
+    const levelButton = createButton(this, position.x, position.y, 'levelDisabled', level)
     this.levelsContainer.add(levelButton)
     this.add.text(levelButton.x, levelButton.y, level).setOrigin(0.5)
   }

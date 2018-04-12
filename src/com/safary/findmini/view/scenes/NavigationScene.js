@@ -24,11 +24,11 @@ export default class NavigationScene extends FindMiniScene {
   }
 
   createPlayButton () {
-    createButton(this, gameConfig.width / 2, gameConfig.height / 3, 'button', 'Start Game', 1, this.onStartGameClick, this)
+    createButton(this, gameConfig.width / 2, gameConfig.height / 3, 'button', 'Start Game', this.onStartGameClick, this)
   }
 
   createHardCoreButton () {
-    createButton(this, gameConfig.width / 2, gameConfig.height / 2, 'button', 'Hardcore', 1, this.onHardCoreClick, this)
+    createButton(this, gameConfig.width / 2, gameConfig.height / 2, 'button', 'Hardcore', this.onHardCoreClick, this)
   }
 
   onStartGameClick () {
@@ -39,26 +39,4 @@ export default class NavigationScene extends FindMiniScene {
     this.events.emit('onHardCoreClick')
   }
 
-  // createButton(x, y, text, hook, context, ...args) {
-  //   const button = this.add
-  //     .sprite(x, y, 'button')
-  //     .setInteractive()
-  //   button.on('pointerdown', () => {
-  //     button.setScale(-1)
-  //   }, this)
-  //   button.on('pointerup', () => {
-  //     button.setScale(1)
-  //     hook.apply(context, args)
-  //   }, this)
-  //   button.on('pointerout', () => {
-  //     button.setScale(1)
-  //   })
-  //   this.add
-  //     .text(x, y, text, {
-  //       fontFamily: 'Arial',
-  //       fontSize: 36,
-  //       color: '#feffc5',
-  //     })
-  //     .setOrigin(0.5)
-  // }
 }
