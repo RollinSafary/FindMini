@@ -1,5 +1,5 @@
-import SimpleSphere from '../view/Components/SimpleSphere'
-import DoubleTapSimpleSphere from '../view/Components/DoubleTapSimpleSphere'
+import SimpleSphere from '../view/Components/Spheres/SimpleSphere'
+import DoubleTapSimpleSphere from '../view/Components/Spheres/DoubleTapSimpleSphere'
 
 export const SCENE_BOOT = 'boot'
 export const SCENE_GAME = 'game'

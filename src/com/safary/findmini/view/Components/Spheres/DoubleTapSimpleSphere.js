@@ -1,3 +1,4 @@
+
 import SphereView from './SphereView'
 
 export default class DoubleTapSimpleSphere extends SphereView {
