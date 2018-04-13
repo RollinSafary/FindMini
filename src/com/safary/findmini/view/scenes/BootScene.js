@@ -31,11 +31,11 @@ export default class BootScene extends FindMiniScene {
     this.load.image('musicOff', `assets/musicOff.png`)
     this.load.image('level', 'assets/level.png')
     this.load.image('levelDisabled', 'assets/levelDisabled.png')
-    // this.load.audio('theme', [
-    //   'assets/sounds/background.ogg',
-    //   'assets/audio/background.mp3',
-    // ])
-    // this.load.audio('hit', ['assets/sounds/hit.ogg', 'assets/audio/hit.mp3'])
+    this.load.audio('backgroundMusic', [
+      'assets/sounds/background.ogg',
+      'assets/audio/background.mp3',
+    ])
+    this.load.audio('hit', ['assets/sounds/hit.ogg', 'assets/audio/hit.mp3'])
     this.load.on('start', this.onLoadStart, this)
     this.load.on('load', this.onFileLoadComplete, this)
     this.load.on('complete', this.onLoadComplete, this)
@@ -59,6 +59,12 @@ export default class BootScene extends FindMiniScene {
   }
   create () {
     this.createBackground()
+    this.createBgMusic()
+  }
+
+  createBgMusic () {
+    this.backgroundMusic = this.sound.add('backgroundMusic')
+    // this.backgroundMusic.play()
   }
   createBackground () {
     this.background = this.add.sprite(0, 0, 'background').setScale(2)
