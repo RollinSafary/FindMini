@@ -4,7 +4,8 @@ import FindMiniSceneMediator from './FindMiniSceneMediator'
 import NavigationScene from './NavigationScene'
 import PlayerVOProxy from '../../model/PlayerVOProxy'
 import LevelSceneMediator from './LevelSceneMediator'
-import LoadingScene from "./LoadingScene";
+import LoadingScene from './LoadingScene'
+import FindMiniFacade from '../../FindMiniFacade'
 export default class NavigationSceneMediator extends FindMiniSceneMediator {
   static NAME = 'NavigationSceneMediator'
 
@@ -14,9 +15,19 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
 
   onRegister () {
     super.onRegister()
-    this.viewComponent.events.on(
+    this.events.on(
       'onStartGameClick',
       this.onStartGameClick,
+      this,
+    )
+    this.events.on(
+      'musicOff',
+      this.onMusicOff,
+      this,
+    )
+    this.events.on(
+      'musicOn',
+      this.onMusicOn,
       this,
     )
   }
@@ -30,6 +41,8 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
       case LoadingScene.SHUTDOWN:
         this.playerVOProxy = this.facade.retrieveProxy(PlayerVOProxy.NAME)
         window.game.scene.start(SCENE_NAVIGATION)
+        this.viewComponent.createScore(this.playerVOProxy.vo.score)
+        this.viewComponent.setSoundState(!this.playerVOProxy.vo.settings.mute)
         break
     }
   }
@@ -44,5 +57,17 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
       return
     }
     this.facade.registerMediator(new LevelSceneMediator(null))
+  }
+
+  onMusicOn () {
+    this.sendNotification(FindMiniFacade.GAME_SOUND, true)
+  }
+
+  onMusicOff () {
+    this.sendNotification(FindMiniFacade.GAME_SOUND, false)
+  }
+
+  get events () {
+    return this.viewComponent.events
   }
 }

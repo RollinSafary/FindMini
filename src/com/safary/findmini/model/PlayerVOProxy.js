@@ -52,6 +52,8 @@ export default class PlayerVOProxy extends Proxy {
       this.vo.retentionData = json.retentionData || new RetentionData(-1, 1)
       this.vo.level = json.level
       this.vo.score = json.score
+      this.vo.settings = json.settings
+      this.vo.timestamp = json.timestamp
       this._checkForRetention()
       this.sendNotification(PlayerVOProxy.INITIALIZE_SUCCESS)
     } catch (error) {
@@ -99,12 +101,13 @@ export default class PlayerVOProxy extends Proxy {
           time: this.vo.retentionData.time,
           retainedDay: this.vo.retentionData.retainedDay,
         },
-        installTimestemp: this.vo.installTimestemp,
+        installTimestamp: this.vo.installTimestamp,
         name: this.vo.name,
         level: this.vo.level,
         score: this.vo.score,
+        settings: this.vo.settings,
         // locale: getUserLanguage(),
-        // timestemp: moment.utc().valueOf(),
+        timestamp: moment.utc().valueOf(),
       })
       this.sendNotification(PlayerVOProxy.SAVE_SUCCESS)
     } catch (error) {
@@ -218,6 +221,10 @@ export default class PlayerVOProxy extends Proxy {
       this.vo.level++
     }
     this.sendNotification(PlayerVOProxy.LEVEL_COMPLETE)
+  }
+
+  setSoundOption (value) {
+    this.vo.settings.mute = !value
   }
 
   setTheme (themeNumber) {

@@ -16,6 +16,38 @@ export default class NavigationScene extends FindMiniScene {
   create () {
     this.createPlayButton()
     this.createHardCoreButton()
+    this.createSoundButton()
+  }
+
+  createScore (value) {
+    this.score = this.add.text(25, 25, `Score: ${value}`, {
+      fontFamily: 'Arial',
+      fontSize: 30,
+      color: '#feffc5',
+    }).setOrigin(0, 0.5)
+  }
+
+  createSoundButton () {
+    this.soundButton = this.add.sprite(0, 0, 'musicOn').setInteractive()
+    this.soundButton.x = gameConfig.width - this.soundButton.width / 2 - 5
+    this.soundButton.y = this.soundButton.height / 2 + 5
+  }
+
+  turnOffSound () {
+    this.soundButton.setTexture('musicOff')
+    this.events.emit('musicOff')
+    this.soundButton.once('pointerup', this.turnOnSound, this)
+  }
+
+  turnOnSound () {
+    this.soundButton.setTexture('musicOn')
+    this.events.emit('musicOn')
+    this.soundButton.once('pointerup', this.turnOffSound, this)
+  }
+
+  setSoundState (isEnabled) {
+    this.soundButton.setTexture(isEnabled ? 'musicOn' : 'musicOff')
+    this.soundButton.once('pointerup', isEnabled ? this.turnOffSound : this.turnOnSound, this)
   }
 
   createPlayButton () {
@@ -33,5 +65,4 @@ export default class NavigationScene extends FindMiniScene {
   onHardCoreClick () {
     this.events.emit('onHardCoreClick')
   }
-
 }

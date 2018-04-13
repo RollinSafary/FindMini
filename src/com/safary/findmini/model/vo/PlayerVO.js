@@ -5,7 +5,7 @@ export default class PlayerVO extends UserVO {
   constructor (key, username, photo, retentionData) {
     super(key, username, photo)
 
-    this._installTimestemp = moment.utc().valueOf()
+    this._installTimestamp = moment.utc().valueOf()
     this._retentionData = new RetentionData(-1, 1)
     this._retentionBonus = false
     this._friends = []
@@ -19,8 +19,8 @@ export default class PlayerVO extends UserVO {
     }
   }
 
-  set installTimestemp (value) {
-    this._installTimestemp = value || moment.utc().valueOf()
+  set installTimestamp (value) {
+    this._installTimestamp = value || moment.utc().valueOf()
   }
 
   set sessionNumber (value) {
@@ -52,7 +52,7 @@ export default class PlayerVO extends UserVO {
   }
   // ---------------------------- GETTERS -------------------------------
   get installTimestamp () {
-    return this._installTimestemp
+    return this._installTimestamp
   }
 
   get settings () {
