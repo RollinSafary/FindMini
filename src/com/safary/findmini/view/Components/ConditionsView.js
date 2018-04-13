@@ -44,6 +44,7 @@ export default class ConditionsView extends Phaser.GameObjects.Container {
 
   createConditions (conditions) {
     const keys = Object.keys(conditions)
+    let height = -75
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i]
       const type = OBJECT_TYPES[key]
@@ -51,9 +52,10 @@ export default class ConditionsView extends Phaser.GameObjects.Container {
       if (count <= 0) {
         continue
       }
+      height += 75
       const condition = this.createCondition(type, count)
       condition.x = this.backgroundRectangle.x + 50
-      condition.y = this.backgroundRectangle.y + 150 + i * 75
+      condition.y = this.backgroundRectangle.y + 150 + height
     }
   }
   createCondition (type, count) {
