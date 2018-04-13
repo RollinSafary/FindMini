@@ -54,7 +54,6 @@ export default class FindMiniFacade extends Facade {
 
   initializeView () {
     super.initializeView()
-    window.game.scene.add(SCENE_BOOT, BootScene)
     window.game.scene.add(SCENE_NAVIGATION, NavigationScene)
     window.game.scene.add(SCENE_LOADING, LoadingScene)
     this.registerMediator(

@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import BootScene from '../view/scenes/BootScene'
 
 export const gameConfig = {
   type: Phaser.AUTO,
@@ -6,6 +7,7 @@ export const gameConfig = {
   height: 960,
   backgroundColor: '#626262',
   parent: 'gameContainer',
+  scene: [BootScene],
   physics: {
     default: 'matter',
     matter: {
