@@ -27,6 +27,7 @@ export default class PlayerVOProxy extends Proxy {
   static FRIENDS_DISTRIBUTED = PlayerVOProxy.NAME + 'FriendsDistributed'
 
   static LEVEL_COMPLETE = PlayerVOProxy.NAME + 'LevelComplete'
+  static SOUND_OPTIONS_CHANGED = PlayerVOProxy.NAME + 'SoundOptionsChanged'
 
   constructor (playerVO) {
     super(PlayerVOProxy.NAME, playerVO)

@@ -72,4 +72,6 @@ export default class BootScene extends FindMiniScene {
     this.load.off('load')
     this.load.off('complete')
   }
+
+  setSoundState (state) {}
 }
