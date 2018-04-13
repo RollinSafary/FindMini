@@ -18,11 +18,6 @@ export default class NavigationScene extends FindMiniScene {
     this.createHardCoreButton()
   }
 
-  createBackground (bgType) {
-    this.background = this.add.sprite(0, 0, `background${bgType}`).setScale(2)
-    this.background.depth = -100
-  }
-
   createPlayButton () {
     createButton(this, gameConfig.width / 2, gameConfig.height / 3, 'button', 'Start Game', this.onStartGameClick, this)
   }

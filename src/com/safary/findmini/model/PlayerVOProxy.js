@@ -184,12 +184,31 @@ export default class PlayerVOProxy extends Proxy {
       SimpleSphere: level + parseInt(level / 3),
       DoubleTapSimpleSphere: parseInt(level / 5),
       DoubleTapDangerButton: 1, // parseInt(level / 10),
-      GiftSphere: 1,
+      // GiftSphere: 1,
     }
   }
+
+  levelTimeLimit (level) {
+    const conditions = this.levelInfo(level)
+    const keys = Object.keys(conditions)
+    let sumTime = 0
+    for (const key of keys) {
+      switch (key) {
+        case 'SimpleSphere':
+          sumTime += 1.5 * conditions[key]
+          break
+        case 'DoubleTapSimpleSphere':
+          sumTime += 2 * conditions[key]
+          break
+        case 'DoubleTapDangerButton':
+        case 'GiftSphere':
+          sumTime += conditions[key]
+          break
+      }
+    }
+    return sumTime
+  }
   addScore (level, points) {
-    console.warn(level)
-    console.warn(points)
     this.vo.score += level * points
   }
 
@@ -198,5 +217,9 @@ export default class PlayerVOProxy extends Proxy {
       this.vo.level++
     }
     this.sendNotification(PlayerVOProxy.LEVEL_COMPLETE)
+  }
+
+  setTheme (themeNumber) {
+    this.vo.theme = themeNumber
   }
 }

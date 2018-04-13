@@ -21,6 +21,7 @@ export default class GameNavigationView extends Phaser.GameObjects.Container {
     })
     graphics.fillRectShape(rectangle)
     this.add(graphics)
+    graphics.alpha = 0.8
   }
   createMenuButton () {}
   createTimer () {}

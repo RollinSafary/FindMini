@@ -13,6 +13,7 @@ export default class PlayerVO extends UserVO {
     this._level = 1
     this._maxLevelCount = 45
     this._score = 0
+    this._theme = 0
   }
 
   set installTimestemp (value) {
@@ -38,9 +39,17 @@ export default class PlayerVO extends UserVO {
   set score (value) {
     this._score = value || 0
   }
+
+  set theme (value) {
+    this._theme = value
+  }
   // ---------------------------- GETTERS -------------------------------
-  get installTimestemp () {
+  get installTimestamp () {
     return this._installTimestemp
+  }
+
+  get theme () {
+    return this._theme
   }
 
   get friends () {

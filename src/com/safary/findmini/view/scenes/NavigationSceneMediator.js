@@ -29,7 +29,6 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
     switch (notificationName) {
       case LoadingScene.SHUTDOWN:
         this.playerVOProxy = this.facade.retrieveProxy(PlayerVOProxy.NAME)
-        this.viewComponent.createBackground(this.playerVOProxy.vo.theme)
         window.game.scene.start(SCENE_NAVIGATION)
         break
     }

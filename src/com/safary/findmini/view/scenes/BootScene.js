@@ -5,12 +5,14 @@ import {
   onLoadComplete,
 } from '../../constants/LoaderEvents'
 import FindMiniScene from './FindMiniScene'
+import Phaser from 'phaser'
 
 export default class BootScene extends FindMiniScene {
   static NAME = 'BootScene'
   static START = `${BootScene.NAME}Start`
   static FILE_LOAD_COMPLETE = `${BootScene.NAME}FileLoadComplete`
   static LOAD_COMPLETE = `${BootScene.NAME}LoadComplete`
+  static THEME_CHOOSE = `${BootScene.NAME}ThemeChoose`
 
   constructor () {
     super(SCENE_BOOT)
@@ -21,16 +23,16 @@ export default class BootScene extends FindMiniScene {
   }
 
   preload () {
-    this.load.image('background0', 'assets/background0.jpg')
-    this.load.image('background1', 'assets/background1.jpg')
-    this.load.image('button', 'assets/button.png')
+    this.themeNumber = Phaser.Math.Between(0, 1)
+    this.load.image('background', `assets/background${this.themeNumber}.jpg`)
+    this.load.image('button', `assets/button.png`)
     this.load.image('level', 'assets/level.png')
     this.load.image('levelDisabled', 'assets/levelDisabled.png')
-    this.load.audio('theme', [
-      'assets/sounds/background.ogg',
-      'assets/audio/background.mp3',
-    ])
-    this.load.audio('hit', ['assets/sounds/hit.ogg', 'assets/audio/hit.mp3'])
+    // this.load.audio('theme', [
+    //   'assets/sounds/background.ogg',
+    //   'assets/audio/background.mp3',
+    // ])
+    // this.load.audio('hit', ['assets/sounds/hit.ogg', 'assets/audio/hit.mp3'])
     this.load.on('start', this.onLoadStart, this)
     this.load.on('load', this.onFileLoadComplete, this)
     this.load.on('complete', this.onLoadComplete, this)
@@ -53,10 +55,10 @@ export default class BootScene extends FindMiniScene {
     )
   }
   create () {
-    this.createBackground(parseInt(Math.random() * 2))
+    this.createBackground()
   }
-  createBackground (bgType) {
-    this.background = this.add.sprite(0, 0, `background${bgType}`).setScale(2)
+  createBackground () {
+    this.background = this.add.sprite(0, 0, 'background').setScale(2)
     this.background.depth = -1000
   }
 
