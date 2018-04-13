@@ -27,6 +27,8 @@ export default class BootScene extends FindMiniScene {
     this.load.image('background', `assets/background${this.themeNumber}.jpg`)
     this.load.image('button', `assets/button.png`)
     this.load.image('back', `assets/back.png`)
+    this.load.image('musicOn', `assets/musicOn.png`)
+    this.load.image('musicOff', `assets/musicOff.png`)
     this.load.image('level', 'assets/level.png')
     this.load.image('levelDisabled', 'assets/levelDisabled.png')
     // this.load.audio('theme', [

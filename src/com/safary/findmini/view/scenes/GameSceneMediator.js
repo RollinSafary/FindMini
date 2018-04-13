@@ -4,6 +4,7 @@ import NavigationScene from './NavigationScene'
 import PlayerVOProxy from '../../model/PlayerVOProxy'
 import LevelScene from './LevelScene'
 import GameScene from './GameScene'
+import FindMiniFacade from '../../FindMiniFacade'
 
 export default class GameSceneMediator extends FindMiniSceneMediator {
   static NAME = 'GameSceneMediator'
@@ -66,18 +67,43 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
     this.setListeners()
   }
 
+  onOkayButtonClicked (conditionsView, level) {
+    this.createLevel(conditionsView, level)
+    const remaining = this.playerVOProxy.levelTimeLimit(level)
+    const soundState = this.playerVOProxy.vo.settings.mute
+    this.viewComponent.createNavigationView(remaining, !soundState)
+  }
+
   setListeners () {
     super.setListeners()
     this.viewComponent.events.on('levelComplete', this.onLevelComplete, this)
-    this.viewComponent.events.on('okayButtonClicked', this.createLevel, this)
+    this.viewComponent.events.on('okayButtonClicked', this.onOkayButtonClicked, this)
     this.viewComponent.events.on('bombClick', this.onBombClick, this)
+    this.viewComponent.events.on('gameOver', this.onGameOver, this)
     this.viewComponent.events.on('giftClicked', this.onGiftClick, this)
+    this.viewComponent.events.on('musicOff', this.onMusicOff, this)
+    this.viewComponent.events.on('musicOn', this.onMusicOn, this)
+    this.viewComponent.events.on('menuClicked', this.onMenuClicked, this)
+  }
+  onBombClick () {
+    this.viewComponent.gameOver()
   }
 
-  onBombClick () {
+  onGameOver () {
     this.sendNotification(GameScene.LEVEL_FAILED)
     this.gameScene.remove(SCENE_GAME)
     this.gameScene.bootQueue()
+  }
+
+  onMusicOff () {
+    this.sendNotification(FindMiniFacade.GAME_SOUND, false)
+  }
+  onMusicOn () {
+    this.sendNotification(FindMiniFacade.GAME_SOUND, true)
+  }
+
+  onMenuClicked () {
+    this.onGameOver()
   }
 
   onGiftClick (x, y) {

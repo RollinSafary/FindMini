@@ -4,6 +4,7 @@ import FindMiniScene from './FindMiniScene'
 import Phaser from 'phaser'
 import GameNavigationView from '../Components/GameNavigationView'
 import ConditionsView from '../Components/ConditionsView'
+import { delayRunnable, removeRunnable } from '../../utils/utils'
 
 export default class GameScene extends FindMiniScene {
   static NAME = 'GameScene'
@@ -18,11 +19,10 @@ export default class GameScene extends FindMiniScene {
   create () {
     this.distance = 30
     this.startX = this.distance
-    this.startY = this.distance + 50
+    this.startY = this.distance + 75
     this.endX = gameConfig.width - this.distance
     this.endY = gameConfig.height - this.distance
     // this.createBackgroundMusic()
-    this.createNavigationView()
     this.score = 0
   }
 
@@ -43,13 +43,16 @@ export default class GameScene extends FindMiniScene {
     this.conditionsContainer.add(this.conditionsView)
   }
 
-  createNavigationView () {
+  createNavigationView (remaining, soundState) {
     if (this.navigationContainer) {
       return
     }
     this.navigationContainer = this.add.container(0, 0)
     this.gameNavigation = new GameNavigationView(this)
     this.navigationContainer.add(this.gameNavigation)
+    this.gameNavigation.setTimer(remaining)
+    this.gameNavigation.setScore(0)
+    this.gameNavigation.setSoundState(soundState)
   }
 
   startNewGame (conditionsView, options) {
@@ -69,10 +72,59 @@ export default class GameScene extends FindMiniScene {
       onComplete: () => {
         conditionsView.destroy()
         this.conditionsContainer.destroy()
-        this.createNumbersArray(options.length)
-        this.createSpheres(options)
+        this.emitSpheres(options)
       },
     })
+  }
+
+  emitSpheres (options) {
+    this.createNumbersArray(options.length)
+    this.createSpheres(options)
+    for (let i = 0; i < this.spheres.length; i++) {
+      const sphere = this.spheres[i]
+      const x = sphere.x
+      const y = sphere.y
+      sphere.x = gameConfig.width / 2
+      sphere.y = gameConfig.height / 2
+      this.tweens.add({
+        targets: sphere,
+        x: x,
+        y: y,
+        delay: i * 75,
+        duration: 300,
+        ease: 'Sine.easeInOut',
+        onStart: () => {
+          sphere.visible = true
+        },
+      })
+    }
+    setTimeout(() => {
+      this.enableSpheresMoving()
+      this.timerRunnable = delayRunnable(this, 1000, this.changeTimer, this)
+    }, this.spheres.length * 75)
+  }
+
+  changeTimer () {
+    const remaining = this.gameNavigation.getTimerValue()
+    if (remaining === 0) {
+      this.gameOver()
+      return
+    }
+    this.gameNavigation.setTimer(remaining - 1)
+    this.timerRunnable = delayRunnable(this, 1000, this.changeTimer, this)
+  }
+
+  gameOver () {
+    if (this.timerRunnable) {
+      removeRunnable(this.timerRunnable)
+    }
+    this.events.emit('gameOver')
+  }
+
+  enableSpheresMoving () {
+    for (const sphere of this.spheres) {
+      sphere.start()
+    }
   }
 
   clearWorld () {
@@ -89,7 +141,9 @@ export default class GameScene extends FindMiniScene {
       const x = Phaser.Math.Between(this.startX, this.endX)
       const y = Phaser.Math.Between(this.startY, this.endY)
       const number = this.numbersArray[i]
-      this.spheresContainer.add(new sphereType(this, x, y, number))
+      const sphere = new sphereType(this, x, y, number)
+      sphere.visible = false
+      this.spheresContainer.add(sphere)
     }
   }
 
@@ -128,9 +182,12 @@ export default class GameScene extends FindMiniScene {
   }
   destroySphere (target) {
     this.score += target.number
+    this.gameNavigation.setScore(this.score)
     target.destroy()
-    if (this.chekcWinConditions()) {
-      this.events.emit('levelComplete', this.level, this.score)
+    if (this.checkWinConditions(target)) {
+      setTimeout(() => {
+        this.events.emit('levelComplete', this.level, this.score)
+      }, 300)
     }
   }
 
@@ -146,15 +203,19 @@ export default class GameScene extends FindMiniScene {
 
   }
 
-  chekcWinConditions () {
+  checkWinConditions (target) {
     if (this.spheresContainer.list.length === 0) {
       return true
     }
     for (const sphere of this.spheresContainer.list) {
-      if (sphere.name !== BOMB_NAME) {
+      if (sphere.name !== BOMB_NAME && sphere.number !== target.number) {
         return false
       }
     }
     return true
+  }
+
+  get spheres () {
+    return this.spheresContainer.list
   }
 }

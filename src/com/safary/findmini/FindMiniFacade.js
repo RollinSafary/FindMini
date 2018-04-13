@@ -33,6 +33,7 @@ export default class FindMiniFacade extends Facade {
 
   static NAME = 'FindMiniFacade'
   static STARTUP = `${FindMiniFacade.NAME}StartUp`
+  static GAME_SOUND = `${FindMiniFacade.NAME}GameSound`
 
   initializeFacade () {
     setTimeout(() => {

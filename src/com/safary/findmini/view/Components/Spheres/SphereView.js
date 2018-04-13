@@ -102,8 +102,8 @@ export default class SphereView extends Phaser.GameObjects.Container {
   }
 
   update () {
-    this.move()
     if (this.moveEnabled) {
+      this.move()
     }
     if (this.hitArea) {
       this.hitArea.x = this.x
@@ -137,6 +137,10 @@ export default class SphereView extends Phaser.GameObjects.Container {
     this.scene.events.emit('onSphereClick', this)
   }
 
+  start () {
+    this.moveEnabled = true
+  }
+
   onClickAction () {
     this.scene.events.emit('onSphereMustDestroy', this)
   }
@@ -152,5 +156,18 @@ export default class SphereView extends Phaser.GameObjects.Container {
   preDestroy () {
     this.hitArea.off('pointerdown', this.onClick, this)
     this.hitArea = null
+  }
+
+  destroy () {
+    this.scene.tweens.add({
+      targets: this,
+      scaleX: 0,
+      scaleY: 0,
+      duration: 300,
+      ease: 'Sine.easeInOut',
+      onComplete: () => {
+        super.destroy()
+      },
+    })
   }
 }

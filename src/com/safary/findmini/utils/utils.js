@@ -71,3 +71,25 @@ export const createButton = (scene, x, y, key, text, hook, context, ...args) => 
   buttonContainer.add(buttonText)
   return buttonContainer
 }
+export const delayRunnable = (scene, delay, runnable, context, ...args) => {
+  return scene.time.addEvent({
+    delay: delay,
+    callback: runnable,
+    args: args,
+    callbackScope: context,
+  })
+}
+
+export const removeRunnable = (runnable) => {
+  runnable.destroy()
+}
+
+export const loopRunnable = (scene, delay, runnable, context, repeatCount, ...args) => {
+  return scene.time.addEvent({
+    delay: delay,
+    loop: true,
+    callback: runnable,
+    args: args,
+    callbackScope: context,
+  })
+}

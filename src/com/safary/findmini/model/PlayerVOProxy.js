@@ -206,7 +206,8 @@ export default class PlayerVOProxy extends Proxy {
           break
       }
     }
-    return sumTime
+    sumTime += level <= 10 ? 10 : 5
+    return Math.ceil(sumTime)
   }
   addScore (level, points) {
     this.vo.score += level * points
