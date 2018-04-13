@@ -26,6 +26,7 @@ export default class BootScene extends FindMiniScene {
     this.themeNumber = Phaser.Math.Between(0, 1)
     this.load.image('background', `assets/background${this.themeNumber}.jpg`)
     this.load.image('button', `assets/button.png`)
+    this.load.image('back', `assets/back.png`)
     this.load.image('level', 'assets/level.png')
     this.load.image('levelDisabled', 'assets/levelDisabled.png')
     // this.load.audio('theme', [
