@@ -1,9 +1,10 @@
-import { SCENE_LEVEL, SCENE_NAVIGATION } from '../../constants/Constants'
+import { SCENE_LEVEL, SCENE_LOADING, SCENE_NAVIGATION } from '../../constants/Constants'
 import BootScene from './BootScene'
 import FindMiniSceneMediator from './FindMiniSceneMediator'
 import NavigationScene from './NavigationScene'
 import PlayerVOProxy from '../../model/PlayerVOProxy'
 import LevelSceneMediator from './LevelSceneMediator'
+import LoadingScene from "./LoadingScene";
 export default class NavigationSceneMediator extends FindMiniSceneMediator {
   static NAME = 'NavigationSceneMediator'
 
@@ -21,12 +22,12 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
   }
 
   listNotificationInterests () {
-    return [BootScene.LOAD_COMPLETE]
+    return [LoadingScene.SHUTDOWN]
   }
 
   handleNotification (notificationName) {
     switch (notificationName) {
-      case BootScene.LOAD_COMPLETE:
+      case LoadingScene.SHUTDOWN:
         this.playerVOProxy = this.facade.retrieveProxy(PlayerVOProxy.NAME)
         this.viewComponent.createBackground(this.playerVOProxy.vo.theme)
         window.game.scene.start(SCENE_NAVIGATION)

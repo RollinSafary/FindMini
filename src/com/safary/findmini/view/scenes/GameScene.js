@@ -23,6 +23,7 @@ export default class GameScene extends FindMiniScene {
     this.endY = gameConfig.height - this.distance
     // this.createBackgroundMusic()
     this.createNavigationView()
+    this.score = 0
   }
 
   createBackgroundMusic () {
@@ -126,9 +127,10 @@ export default class GameScene extends FindMiniScene {
     return true
   }
   destroySphere (target) {
+    this.score += target.number
     target.destroy()
     if (this.chekcWinConditions()) {
-      this.events.emit('levelComplete', this.level)
+      this.events.emit('levelComplete', this.level, this.score)
     }
   }
 

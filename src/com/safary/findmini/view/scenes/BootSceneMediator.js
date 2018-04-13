@@ -1,4 +1,4 @@
-import { SCENE_BOOT } from '../../constants/Constants'
+import { SCENE_BOOT, SCENE_LOADING } from '../../constants/Constants'
 import FindMiniFacade from '../../FindMiniFacade'
 import BootScene from './BootScene'
 import FindMiniSceneMediator from './FindMiniSceneMediator'

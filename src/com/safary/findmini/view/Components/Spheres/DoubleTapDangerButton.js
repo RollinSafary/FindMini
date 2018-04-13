@@ -14,14 +14,14 @@ export default class DoubleTapDangerButton extends SphereView {
   createBody (bgColor, secondBgColor, centerColor, number) {
     this.createBackgroundCircle(bgColor)
     this.createBackgroundCircle(secondBgColor)
-    this.createCenterCircle(centerColor)
     this.createCenterCircle(secondBgColor)
+    this.createCenterCircle(centerColor)
     this.createNumberText(number, '#ffffff')
     this.name = BOMB_NAME
   }
 
   onClickAction () {
-    this.removeFrontLayerBackground()
+    this.removeFrontLayerCenter()
     this.onClickAction = () => {
       this.scene.events.emit('bombClick')
     }

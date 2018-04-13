@@ -50,6 +50,8 @@ export default class PlayerVOProxy extends Proxy {
         return
       }
       this.vo.retentionData = json.retentionData || new RetentionData(-1, 1)
+      this.vo.level = json.level
+      this.vo.score = json.score
       this._checkForRetention()
       this.sendNotification(PlayerVOProxy.INITIALIZE_SUCCESS)
     } catch (error) {
@@ -99,6 +101,8 @@ export default class PlayerVOProxy extends Proxy {
         },
         installTimestemp: this.vo.installTimestemp,
         name: this.vo.name,
+        level: this.vo.level,
+        score: this.vo.score,
         // locale: getUserLanguage(),
         // timestemp: moment.utc().valueOf(),
       })
@@ -179,9 +183,14 @@ export default class PlayerVOProxy extends Proxy {
     return {
       SimpleSphere: level + parseInt(level / 3),
       DoubleTapSimpleSphere: parseInt(level / 5),
-      DoubleTapDangerButton: parseInt(level / 10),
+      DoubleTapDangerButton: 1, // parseInt(level / 10),
       GiftSphere: 1,
     }
+  }
+  addScore (level, points) {
+    console.warn(level)
+    console.warn(points)
+    this.vo.score += level * points
   }
 
   levelComplete (level) {

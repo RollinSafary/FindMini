@@ -43,6 +43,7 @@ export default class SphereView extends Phaser.GameObjects.Container {
     centerGraphics.fillCircleShape(this.centerCircle)
     centerGraphics.depth = depth
     this.add(centerGraphics)
+    this.centerShapes.push(centerGraphics)
   }
   createNumberText (number, color) {
     this.numberText = this.scene.add
@@ -68,7 +69,7 @@ export default class SphereView extends Phaser.GameObjects.Container {
 
   removeFrontLayerBackground () {
     const frontLayer = this.backgroundShapes[this.backgroundShapes.length - 1]
-    if (!this.backgroundShapes.length === 1) {
+    if (this.backgroundShapes.length === 1) {
       return
     }
     frontLayer.destroy()

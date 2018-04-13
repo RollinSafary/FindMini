@@ -4,6 +4,7 @@ import DoubleTapDangerButton from '../view/Components/Spheres/DoubleTapDangerBut
 import GiftSphere from '../view/Components/Spheres/GiftSphere'
 
 export const SCENE_BOOT = 'boot'
+export const SCENE_LOADING = 'loading'
 export const SCENE_GAME = 'game'
 export const SCENE_LEVEL = 'level'
 export const SCENE_NAVIGATION = 'navigation'
