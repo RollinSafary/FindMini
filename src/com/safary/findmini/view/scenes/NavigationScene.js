@@ -8,6 +8,7 @@ export default class NavigationScene extends FindMiniScene {
   static NAME = 'NavigationScene'
   static START = `${NavigationScene.NAME}Start`
   static START_GAME = NavigationScene.NAME + 'StartGame'
+  static HARDCORE = NavigationScene.NAME + 'Hardcore'
   static SETTINGS = NavigationScene.NAME + 'Settings'
 
   constructor () {
@@ -63,7 +64,7 @@ export default class NavigationScene extends FindMiniScene {
   }
 
   createLeaderBoardButton () {
-    createButton(this, gameConfig.width / 2, gameConfig.height * 0.5, 'button', 'Leader Board', this.onSettingsClick, this)
+    createButton(this, gameConfig.width / 2, gameConfig.height * 0.5, 'button', 'Leader Board', this.onLeaderBoardClick, this)
   }
 
   createSettingsButton () {
@@ -71,7 +72,7 @@ export default class NavigationScene extends FindMiniScene {
   }
 
   createTipsButton () {
-    createButton(this, gameConfig.width / 2, gameConfig.height * 0.6, 'button', 'How to play', this.onSettingsClick, this)
+    createButton(this, gameConfig.width / 2, gameConfig.height * 0.6, 'button', 'How to play', this.onTipsClick, this)
   }
 
   onStartGameClick () {
@@ -79,10 +80,18 @@ export default class NavigationScene extends FindMiniScene {
   }
 
   onHardCoreClick () {
-    this.events.emit('onHardCoreClick')
+    this.events.emit('onHardcoreClick')
   }
 
   onSettingsClick () {
     this.events.emit('onSettingsClick')
+  }
+
+  onTipsClick () {
+    this.events.emit('onTipsClick')
+  }
+
+  onLeaderBoardClick () {
+    this.events.emit('onLeaderBoardClick')
   }
 }

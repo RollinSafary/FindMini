@@ -7,7 +7,9 @@ import LevelSceneMediator from './LevelSceneMediator'
 import LoadingScene from './LoadingScene'
 import FindMiniFacade from '../../FindMiniFacade'
 import LevelScene from './LevelScene'
-import SettingsScene from "./SettingsScene";
+import SettingsScene from './SettingsScene'
+import HardcoreScene from './HardcoreScene'
+import HardcoreSceneMediator from './HardcoreSceneMediator'
 export default class NavigationSceneMediator extends FindMiniSceneMediator {
   static NAME = 'NavigationSceneMediator'
 
@@ -20,6 +22,11 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
     this.events.on(
       'onStartGameClick',
       this.onStartGameClick,
+      this,
+    )
+    this.events.on(
+      'onHardcoreClick',
+      this.onHardcoreClick,
       this,
     )
     this.events.on(
@@ -40,7 +47,7 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
   }
 
   listNotificationInterests () {
-    return [LoadingScene.SHUTDOWN, SettingsScene.MENU, LevelScene.MENU_CLICKED]
+    return [LoadingScene.SHUTDOWN, SettingsScene.MENU, HardcoreScene.GAME_OVER, LevelScene.MENU_CLICKED]
   }
 
   handleNotification (notificationName) {
@@ -51,6 +58,7 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
         this.viewComponent.createScore(this.playerVOProxy.vo.score)
         this.viewComponent.setSoundState(!this.playerVOProxy.vo.settings.mute)
         break
+      case HardcoreScene.GAME_OVER:
       case SettingsScene.MENU:
       case LevelScene.MENU_CLICKED:
         window.game.scene.start(SCENE_NAVIGATION)
@@ -73,6 +81,13 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
     this.facade.registerMediator(new LevelSceneMediator(null))
   }
 
+  registerHardcoreSceneMediator () {
+    if (this.facade.hasMediator(HardcoreScene.NAME)) {
+      return
+    }
+    this.facade.registerMediator(new HardcoreSceneMediator(null))
+  }
+
   onMusicOn () {
     this.sendNotification(FindMiniFacade.GAME_SOUND, true)
   }
@@ -83,6 +98,12 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
 
   onSettingsClick () {
     this.sendNotification(NavigationScene.SETTINGS)
+    this.gameScene.stop(SCENE_NAVIGATION)
+  }
+
+  onHardcoreClick () {
+    this.registerHardcoreSceneMediator()
+    this.sendNotification(NavigationScene.HARDCORE)
     this.gameScene.stop(SCENE_NAVIGATION)
   }
 
