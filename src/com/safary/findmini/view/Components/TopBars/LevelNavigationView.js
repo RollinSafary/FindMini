@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
-import { gameConfig } from '../../constants/GameConfig'
+import { gameConfig } from '../../../constants/GameConfig'
 
-export default class GameNavigationView extends Phaser.GameObjects.Container {
+export default class LevelNavigationView extends Phaser.GameObjects.Container {
   constructor (scene) {
     super(scene, 0, 0)
     this.createBody()
@@ -10,8 +10,6 @@ export default class GameNavigationView extends Phaser.GameObjects.Container {
   createBody () {
     this.createBackground()
     this.createMenuButton()
-    this.createTimer()
-    this.createScore()
     this.createSoundButton()
   }
 
@@ -32,47 +30,6 @@ export default class GameNavigationView extends Phaser.GameObjects.Container {
       this.events.emit('menuClicked')
     })
     this.add(this.menuButton)
-  }
-  createTimer () {
-    this.timerBackground = new Phaser.Geom.Rectangle(gameConfig.width / 4 - 5, 5, gameConfig.width / 4, 65)
-    const graphics = this.scene.make.graphics({
-      fillStyle: { color: 0xff4b1a },
-    })
-    graphics.fillRectShape(this.timerBackground)
-    this.timerText = this.scene.add.text(this.timerBackground.centerX, this.timerBackground.centerY, '0', {
-      fontFamily: 'Arial',
-      fontSize: 36,
-      color: '#feffc5',
-    }).setOrigin(0.5)
-    this.add(graphics)
-    this.add(this.timerText)
-  }
-
-  setTimer (value) {
-    this.timerText.setText(value)
-  }
-
-  getTimerValue () {
-    return parseInt(this.timerText.text)
-  }
-
-  createScore () {
-    this.scoreBackground = new Phaser.Geom.Rectangle(gameConfig.width / 2 + 5, 5, gameConfig.width / 4, 65)
-    const graphics = this.scene.make.graphics({
-      fillStyle: { color: 0x29a3b8 },
-    })
-    graphics.fillRectShape(this.scoreBackground)
-    this.scoreText = this.scene.add.text(this.scoreBackground.centerX, this.scoreBackground.centerY, '0', {
-      fontFamily: 'Arial',
-      fontSize: 36,
-      color: '#feffc5',
-    }).setOrigin(0.5)
-    this.add(graphics)
-    this.add(this.scoreText)
-  }
-
-  setScore (value) {
-    this.scoreText.setText(value)
   }
 
   createSoundButton () {

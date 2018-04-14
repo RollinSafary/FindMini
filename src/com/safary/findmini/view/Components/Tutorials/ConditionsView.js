@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
-import { gameConfig } from '../../constants/GameConfig'
-import { OBJECT_TYPES } from '../../constants/Constants'
+import { gameConfig } from '../../../constants/GameConfig'
+import { OBJECT_TYPES } from '../../../constants/Constants'
 
 export default class ConditionsView extends Phaser.GameObjects.Container {
   constructor (scene, level, conditions) {

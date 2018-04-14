@@ -2,8 +2,8 @@ import { gameConfig } from '../../constants/GameConfig'
 import { BOMB_NAME, SCENE_GAME } from '../../constants/Constants'
 import FindMiniScene from './FindMiniScene'
 import Phaser from 'phaser'
-import GameNavigationView from '../Components/GameNavigationView'
-import ConditionsView from '../Components/ConditionsView'
+import GameNavigationView from '../Components/TopBars/GameNavigationView'
+import ConditionsView from '../Components/Tutorials/ConditionsView'
 import { delayRunnable, removeRunnable } from '../../utils/utils'
 
 export default class GameScene extends FindMiniScene {
@@ -22,13 +22,7 @@ export default class GameScene extends FindMiniScene {
     this.startY = this.distance + 75
     this.endX = gameConfig.width - this.distance
     this.endY = gameConfig.height - this.distance
-    // this.createBackgroundMusic()
     this.score = 0
-  }
-
-  createBackgroundMusic () {
-    this.backgroundMusic = this.sound.add('theme')
-    this.backgroundMusic.play()
   }
 
   showConditions (level, conditions) {

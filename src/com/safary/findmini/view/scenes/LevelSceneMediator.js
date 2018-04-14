@@ -4,7 +4,8 @@ import NavigationScene from './NavigationScene'
 import LevelScene from './LevelScene'
 import PlayerVOProxy from '../../model/PlayerVOProxy'
 import GameSceneMediator from './GameSceneMediator'
-import GameScene from "./GameScene";
+import GameScene from './GameScene'
+import FindMiniFacade from '../../FindMiniFacade'
 
 export default class LevelSceneMediator extends FindMiniSceneMediator {
   static NAME = 'LevelSceneMediator'
@@ -28,6 +29,8 @@ export default class LevelSceneMediator extends FindMiniSceneMediator {
       case PlayerVOProxy.LEVEL_COMPLETE:
       case NavigationScene.START_GAME:
         this.recreateViewComponent()
+        const soundState = this.playerVOProxy.vo.settings.mute
+        this.viewComponent.createNavigationView(!soundState)
         this.viewComponent.createLevels(this.playerVOProxy.vo.level, this.playerVOProxy.vo.maxLevelCount)
         break
     }
@@ -52,8 +55,8 @@ export default class LevelSceneMediator extends FindMiniSceneMediator {
     }
     if (this.gameScene.getScene(SCENE_LEVEL)) {
       window.game.scene.remove(SCENE_LEVEL)
+      this.gameScene.bootQueue()
     }
-    this.gameScene.bootQueue()
     this.gameScene.add(SCENE_LEVEL, LevelScene, true)
     this.gameScene.bootQueue()
     this.viewComponent = this.gameScene.getScene(SCENE_LEVEL)
@@ -67,6 +70,22 @@ export default class LevelSceneMediator extends FindMiniSceneMediator {
       this.onLevelClick,
       this,
     )
+    this.viewComponent.events.on('musicOff', this.onMusicOff, this)
+    this.viewComponent.events.on('musicOn', this.onMusicOn, this)
+    this.viewComponent.events.on('menuClicked', this.onMenuClicked, this)
+  }
+
+  onMusicOff () {
+    this.sendNotification(FindMiniFacade.GAME_SOUND, false)
+  }
+  onMusicOn () {
+    this.sendNotification(FindMiniFacade.GAME_SOUND, true)
+  }
+
+  onMenuClicked () {
+    this.sendNotification(LevelScene.MENU_CLICKED)
+    this.gameScene.remove(SCENE_LEVEL)
+    this.gameScene.bootQueue()
   }
 
   registerGameSceneMediator () {

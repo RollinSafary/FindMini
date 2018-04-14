@@ -6,6 +6,7 @@ import PlayerVOProxy from '../../model/PlayerVOProxy'
 import LevelSceneMediator from './LevelSceneMediator'
 import LoadingScene from './LoadingScene'
 import FindMiniFacade from '../../FindMiniFacade'
+import LevelScene from './LevelScene'
 export default class NavigationSceneMediator extends FindMiniSceneMediator {
   static NAME = 'NavigationSceneMediator'
 
@@ -33,13 +34,18 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
   }
 
   listNotificationInterests () {
-    return [LoadingScene.SHUTDOWN]
+    return [LoadingScene.SHUTDOWN, LevelScene.MENU_CLICKED]
   }
 
   handleNotification (notificationName) {
     switch (notificationName) {
       case LoadingScene.SHUTDOWN:
         this.playerVOProxy = this.facade.retrieveProxy(PlayerVOProxy.NAME)
+        window.game.scene.start(SCENE_NAVIGATION)
+        this.viewComponent.createScore(this.playerVOProxy.vo.score)
+        this.viewComponent.setSoundState(!this.playerVOProxy.vo.settings.mute)
+        break
+      case LevelScene.MENU_CLICKED:
         window.game.scene.start(SCENE_NAVIGATION)
         this.viewComponent.createScore(this.playerVOProxy.vo.score)
         this.viewComponent.setSoundState(!this.playerVOProxy.vo.settings.mute)
