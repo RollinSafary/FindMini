@@ -56,6 +56,7 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
   onStartGameClick () {
     this.registerLevelSceneMediator()
     this.sendNotification(NavigationScene.START_GAME)
+    this.gameScene.stop(SCENE_NAVIGATION)
   }
 
   registerLevelSceneMediator () {

@@ -47,12 +47,6 @@ export default class LevelSceneMediator extends FindMiniSceneMediator {
   }
 
   recreateViewComponent () {
-    if (this.gameScene.isActive(SCENE_NAVIGATION)) {
-      this.gameScene.stop(SCENE_NAVIGATION)
-    }
-    if (this.gameScene.isActive(SCENE_GAME)) {
-      this.gameScene.stop(SCENE_GAME)
-    }
     if (this.gameScene.getScene(SCENE_LEVEL)) {
       window.game.scene.remove(SCENE_LEVEL)
       this.gameScene.bootQueue()
