@@ -8,6 +8,7 @@ export default class NavigationScene extends FindMiniScene {
   static NAME = 'NavigationScene'
   static START = `${NavigationScene.NAME}Start`
   static START_GAME = NavigationScene.NAME + 'StartGame'
+  static SETTINGS = NavigationScene.NAME + 'Settings'
 
   constructor () {
     super(SCENE_NAVIGATION)

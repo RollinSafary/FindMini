@@ -7,6 +7,7 @@ import LevelSceneMediator from './LevelSceneMediator'
 import LoadingScene from './LoadingScene'
 import FindMiniFacade from '../../FindMiniFacade'
 import LevelScene from './LevelScene'
+import SettingsScene from "./SettingsScene";
 export default class NavigationSceneMediator extends FindMiniSceneMediator {
   static NAME = 'NavigationSceneMediator'
 
@@ -31,10 +32,15 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
       this.onMusicOn,
       this,
     )
+    this.events.on(
+      'onSettingsClick',
+      this.onSettingsClick,
+      this,
+    )
   }
 
   listNotificationInterests () {
-    return [LoadingScene.SHUTDOWN, LevelScene.MENU_CLICKED]
+    return [LoadingScene.SHUTDOWN, SettingsScene.MENU, LevelScene.MENU_CLICKED]
   }
 
   handleNotification (notificationName) {
@@ -45,6 +51,7 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
         this.viewComponent.createScore(this.playerVOProxy.vo.score)
         this.viewComponent.setSoundState(!this.playerVOProxy.vo.settings.mute)
         break
+      case SettingsScene.MENU:
       case LevelScene.MENU_CLICKED:
         window.game.scene.start(SCENE_NAVIGATION)
         this.viewComponent.createScore(this.playerVOProxy.vo.score)
@@ -72,6 +79,11 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
 
   onMusicOff () {
     this.sendNotification(FindMiniFacade.GAME_SOUND, false)
+  }
+
+  onSettingsClick () {
+    this.sendNotification(NavigationScene.SETTINGS)
+    this.gameScene.stop(SCENE_NAVIGATION)
   }
 
   get events () {

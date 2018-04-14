@@ -1,6 +1,9 @@
 import { Facade } from '@koreez/pure-mvc'
 import StartupCommand from './controller/StartupCommand'
-import { SCENE_BOOT, SCENE_GAME, SCENE_LEVEL, SCENE_LOADING, SCENE_NAVIGATION } from './constants/Constants'
+import {
+  SCENE_BOOT, SCENE_GAME, SCENE_LEVEL, SCENE_LOADING, SCENE_NAVIGATION,
+  SCENE_SETTINGS
+} from './constants/Constants'
 import BootScene from './view/scenes/BootScene'
 import GameScene from './view/scenes/GameScene'
 import BootSceneMediator from './view/scenes/BootSceneMediator'
@@ -13,6 +16,8 @@ import LevelScene from './view/scenes/LevelScene'
 import LevelSceneMediator from './view/scenes/LevelSceneMediator'
 import LoadingScene from './view/scenes/LoadingScene'
 import LoadingSceneMediator from './view/scenes/LoadingSceneMediator'
+import SettingsSceneMediator from "./view/scenes/SettingsSceneMediator";
+import SettingsScene from "./view/scenes/SettingsScene";
 
 const consoleArgs = [
   ``,
@@ -56,6 +61,7 @@ export default class FindMiniFacade extends Facade {
     super.initializeView()
     window.game.scene.add(SCENE_NAVIGATION, NavigationScene)
     window.game.scene.add(SCENE_LOADING, LoadingScene)
+    window.game.scene.add(SCENE_LOADING, SettingsScene)
     this.registerMediator(
       new BootSceneMediator(window.game.scene.getScene(SCENE_BOOT)),
     )
@@ -64,6 +70,9 @@ export default class FindMiniFacade extends Facade {
     )
     this.registerMediator(
       new LoadingSceneMediator(window.game.scene.getScene(SCENE_LOADING)),
+    )
+    this.registerMediator(
+      new SettingsSceneMediator(window.game.scene.getScene(SCENE_SETTINGS)),
     )
   }
 
