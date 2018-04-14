@@ -14,9 +14,12 @@ export default class NavigationScene extends FindMiniScene {
   }
 
   create () {
+    this.createSoundButton()
     this.createPlayButton()
     this.createHardCoreButton()
-    this.createSoundButton()
+    this.createLeaderBoardButton()
+    this.createTipsButton()
+    this.createSettingsButton()
   }
 
   createScore (value) {
@@ -51,11 +54,23 @@ export default class NavigationScene extends FindMiniScene {
   }
 
   createPlayButton () {
-    createButton(this, gameConfig.width / 2, gameConfig.height / 3, 'button', 'Start Game', this.onStartGameClick, this)
+    createButton(this, gameConfig.width / 2, gameConfig.height * 0.3, 'button', 'Start Game', this.onStartGameClick, this)
   }
 
   createHardCoreButton () {
-    createButton(this, gameConfig.width / 2, gameConfig.height / 2, 'button', 'Hardcore', this.onHardCoreClick, this)
+    createButton(this, gameConfig.width / 2, gameConfig.height * 0.4, 'button', 'Hardcore', this.onHardCoreClick, this)
+  }
+
+  createLeaderBoardButton () {
+    createButton(this, gameConfig.width / 2, gameConfig.height * 0.5, 'button', 'Leader Board', this.onSettingsClick, this)
+  }
+
+  createSettingsButton () {
+    createButton(this, gameConfig.width / 2, gameConfig.height * 0.7, 'button', 'Settings', this.onSettingsClick, this)
+  }
+
+  createTipsButton () {
+    createButton(this, gameConfig.width / 2, gameConfig.height * 0.6, 'button', 'How to play', this.onSettingsClick, this)
   }
 
   onStartGameClick () {
@@ -64,5 +79,9 @@ export default class NavigationScene extends FindMiniScene {
 
   onHardCoreClick () {
     this.events.emit('onHardCoreClick')
+  }
+
+  onSettingsClick () {
+    this.events.emit('onSettingsClick')
   }
 }
