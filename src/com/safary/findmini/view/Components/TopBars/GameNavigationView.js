@@ -79,6 +79,7 @@ export default class GameNavigationView extends Phaser.GameObjects.Container {
     this.soundButton = this.scene.add.sprite(0, 0, 'musicOn').setInteractive()
     this.soundButton.x = this.bg.right - this.menuButton.x
     this.soundButton.y = this.bg.top + this.soundButton.height / 2 + 5
+    this.add(this.soundButton)
   }
 
   turnOffSound () {

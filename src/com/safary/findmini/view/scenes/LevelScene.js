@@ -41,6 +41,7 @@ export default class LevelScene extends FindMiniScene {
         this.createDisabledLevel(i)
       }
     }
+    console.warn(this)
   }
 
   createOpenedLevel (level) {
