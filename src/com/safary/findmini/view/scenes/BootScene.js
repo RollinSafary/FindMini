@@ -64,7 +64,17 @@ export default class BootScene extends FindMiniScene {
 
   createBgMusic () {
     this.backgroundMusic = this.sound.add('backgroundMusic')
-    // this.backgroundMusic.play()
+    const loopMarker = {
+      name: 'loop',
+      start: 0,
+      // duration: 7.68,
+      config: {
+        loop: true,
+      },
+    }
+    this.backgroundMusic.addMarker(loopMarker)
+    this.backgroundMusic.play('loop')
+    this.backgroundMusic.pause()
   }
   createBackground () {
     this.background = this.add.sprite(0, 0, 'background').setScale(2)
@@ -79,5 +89,11 @@ export default class BootScene extends FindMiniScene {
     this.load.off('complete')
   }
 
-  setSoundState (state) {}
+  setSoundState (state) {
+    if (state) {
+      this.backgroundMusic.resume()
+    } else {
+      this.backgroundMusic.pause()
+    }
+  }
 }

@@ -25,20 +25,22 @@ export default class BootSceneMediator extends FindMiniSceneMediator {
   listNotificationInterests () {
     return [
       PlayerVOProxy.INITIALIZE_SUCCESS,
-      PlayerVOProxy.SOUND_OPTIONS_CHANGED,
+      FindMiniFacade.GAME_SOUND,
     ]
   }
 
   handleNotification (notificationName, ...args) {
     switch (notificationName) {
       case PlayerVOProxy.INITIALIZE_SUCCESS:
+        this.playerVOProxy = this.facade.retrieveProxy(PlayerVOProxy.NAME)
         this.sendNotification(
           BootScene.THEME_CHOOSE,
           this.viewComponent.themeNumber,
         )
+        this.viewComponent.setSoundState(!this.playerVOProxy.vo.settings.mute)
         break
-      case PlayerVOProxy.SOUND_OPTIONS_CHANGED:
-        this.viewComponent.setSoundState(!args[0])
+      case FindMiniFacade.GAME_SOUND:
+        this.viewComponent.setSoundState(args[0])
         break
     }
   }
