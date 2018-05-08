@@ -57,21 +57,6 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
 
   onLevelComplete (level, score) {
     this.sendNotification(GameScene.LEVEL_COMPLETE, level, score)
-    this.gameScene.remove(SCENE_GAME)
-    this.gameScene.bootQueue()
-  }
-
-  recreateViewComponent () {
-    if (this.gameScene.isActive(SCENE_LEVEL)) {
-      this.gameScene.stop(SCENE_LEVEL)
-    }
-    if (this.gameScene.getScene(SCENE_GAME)) {
-      window.game.scene.remove(SCENE_GAME)
-    }
-    this.gameScene.add(SCENE_GAME, GameScene, true)
-    this.gameScene.bootQueue()
-    this.viewComponent = this.gameScene.getScene(SCENE_GAME)
-    this.setListeners()
   }
 
   onOkayButtonClicked (conditionsView, level) {

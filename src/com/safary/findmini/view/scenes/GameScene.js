@@ -5,6 +5,7 @@ import Phaser from 'phaser'
 import GameNavigationView from '../Components/TopBars/GameNavigationView'
 import ConditionsView from '../Components/Tutorials/ConditionsView'
 import { delayRunnable, removeRunnable } from '../../utils/utils'
+import SimpleSphere from '../Components/Spheres/SimpleSphere'
 
 export default class GameScene extends FindMiniScene {
   static NAME = 'GameScene'
@@ -45,7 +46,64 @@ export default class GameScene extends FindMiniScene {
   startNewGame (conditionsView, options) {
     this.events.on('onSphereClick', this.onSphereClick, this)
     this.events.on('onSphereMustDestroy', this.destroySphere, this)
+    this.events.on('onBubbleClick', this.onBubbleClick, this)
     this.clearConditions(conditionsView, options)
+  }
+
+  onBubbleClick (target) {
+    if (this.checkToRemove(target)) {
+      this.tweens.add({
+        targets: target,
+        duration: 300,
+        ease: 'Power1',
+        scaleX: 1.5,
+        scaleY: 1.5,
+        onComplete: () => {
+          console.warn('emiting')
+          this.emitBubbleSpheres(target.x, target.y, target.number)
+          target.destroy()
+        },
+      })
+    }
+  }
+
+  emitBubbleSpheres (x, y, value) {
+    let sum = 0
+    let newX
+    let newY
+    while (sum !== value - 1) {
+      newX = x + Phaser.Math.Between(-75, 75)
+      newY = y + Phaser.Math.Between(-75, 75)
+      if (newX < this.startX) {
+        newX = this.startX
+      } else if (newX > this.endX) {
+        newX = this.endX
+      }
+      if (newY < this.startY) {
+        newY = this.startY
+      } else if (newY > this.endY) {
+        newY = this.endY
+      }
+      const num = Phaser.Math.Between(1, Math.ceil((value - sum) / 2))
+      sum += num
+      this.numbersArray.push(num)
+      const sphere = new SimpleSphere(this, x, y, num)
+      sphere.visible = false
+      this.spheresContainer.add(sphere)
+      this.tweens.add({
+        targets: sphere,
+        x: newX,
+        y: newY,
+        duration: 300,
+        ease: 'Sine.easeInOut',
+        onStart: () => {
+          sphere.visible = true
+        },
+        onComplete: () => {
+          sphere.start()
+        },
+      })
+    }
   }
 
   clearConditions (conditionsView, options) {
@@ -99,10 +157,15 @@ export default class GameScene extends FindMiniScene {
   }
 
   gameOver () {
+    this.removeComponents()
+    this.events.emit('gameOver')
+  }
+
+  removeComponents () {
+    this.gameNavigation.destroy()
     if (this.timerRunnable) {
       removeRunnable(this.timerRunnable)
     }
-    this.events.emit('gameOver')
   }
 
   enableSpheresMoving () {
@@ -172,6 +235,7 @@ export default class GameScene extends FindMiniScene {
     })
     if (this.checkWinConditions(target)) {
       setTimeout(() => {
+        this.removeComponents()
         this.events.emit('levelComplete', this.level, this.score)
       }, 300)
     }
