@@ -22,25 +22,24 @@ export default class HardcoreScene extends FindMiniScene {
     this.endX = gameConfig.width - this.distance
     this.endY = gameConfig.height - this.distance
     this.score = 0
+    this.createNavigationView()
   }
 
-  createNavigationView (soundState) {
-    if (this.navigationContainer) {
-      return
-    }
-    this.navigationContainer = this.add.container(0, 0)
+  createNavigationView () {
     this.gameNavigation = new GameNavigationView(this)
-    this.navigationContainer.add(this.gameNavigation)
+    this.add.existing(this.gameNavigation)
     this.gameNavigation.setTimer(0)
     this.gameNavigation.setScore(0)
-    // this.gameNavigation.setSoundState(soundState)
+  }
+
+  setSoundState (soundState) {
+    this.gameNavigation.setSoundState(soundState)
   }
 
   startNewGame (hardCoreLevel) {
     this.hardMode = false
     this.events.on('onSphereClick', this.onSphereClick, this)
     this.events.on('onSphereMustDestroy', this.destroySphere, this)
-    this.clearWorld()
     this.emitSpheres(hardCoreLevel)
   }
 
@@ -132,13 +131,6 @@ export default class HardcoreScene extends FindMiniScene {
     }
   }
 
-  clearWorld () {
-    if (this.spheresContainer) {
-      this.spheresContainer.destroy()
-    }
-    this.spheresContainer = null
-  }
-
   createSpheres (options) {
     this.spheresContainer = this.add.container(0, 0)
     for (let i = 0; i < options.length; i++) {
@@ -206,10 +198,6 @@ export default class HardcoreScene extends FindMiniScene {
         sphere.update()
       }
     }
-  }
-
-  createGift (x, y) {
-
   }
 
   checkWinConditions (target) {

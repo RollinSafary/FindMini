@@ -11,9 +11,19 @@ export default class BootSceneMediator extends FindMiniSceneMediator {
     super(BootSceneMediator.NAME, viewComponent)
   }
 
+  onRegister () {
+    super.onRegister()
+    this.viewComponent.events.on('loadComplete', this.onLoadComplete, this)
+    this.viewComponent.events.on(
+      'fileLoadComplete',
+      this.onFileLoadComplete,
+      this,
+    )
+    window.game.scene.start(SCENE_BOOT)
+  }
+
   listNotificationInterests () {
     return [
-      FindMiniFacade.STARTUP,
       PlayerVOProxy.INITIALIZE_SUCCESS,
       PlayerVOProxy.SOUND_OPTIONS_CHANGED,
     ]
@@ -21,15 +31,6 @@ export default class BootSceneMediator extends FindMiniSceneMediator {
 
   handleNotification (notificationName, ...args) {
     switch (notificationName) {
-      case FindMiniFacade.STARTUP:
-        this.viewComponent.events.on('loadComplete', this.onLoadComplete, this)
-        this.viewComponent.events.on(
-          'fileLoadComplete',
-          this.onFileLoadComplete,
-          this,
-        )
-        window.game.scene.start(SCENE_BOOT)
-        break
       case PlayerVOProxy.INITIALIZE_SUCCESS:
         this.sendNotification(
           BootScene.THEME_CHOOSE,
@@ -43,7 +44,7 @@ export default class BootSceneMediator extends FindMiniSceneMediator {
   }
 
   onFileLoadComplete (progress) {
-    this.facade.sendNotification(BootScene.FILE_LOAD_COMPLETE, progress)
+    this.facade.sendNotification(BootScene.FILE_LOAD_COMPLETE, progress > 97 ? 97 : progress)
   }
 
   onLoadComplete () {

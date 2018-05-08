@@ -1,6 +1,8 @@
 import Phaser from 'phaser'
 import { gameConfig } from '../../../constants/GameConfig'
 import { OBJECT_TYPES } from '../../../constants/Constants'
+import SphereView from "../Spheres/SphereView";
+import SimpleSphere from "../Spheres/SimpleSphere";
 
 export default class ConditionsView extends Phaser.GameObjects.Container {
   constructor (scene, level, conditions) {
@@ -53,30 +55,9 @@ export default class ConditionsView extends Phaser.GameObjects.Container {
         continue
       }
       height += 75
-      const condition = this.createCondition(type, count)
-      condition.x = this.backgroundRectangle.x + 50
-      condition.y = this.backgroundRectangle.y + 150 + height
+      const condition = new ConditionView(this.scene, type, this.backgroundRectangle.x + 50, this.backgroundRectangle.y + 150 + height, count)
+      this.add(condition)
     }
-  }
-  createCondition (type, count) {
-    const container = this.scene.make.container(0, 0)
-    this.add(container)
-    const sphere = new type(this.scene, 0, 0, 0)
-    const text = this.scene.add
-      .text(
-        sphere.x + sphere.backgroundCircle.radius * 1.5,
-        sphere.y,
-        ` x${count} (${type.DESCRIPTION})`,
-        {
-          fontFamily: 'Arial',
-          fontSize: sphere.backgroundCircle.radius,
-          color: '#ffffff',
-        },
-      )
-      .setOrigin(0, 0.5)
-    container.add(sphere)
-    container.add(text)
-    return container
   }
 
   createOkayButton (level) {
@@ -126,9 +107,29 @@ export default class ConditionsView extends Phaser.GameObjects.Container {
   emitOkay (level) {
     this.scene.events.emit('okayButtonClicked', this, level)
   }
+}
 
-  destroy () {
-    this.okayButton.off('pointerup', this.emitOkay, this)
-    super.destroy()
+class ConditionView extends Phaser.GameObjects.Container {
+  constructor (scene, SphereTypeClass, x, y, count) {
+    super(scene, x, y)
+    this.createBody(SphereTypeClass, count)
+  }
+
+  createBody (SphereTypeClass, count) {
+    const sphere = new SphereTypeClass(this.scene, 0, 0, 0)
+    const text = this.scene.add
+      .text(
+        sphere.x + sphere.backgroundCircle.radius * 1.5,
+        sphere.y,
+        ` x${count} (${SphereTypeClass.DESCRIPTION})`,
+        {
+          fontFamily: 'Arial',
+          fontSize: sphere.backgroundCircle.radius,
+          color: '#ffffff',
+        },
+      )
+      .setOrigin(0, 0.5)
+    this.add(sphere)
+    this.add(text)
   }
 }

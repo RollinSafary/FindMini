@@ -18,7 +18,7 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
   }
 
   onRegister () {
-    super.onRegister()
+    this.playerVOProxy = this.facade.retrieveProxy(PlayerVOProxy.NAME)
     this.events.on(
       'onStartGameClick',
       this.onStartGameClick,
@@ -44,28 +44,31 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
       this.onSettingsClick,
       this,
     )
+    super.onRegister()
   }
 
   listNotificationInterests () {
-    return [LoadingScene.SHUTDOWN, SettingsScene.MENU, HardcoreScene.GAME_OVER, LevelScene.MENU_CLICKED]
+    return [PlayerVOProxy.INITIALIZE_SUCCESS, LoadingScene.SHUTDOWN, SettingsScene.MENU, HardcoreScene.GAME_OVER, LevelScene.MENU_CLICKED]
   }
 
   handleNotification (notificationName) {
     switch (notificationName) {
       case LoadingScene.SHUTDOWN:
-        this.playerVOProxy = this.facade.retrieveProxy(PlayerVOProxy.NAME)
         window.game.scene.start(SCENE_NAVIGATION)
-        this.viewComponent.createScore(this.playerVOProxy.vo.score)
-        // this.viewComponent.setSoundState(!this.playerVOProxy.vo.settings.mute)
+        this.setValues()
         break
       case HardcoreScene.GAME_OVER:
       case SettingsScene.MENU:
       case LevelScene.MENU_CLICKED:
         window.game.scene.start(SCENE_NAVIGATION)
-        this.viewComponent.createScore(this.playerVOProxy.vo.score)
-        // this.viewComponent.setSoundState(!this.playerVOProxy.vo.settings.mute)
+        this.setValues()
         break
     }
+  }
+
+  setValues () {
+    this.viewComponent.setSoundState(!this.playerVOProxy.vo.settings.mute)
+    this.viewComponent.setScore(this.playerVOProxy.vo.score)
   }
 
   onStartGameClick () {

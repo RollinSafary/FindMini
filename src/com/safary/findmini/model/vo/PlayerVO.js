@@ -20,34 +20,58 @@ export default class PlayerVO extends UserVO {
   }
 
   set installTimestamp (value) {
+    if (!value) {
+      return
+    }
     this._installTimestamp = value || moment.utc().valueOf()
   }
 
   set sessionNumber (value) {
+    if (!value) {
+      return
+    }
     this._sessionNumber = value !== undefined ? value + 1 : 0
   }
 
   set retentionData (value) {
+    if (!value) {
+      return
+    }
     this._retentionData = value
   }
 
   set hasRetentionBonus (value) {
+    if (!value) {
+      return
+    }
     this._retentionBonus = value
   }
 
   set level (value) {
+    if (!value) {
+      return
+    }
     this._level = value || 1
   }
 
   set score (value) {
+    if (!value) {
+      return
+    }
     this._score = value || 0
   }
 
   set theme (value) {
+    if (!value) {
+      return
+    }
     this._theme = value
   }
 
   set settings (value) {
+    if (!value) {
+      return
+    }
     this._settings = value
   }
   // ---------------------------- GETTERS -------------------------------

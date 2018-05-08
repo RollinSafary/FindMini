@@ -17,6 +17,10 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
     super(GameSceneMediator.NAME, viewComponent)
   }
 
+  onRegister () {
+    this.playerVOProxy = this.facade.retrieveProxy(PlayerVOProxy.NAME)
+    super.onRegister()
+  }
   listNotificationInterests () {
     return [LevelScene.START_LEVEL]
   }
@@ -24,8 +28,7 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
   handleNotification (notificationName, ...args) {
     switch (notificationName) {
       case LevelScene.START_LEVEL:
-        this.recreateViewComponent()
-        this.playerVOProxy = this.facade.retrieveProxy(PlayerVOProxy.NAME)
+        window.game.scene.start(SCENE_GAME)
         const level = args[0]
         const levelInfo = this.playerVOProxy.levelInfo(level)
         this.viewComponent.showConditions(level, levelInfo)
@@ -99,8 +102,7 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
 
   onGameOver () {
     this.sendNotification(GameScene.LEVEL_FAILED)
-    this.gameScene.remove(SCENE_GAME)
-    this.gameScene.bootQueue()
+    window.game.scene.stop(SCENE_GAME)
   }
 
   onMusicOff () {

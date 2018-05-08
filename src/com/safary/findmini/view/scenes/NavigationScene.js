@@ -15,7 +15,8 @@ export default class NavigationScene extends FindMiniScene {
   }
 
   create () {
-    // this.createSoundButton()
+    this.createSoundButton()
+    this.createScore()
     this.createPlayButton()
     this.createHardCoreButton()
     this.createLeaderBoardButton()
@@ -23,14 +24,18 @@ export default class NavigationScene extends FindMiniScene {
     this.createSettingsButton()
   }
 
-  createScore (value) {
+  createScore () {
     this.score = this.add
-      .text(25, 25, `Score: ${value}`, {
+      .text(25, 25, `Score: `, {
         fontFamily: 'Arial',
         fontSize: 30,
         color: '#feffc5',
       })
       .setOrigin(0, 0.5)
+  }
+
+  setScore (value) {
+    this.score.setText(`Score: ${value}`)
   }
 
   createSoundButton () {

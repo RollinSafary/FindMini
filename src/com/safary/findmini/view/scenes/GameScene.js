@@ -27,37 +27,28 @@ export default class GameScene extends FindMiniScene {
 
   showConditions (level, conditions) {
     this.level = level
-    if (this.conditionsContainer) {
-      this.conditionsContainer.destroy()
-      this.conditionsContainer = null
-      this.conditionsView = null
-    }
-    this.conditionsContainer = this.add.container(0, 0)
     this.conditionsView = new ConditionsView(this, level, conditions)
-    this.conditionsContainer.add(this.conditionsView)
+    this.add.existing(this.conditionsView)
   }
 
-  createNavigationView (remaining, soundState) {
-    if (this.navigationContainer) {
-      return
-    }
-    this.navigationContainer = this.add.container(0, 0)
+  createNavigationView (remaining) {
     this.gameNavigation = new GameNavigationView(this)
-    this.navigationContainer.add(this.gameNavigation)
+    this.add.existing(this.gameNavigation)
     this.gameNavigation.setTimer(remaining)
     this.gameNavigation.setScore(0)
-    // this.gameNavigation.setSoundState(soundState)
+  }
+
+  setSoundState (soundState) {
+    this.gameNavigation.setSoundState(soundState)
   }
 
   startNewGame (conditionsView, options) {
     this.events.on('onSphereClick', this.onSphereClick, this)
     this.events.on('onSphereMustDestroy', this.destroySphere, this)
-    this.clearWorld()
     this.clearConditions(conditionsView, options)
   }
 
   clearConditions (conditionsView, options) {
-    this.conditionsContainer.alpha = 1
     this.tweens.add({
       targets: conditionsView.list,
       alpha: 0,
@@ -65,7 +56,6 @@ export default class GameScene extends FindMiniScene {
       ease: 'Power1',
       onComplete: () => {
         conditionsView.destroy()
-        this.conditionsContainer.destroy()
         this.emitSpheres(options)
       },
     })
@@ -121,21 +111,14 @@ export default class GameScene extends FindMiniScene {
     }
   }
 
-  clearWorld () {
-    if (this.spheresContainer) {
-      this.spheresContainer.destroy()
-    }
-    this.spheresContainer = null
-  }
-
   createSpheres (options) {
     this.spheresContainer = this.add.container(0, 0)
     for (let i = 0; i < options.length; i++) {
-      const sphereType = options[i]
+      const SphereType = options[i]
       const x = Phaser.Math.Between(this.startX, this.endX)
       const y = Phaser.Math.Between(this.startY, this.endY)
       const number = this.numbersArray[i]
-      const sphere = new sphereType(this, x, y, number)
+      const sphere = new SphereType(this, x, y, number)
       sphere.visible = false
       this.spheresContainer.add(sphere)
     }
@@ -177,7 +160,16 @@ export default class GameScene extends FindMiniScene {
   destroySphere (target) {
     this.score += target.number
     this.gameNavigation.setScore(this.score)
-    target.destroy()
+    this.tweens.add({
+      targets: target,
+      ease: 'Power1',
+      duration: 200,
+      scaleX: 0,
+      scaleY: 0,
+      onComplete: () => {
+        target.destroy()
+      },
+    })
     if (this.checkWinConditions(target)) {
       setTimeout(() => {
         this.events.emit('levelComplete', this.level, this.score)

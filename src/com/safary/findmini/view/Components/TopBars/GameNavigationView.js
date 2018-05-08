@@ -12,7 +12,7 @@ export default class GameNavigationView extends Phaser.GameObjects.Container {
     this.createMenuButton()
     this.createTimer()
     this.createScore()
-    // this.createSoundButton()
+    this.createSoundButton()
   }
 
   createBackground () {

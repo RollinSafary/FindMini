@@ -19,8 +19,8 @@ export default class LevelSceneMediator extends FindMiniSceneMediator {
   }
 
   onRegister () {
-    super.onRegister()
     this.playerVOProxy = this.facade.retrieveProxy(PlayerVOProxy.NAME)
+    super.onRegister()
   }
 
   handleNotification (notificationName) {
@@ -28,9 +28,9 @@ export default class LevelSceneMediator extends FindMiniSceneMediator {
       case GameScene.LEVEL_FAILED:
       case PlayerVOProxy.LEVEL_COMPLETE:
       case NavigationScene.START_GAME:
-        this.recreateViewComponent()
-        const soundState = true//this.playerVOProxy.vo.settings.mute
-        this.viewComponent.createNavigationView(!soundState)
+        window.game.scene.start(SCENE_LEVEL)
+        const soundState = this.playerVOProxy.vo.settings.mute
+        this.viewComponent.setSoundState(!soundState)
         this.viewComponent.createLevels(this.playerVOProxy.vo.level, this.playerVOProxy.vo.maxLevelCount)
         break
     }
@@ -40,21 +40,8 @@ export default class LevelSceneMediator extends FindMiniSceneMediator {
     if (this.playerVOProxy.vo.level < level) {
       return
     }
-    this.registerGameSceneMediator()
     this.sendNotification(LevelScene.START_LEVEL, level)
-    this.gameScene.remove(SCENE_LEVEL)
-    this.gameScene.bootQueue()
-  }
-
-  recreateViewComponent () {
-    if (this.gameScene.getScene(SCENE_LEVEL)) {
-      window.game.scene.remove(SCENE_LEVEL)
-      this.gameScene.bootQueue()
-    }
-    this.gameScene.add(SCENE_LEVEL, LevelScene, true)
-    this.gameScene.bootQueue()
-    this.viewComponent = this.gameScene.getScene(SCENE_LEVEL)
-    this.setListeners()
+    window.game.scene.stop(SCENE_LEVEL)
   }
 
   setListeners () {
@@ -78,14 +65,6 @@ export default class LevelSceneMediator extends FindMiniSceneMediator {
 
   onMenuClicked () {
     this.sendNotification(LevelScene.MENU_CLICKED)
-    this.gameScene.remove(SCENE_LEVEL)
-    this.gameScene.bootQueue()
-  }
-
-  registerGameSceneMediator () {
-    if (this.facade.hasMediator(GameSceneMediator.NAME)) {
-      return
-    }
-    this.facade.registerMediator(new GameSceneMediator(null))
+    window.game.scene.stop(SCENE_LEVEL)
   }
 }

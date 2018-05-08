@@ -10,7 +10,7 @@ export default class LevelNavigationView extends Phaser.GameObjects.Container {
   createBody () {
     this.createBackground()
     this.createMenuButton()
-    // this.createSoundButton()
+    this.createSoundButton()
   }
 
   createBackground () {

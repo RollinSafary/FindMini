@@ -5,6 +5,8 @@ import { gameConfig } from '../../constants/GameConfig'
 
 export default class LoadingScene extends FindMiniScene {
   static NAME = 'LoadingScene'
+  static SCENE_START = `${LoadingScene.NAME}Started`
+  static LOAD_COMPLETE = `${LoadingScene.NAME}LoadComplete`
 
   constructor () {
     super(SCENE_LOADING)
@@ -26,11 +28,18 @@ export default class LoadingScene extends FindMiniScene {
       color: '#feffc5',
     }).setOrigin(0.5)
 
-    const loadingText = this.add.text(gameConfig.width / 2, gameConfig.height * 0.7, 'Loading...', {
+    this.add.text(gameConfig.width / 2, gameConfig.height * 0.7, 'Loading...', {
       fontFamily: 'Arial',
       fontSize: 52,
       color: '#feffc5',
     }).setOrigin(0.5)
+  }
+
+  setProgress (progress) {
+    if (!this.loadingPercent) {
+      return
+    }
+    this.loadingPercent.setText(`${Math.ceil(progress)}%`)
   }
 
   update () {
