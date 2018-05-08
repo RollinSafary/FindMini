@@ -2,13 +2,14 @@
   "name": "find-mini",
   "version": "1.0.0",
   "description": "Reaction game",
-  "author": "RollinSafary <rollinsafary@hotmail.com> <http://www.rollinsafary.com>",
+  "author": "RollinSafary <rollinsafary@hotmail.com> <https://www.rollinsafary.com>",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config config/webpack.config.js --env production  --mode production --progress",
     "stats": "webpack --config config/webpack.config.js --env production --profile --json > stats.json",
-    "start": "webpack-dev-server --config config/webpack.config.js  --host 0.0.0.0 --mode development --open",
-    "serve": "serve -p 3000 -s dist",
+    "start":
+    "webpack-dev-server --config config/webpack.config.js --https --mode development --open",
+    "dev": "webpack --config config/webpack.config.js --env preproduction  --mode production --progress",    "serve": "serve -p 3000 -s dist",
     "lint": "eslint --ext js,jsx src"
   },
   "license": "MIT",
@@ -47,6 +48,6 @@
     "firebase": "^4.12.1",
     "firebase-admin": "^5.12.0",
     "moment": "^2.22.0",
-    "phaser": "git+https://github.com/photonstorm/phaser.git"
+    "phaser": "3.6.0"
   }
 }
