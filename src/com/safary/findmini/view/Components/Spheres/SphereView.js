@@ -144,6 +144,11 @@ export default class SphereView extends Phaser.GameObjects.Container {
     this.scene.events.emit('onSphereMustDestroy', this)
   }
 
+  preDestroy () {
+    this.hitArea.off('pointerdown', this.onClick, this)
+    this.hitArea = null
+  }
+
   get number () {
     if (!this.numberText) {
       console.error('numberText is not added')
