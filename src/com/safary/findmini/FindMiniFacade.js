@@ -1,12 +1,21 @@
 import { Facade } from '@koreez/pure-mvc'
 import StartupCommand from './controller/StartupCommand'
-import { SCENE_BOOT, SCENE_LOADING } from './constants/Constants'
-import BootSceneMediator from './view/scenes/BootSceneMediator'
+import {
+  SCENE_BOOT, SCENE_GAME, SCENE_HARDCORE, SCENE_LEVEL, SCENE_LOADING, SCENE_NAVIGATION,
+  SCENE_SETTINGS
+} from './constants/Constants'
 import PlayerVOProxy from './model/PlayerVOProxy'
 import SavePlayerVOCommand from './controller/player/SavePlayerVOCommand'
-import LoadingScene from './view/scenes/LoadingScene'
-import LoadingSceneMediator from './view/scenes/LoadingSceneMediator'
 import StartGameCommand from './controller/game/StartGameCommand'
+import NavigationScene from "./view/scenes/NavigationScene";
+import SettingsScene from "./view/scenes/SettingsScene";
+import BootScene from "./view/scenes/BootScene";
+import OnLoadCompleteCommand from "./controller/game/OnLoadCompleteCommand";
+import StartFBGameCommand from "./controller/fb/StartFBGameCommand";
+import LoadingScene from "./view/scenes/LoadingScene";
+import LevelScene from "./view/scenes/LevelScene";
+import HardcoreScene from "./view/scenes/HardcoreScene";
+import GameScene from "./view/scenes/GameScene";
 
 const consoleArgs = [
   ``,
@@ -37,12 +46,6 @@ export default class FindMiniFacade extends Facade {
     'GetFbPlayerFriendsSuccess'
   static GET_FB_PLAYER_FRIENDS_FAIL = FindMiniFacade.NAME +
     'GetFbPlayerFriendsFail'
-  static SCREENSHOT_TAKEN = FindMiniFacade.NAME + 'ScreenshotTaken'
-  static EXTRA_ASSETS_LOAD_COMPLETE = FindMiniFacade.NAME +
-    'ExtraAssetsLoadComplete'
-  static FB_CHOOSE_CONTEXT_SUCCESS = FindMiniFacade.NAME +
-    'FBChooseContextSuccess'
-  static FB_CHOOSE_CONTEXT_FAIL = FindMiniFacade.NAME + 'FBChooseContextFail'
 
   initializeFacade () {
     setTimeout(() => {
@@ -58,18 +61,21 @@ export default class FindMiniFacade extends Facade {
     super.initializeController()
     this.registerCommand(FindMiniFacade.STARTUP, StartupCommand)
     this.registerCommand(FindMiniFacade.FB_INITIALIZE_SUCCESS, StartGameCommand)
+    this.registerCommand(LoadingScene.SCENE_START, StartFBGameCommand)
+    this.registerCommand(LoadingScene.LOAD_COMPLETE, OnLoadCompleteCommand)
     this.registerCommand(PlayerVOProxy.INITIALIZE_SUCCESS, SavePlayerVOCommand)
   }
 
   initializeView () {
     super.initializeView()
+    window.game.scene.add(SCENE_BOOT, BootScene)
     window.game.scene.add(SCENE_LOADING, LoadingScene)
-    this.registerMediator(
-      new BootSceneMediator(window.game.scene.getScene(SCENE_BOOT)),
-    )
-    this.registerMediator(
-      new LoadingSceneMediator(window.game.scene.getScene(SCENE_LOADING)),
-    )
+    window.game.scene.add(SCENE_NAVIGATION, NavigationScene)
+    window.game.scene.add(SCENE_LEVEL, LevelScene)
+    window.game.scene.add(SCENE_GAME, GameScene)
+    window.game.scene.add(SCENE_HARDCORE, HardcoreScene)
+    window.game.scene.add(SCENE_SETTINGS, SettingsScene)
+    window.game.scene.bootQueue()
   }
 
   startup () {

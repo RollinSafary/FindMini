@@ -7,7 +7,6 @@ export const gameConfig = {
   height: 960,
   backgroundColor: '#626262',
   parent: 'gameContainer',
-  scene: [BootScene],
   physics: {
     default: 'matter',
     matter: {

@@ -1,19 +1,15 @@
 import { SimpleCommand } from '@koreez/pure-mvc'
-import { SCENE_NAVIGATION, SCENE_SETTINGS } from '../../constants/Constants'
-import NavigationScene from '../../view/scenes/NavigationScene'
-import SettingsScene from '../../view/scenes/SettingsScene'
-import NavigationSceneMediator from '../../view/scenes/NavigationSceneMediator'
-import SettingsSceneMediator from '../../view/scenes/SettingsSceneMediator'
+import { SCENE_BOOT, SCENE_LOADING } from '../../constants/Constants'
+import BootSceneMediator from '../../view/scenes/BootSceneMediator'
+import LoadingSceneMediator from '../../view/scenes/LoadingSceneMediator'
 
 export default class StartGameCommand extends SimpleCommand {
   execute (notification) {
-    window.game.scene.add(SCENE_NAVIGATION, NavigationScene)
-    window.game.scene.add(SCENE_SETTINGS, SettingsScene)
     this.facade.registerMediator(
-      new NavigationSceneMediator(window.game.scene.getScene(SCENE_NAVIGATION)),
+      new LoadingSceneMediator(window.game.scene.getScene(SCENE_LOADING)),
     )
     this.facade.registerMediator(
-      new SettingsSceneMediator(window.game.scene.getScene(SCENE_SETTINGS)),
+      new BootSceneMediator(window.game.scene.getScene(SCENE_BOOT)),
     )
   }
 }
