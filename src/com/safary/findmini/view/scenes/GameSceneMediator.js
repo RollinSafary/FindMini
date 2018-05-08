@@ -1,4 +1,8 @@
-import { OBJECT_TYPES, SCENE_GAME, SCENE_LEVEL } from '../../constants/Constants'
+import {
+  OBJECT_TYPES,
+  SCENE_GAME,
+  SCENE_LEVEL,
+} from '../../constants/Constants'
 import FindMiniSceneMediator from './FindMiniSceneMediator'
 import NavigationScene from './NavigationScene'
 import PlayerVOProxy from '../../model/PlayerVOProxy'
@@ -70,14 +74,18 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
   onOkayButtonClicked (conditionsView, level) {
     this.createLevel(conditionsView, level)
     const remaining = this.playerVOProxy.levelTimeLimit(level)
-    const soundState = this.playerVOProxy.vo.settings.mute
+    const soundState = true // this.playerVOProxy.vo.settings.mute
     this.viewComponent.createNavigationView(remaining, !soundState)
   }
 
   setListeners () {
     super.setListeners()
     this.viewComponent.events.on('levelComplete', this.onLevelComplete, this)
-    this.viewComponent.events.on('okayButtonClicked', this.onOkayButtonClicked, this)
+    this.viewComponent.events.on(
+      'okayButtonClicked',
+      this.onOkayButtonClicked,
+      this,
+    )
     this.viewComponent.events.on('bombClick', this.onBombClick, this)
     this.viewComponent.events.on('gameOver', this.onGameOver, this)
     this.viewComponent.events.on('giftClicked', this.onGiftClick, this)

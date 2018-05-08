@@ -43,7 +43,7 @@ export default class SettingsSceneMediator extends FindMiniSceneMediator {
       case NavigationScene.SETTINGS:
         this.playerVOProxy = this.facade.retrieveProxy(PlayerVOProxy.NAME)
         this.gameScene.start(SCENE_SETTINGS)
-        this.viewComponent.setSoundState(!this.playerVOProxy.vo.settings.mute)
+        // this.viewComponent.setSoundState(!this.playerVOProxy.vo.settings.mute)
         break
     }
   }

@@ -24,7 +24,8 @@ export default class HardcoreSceneMediator extends FindMiniSceneMediator {
         this.recreateViewComponent()
         this.playerVOProxy = this.facade.retrieveProxy(PlayerVOProxy.NAME)
         this.createLevel()
-        this.viewComponent.createNavigationView(!this.playerVOProxy.vo.settings.mute)
+        // this.viewComponent.createNavigationView(!this.playerVOProxy.vo.settings.mute)
+        this.viewComponent.createNavigationView()
         break
     }
   }

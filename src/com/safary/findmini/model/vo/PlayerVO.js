@@ -2,7 +2,7 @@ import UserVO from './UserVO'
 import moment from 'moment'
 
 export default class PlayerVO extends UserVO {
-  constructor (key, username, photo, retentionData) {
+  constructor (key, username, photo) {
     super(key, username, photo)
 
     this._installTimestamp = moment.utc().valueOf()

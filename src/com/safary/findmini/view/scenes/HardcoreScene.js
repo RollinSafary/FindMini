@@ -33,7 +33,7 @@ export default class HardcoreScene extends FindMiniScene {
     this.navigationContainer.add(this.gameNavigation)
     this.gameNavigation.setTimer(0)
     this.gameNavigation.setScore(0)
-    this.gameNavigation.setSoundState(soundState)
+    // this.gameNavigation.setSoundState(soundState)
   }
 
   startNewGame (hardCoreLevel) {

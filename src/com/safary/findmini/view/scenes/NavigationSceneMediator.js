@@ -56,14 +56,14 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
         this.playerVOProxy = this.facade.retrieveProxy(PlayerVOProxy.NAME)
         window.game.scene.start(SCENE_NAVIGATION)
         this.viewComponent.createScore(this.playerVOProxy.vo.score)
-        this.viewComponent.setSoundState(!this.playerVOProxy.vo.settings.mute)
+        // this.viewComponent.setSoundState(!this.playerVOProxy.vo.settings.mute)
         break
       case HardcoreScene.GAME_OVER:
       case SettingsScene.MENU:
       case LevelScene.MENU_CLICKED:
         window.game.scene.start(SCENE_NAVIGATION)
         this.viewComponent.createScore(this.playerVOProxy.vo.score)
-        this.viewComponent.setSoundState(!this.playerVOProxy.vo.settings.mute)
+        // this.viewComponent.setSoundState(!this.playerVOProxy.vo.settings.mute)
         break
     }
   }

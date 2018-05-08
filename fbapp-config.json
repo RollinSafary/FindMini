@@ -1,0 +1,13 @@
+{
+  "instant_games": {
+    "platform_version": "RICH_GAMEPLAY",
+    "custom_update_templates": {
+      "stolen_item": {
+        "example": "Another puzzle solved! Come play and try to pass me!"
+      },
+      "friend_invite": {
+        "example": "Another puzzle solved! Come play and try to pass me!"
+      }
+    }
+  }
+}

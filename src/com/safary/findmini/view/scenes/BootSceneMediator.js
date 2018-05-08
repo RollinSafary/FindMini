@@ -1,8 +1,8 @@
-import { SCENE_BOOT, SCENE_LOADING } from '../../constants/Constants'
+import { SCENE_BOOT } from '../../constants/Constants'
 import FindMiniFacade from '../../FindMiniFacade'
 import BootScene from './BootScene'
 import FindMiniSceneMediator from './FindMiniSceneMediator'
-import PlayerVOProxy from "../../model/PlayerVOProxy";
+import PlayerVOProxy from '../../model/PlayerVOProxy'
 
 export default class BootSceneMediator extends FindMiniSceneMediator {
   static NAME = 'BootSceneMediator'
@@ -12,7 +12,11 @@ export default class BootSceneMediator extends FindMiniSceneMediator {
   }
 
   listNotificationInterests () {
-    return [FindMiniFacade.STARTUP, PlayerVOProxy.INITIALIZE_SUCCESS, PlayerVOProxy.SOUND_OPTIONS_CHANGED]
+    return [
+      FindMiniFacade.STARTUP,
+      PlayerVOProxy.INITIALIZE_SUCCESS,
+      PlayerVOProxy.SOUND_OPTIONS_CHANGED,
+    ]
   }
 
   handleNotification (notificationName, ...args) {
@@ -27,7 +31,10 @@ export default class BootSceneMediator extends FindMiniSceneMediator {
         window.game.scene.start(SCENE_BOOT)
         break
       case PlayerVOProxy.INITIALIZE_SUCCESS:
-        this.sendNotification(BootScene.THEME_CHOOSE, this.viewComponent.themeNumber)
+        this.sendNotification(
+          BootScene.THEME_CHOOSE,
+          this.viewComponent.themeNumber,
+        )
         break
       case PlayerVOProxy.SOUND_OPTIONS_CHANGED:
         this.viewComponent.setSoundState(!args[0])

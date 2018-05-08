@@ -10,7 +10,7 @@ export default class LevelNavigationView extends Phaser.GameObjects.Container {
   createBody () {
     this.createBackground()
     this.createMenuButton()
-    this.createSoundButton()
+    // this.createSoundButton()
   }
 
   createBackground () {
@@ -53,7 +53,11 @@ export default class LevelNavigationView extends Phaser.GameObjects.Container {
 
   setSoundState (isEnabled) {
     this.soundButton.setTexture(isEnabled ? 'musicOn' : 'musicOff')
-    this.soundButton.once('pointerup', isEnabled ? this.turnOffSound : this.turnOnSound, this)
+    this.soundButton.once(
+      'pointerup',
+      isEnabled ? this.turnOffSound : this.turnOnSound,
+      this,
+    )
   }
 
   get events () {

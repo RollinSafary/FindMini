@@ -12,7 +12,7 @@ export default class GameNavigationView extends Phaser.GameObjects.Container {
     this.createMenuButton()
     this.createTimer()
     this.createScore()
-    this.createSoundButton()
+    // this.createSoundButton()
   }
 
   createBackground () {
@@ -34,16 +34,23 @@ export default class GameNavigationView extends Phaser.GameObjects.Container {
     this.add(this.menuButton)
   }
   createTimer () {
-    this.timerBackground = new Phaser.Geom.Rectangle(gameConfig.width / 4 - 5, 5, gameConfig.width / 4, 65)
+    this.timerBackground = new Phaser.Geom.Rectangle(
+      gameConfig.width / 4 - 5,
+      5,
+      gameConfig.width / 4,
+      65,
+    )
     const graphics = this.scene.make.graphics({
       fillStyle: { color: 0xff4b1a },
     })
     graphics.fillRectShape(this.timerBackground)
-    this.timerText = this.scene.add.text(this.timerBackground.centerX, this.timerBackground.centerY, '0', {
-      fontFamily: 'Arial',
-      fontSize: 36,
-      color: '#feffc5',
-    }).setOrigin(0.5)
+    this.timerText = this.scene.add
+      .text(this.timerBackground.centerX, this.timerBackground.centerY, '0', {
+        fontFamily: 'Arial',
+        fontSize: 36,
+        color: '#feffc5',
+      })
+      .setOrigin(0.5)
     this.add(graphics)
     this.add(this.timerText)
   }
@@ -57,16 +64,23 @@ export default class GameNavigationView extends Phaser.GameObjects.Container {
   }
 
   createScore () {
-    this.scoreBackground = new Phaser.Geom.Rectangle(gameConfig.width / 2 + 5, 5, gameConfig.width / 4, 65)
+    this.scoreBackground = new Phaser.Geom.Rectangle(
+      gameConfig.width / 2 + 5,
+      5,
+      gameConfig.width / 4,
+      65,
+    )
     const graphics = this.scene.make.graphics({
       fillStyle: { color: 0x29a3b8 },
     })
     graphics.fillRectShape(this.scoreBackground)
-    this.scoreText = this.scene.add.text(this.scoreBackground.centerX, this.scoreBackground.centerY, '0', {
-      fontFamily: 'Arial',
-      fontSize: 36,
-      color: '#feffc5',
-    }).setOrigin(0.5)
+    this.scoreText = this.scene.add
+      .text(this.scoreBackground.centerX, this.scoreBackground.centerY, '0', {
+        fontFamily: 'Arial',
+        fontSize: 36,
+        color: '#feffc5',
+      })
+      .setOrigin(0.5)
     this.add(graphics)
     this.add(this.scoreText)
   }
@@ -96,7 +110,11 @@ export default class GameNavigationView extends Phaser.GameObjects.Container {
 
   setSoundState (isEnabled) {
     this.soundButton.setTexture(isEnabled ? 'musicOn' : 'musicOff')
-    this.soundButton.once('pointerup', isEnabled ? this.turnOffSound : this.turnOnSound, this)
+    this.soundButton.once(
+      'pointerup',
+      isEnabled ? this.turnOffSound : this.turnOnSound,
+      this,
+    )
   }
 
   get events () {

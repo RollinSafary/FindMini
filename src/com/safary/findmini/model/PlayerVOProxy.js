@@ -59,7 +59,6 @@ export default class PlayerVOProxy extends Proxy {
       this.sendNotification(PlayerVOProxy.INITIALIZE_SUCCESS)
     } catch (error) {
       console.error(error)
-
       this.sendNotification(PlayerVOProxy.INITIALIZE_FAIL)
     }
   }

@@ -29,7 +29,7 @@ export default class LevelSceneMediator extends FindMiniSceneMediator {
       case PlayerVOProxy.LEVEL_COMPLETE:
       case NavigationScene.START_GAME:
         this.recreateViewComponent()
-        const soundState = this.playerVOProxy.vo.settings.mute
+        const soundState = true//this.playerVOProxy.vo.settings.mute
         this.viewComponent.createNavigationView(!soundState)
         this.viewComponent.createLevels(this.playerVOProxy.vo.level, this.playerVOProxy.vo.maxLevelCount)
         break

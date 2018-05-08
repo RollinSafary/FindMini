@@ -2,7 +2,6 @@ import { SCENE_NAVIGATION } from '../../constants/Constants'
 import FindMiniScene from './FindMiniScene'
 import { gameConfig } from '../../constants/GameConfig'
 import { createButton } from '../../utils/utils'
-import Phaser from 'phaser'
 
 export default class NavigationScene extends FindMiniScene {
   static NAME = 'NavigationScene'
@@ -16,7 +15,7 @@ export default class NavigationScene extends FindMiniScene {
   }
 
   create () {
-    this.createSoundButton()
+    // this.createSoundButton()
     this.createPlayButton()
     this.createHardCoreButton()
     this.createLeaderBoardButton()
@@ -25,11 +24,13 @@ export default class NavigationScene extends FindMiniScene {
   }
 
   createScore (value) {
-    this.score = this.add.text(25, 25, `Score: ${value}`, {
-      fontFamily: 'Arial',
-      fontSize: 30,
-      color: '#feffc5',
-    }).setOrigin(0, 0.5)
+    this.score = this.add
+      .text(25, 25, `Score: ${value}`, {
+        fontFamily: 'Arial',
+        fontSize: 30,
+        color: '#feffc5',
+      })
+      .setOrigin(0, 0.5)
   }
 
   createSoundButton () {
@@ -52,27 +53,71 @@ export default class NavigationScene extends FindMiniScene {
 
   setSoundState (isEnabled) {
     this.soundButton.setTexture(isEnabled ? 'musicOn' : 'musicOff')
-    this.soundButton.once('pointerup', isEnabled ? this.turnOffSound : this.turnOnSound, this)
+    this.soundButton.once(
+      'pointerup',
+      isEnabled ? this.turnOffSound : this.turnOnSound,
+      this,
+    )
   }
 
   createPlayButton () {
-    createButton(this, gameConfig.width / 2, gameConfig.height * 0.3, 'button', 'Start Game', this.onStartGameClick, this)
+    createButton(
+      this,
+      gameConfig.width / 2,
+      gameConfig.height * 0.3,
+      'button',
+      'Start Game',
+      this.onStartGameClick,
+      this,
+    )
   }
 
   createHardCoreButton () {
-    createButton(this, gameConfig.width / 2, gameConfig.height * 0.4, 'button', 'Hardcore', this.onHardCoreClick, this)
+    createButton(
+      this,
+      gameConfig.width / 2,
+      gameConfig.height * 0.4,
+      'button',
+      'Hardcore',
+      this.onHardCoreClick,
+      this,
+    )
   }
 
   createLeaderBoardButton () {
-    createButton(this, gameConfig.width / 2, gameConfig.height * 0.5, 'button', 'Leader Board', this.onLeaderBoardClick, this)
+    createButton(
+      this,
+      gameConfig.width / 2,
+      gameConfig.height * 0.5,
+      'button',
+      'Leader Board',
+      this.onLeaderBoardClick,
+      this,
+    )
   }
 
   createSettingsButton () {
-    createButton(this, gameConfig.width / 2, gameConfig.height * 0.7, 'button', 'Settings', this.onSettingsClick, this)
+    createButton(
+      this,
+      gameConfig.width / 2,
+      gameConfig.height * 0.7,
+      'button',
+      'Settings',
+      this.onSettingsClick,
+      this,
+    )
   }
 
   createTipsButton () {
-    createButton(this, gameConfig.width / 2, gameConfig.height * 0.6, 'button', 'How to play', this.onTipsClick, this)
+    createButton(
+      this,
+      gameConfig.width / 2,
+      gameConfig.height * 0.6,
+      'button',
+      'How to play',
+      this.onTipsClick,
+      this,
+    )
   }
 
   onStartGameClick () {

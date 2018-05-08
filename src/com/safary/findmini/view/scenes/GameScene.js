@@ -46,7 +46,7 @@ export default class GameScene extends FindMiniScene {
     this.navigationContainer.add(this.gameNavigation)
     this.gameNavigation.setTimer(remaining)
     this.gameNavigation.setScore(0)
-    this.gameNavigation.setSoundState(soundState)
+    // this.gameNavigation.setSoundState(soundState)
   }
 
   startNewGame (conditionsView, options) {
@@ -193,9 +193,7 @@ export default class GameScene extends FindMiniScene {
     }
   }
 
-  createGift (x, y) {
-
-  }
+  createGift (x, y) {}
 
   checkWinConditions (target) {
     if (this.spheresContainer.list.length === 0) {

@@ -16,6 +16,7 @@ const settings = {
   },
   globals: {
     NODE_ENV: true,
+    FBInstant: true,
   },
   rules: {
     'comma-dangle': [
