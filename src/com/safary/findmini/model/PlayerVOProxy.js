@@ -187,6 +187,7 @@ export default class PlayerVOProxy extends Proxy {
       SimpleSphere: level + ((level < 5) ? 2 : 1) + Math.floor(level / 3),
       DoubleTapSimpleSphere: Math.floor(level / 5),
       DoubleTapDangerButton: Math.floor(level / 10),
+      BubbleSphere: 1 + Math.floor(level / 10),
     }
   }
 
@@ -203,8 +204,8 @@ export default class PlayerVOProxy extends Proxy {
           sumTime += 2 * conditions[key]
           break
         case 'DoubleTapDangerButton':
-        case 'GiftSphere':
-          sumTime += conditions[key]
+        case 'BubbleSphere':
+          sumTime += 6 * conditions[key]
           break
       }
     }
