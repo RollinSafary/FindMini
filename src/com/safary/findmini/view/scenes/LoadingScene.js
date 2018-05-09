@@ -22,7 +22,7 @@ export default class LoadingScene extends FindMiniScene {
     rectGraphics.fillRectShape(rect)
     rectGraphics.alpha = 0.8
     this.loadingSprite = this.add.sprite(gameConfig.width / 2, gameConfig.height / 2, 'loading')
-    this.loadingPercent = this.add.text(this.loadingSprite.x, this.loadingSprite.y, '97%', {
+    this.loadingPercent = this.add.text(this.loadingSprite.x, this.loadingSprite.y, '0%', {
       fontFamily: 'Arial',
       fontSize: 48,
       color: '#feffc5',
