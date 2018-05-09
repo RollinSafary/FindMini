@@ -4,9 +4,6 @@ import FindMiniScene from './FindMiniScene'
 import Phaser from 'phaser'
 import GameNavigationView from '../Components/TopBars/GameNavigationView'
 import ConditionsView from '../Components/Tutorials/ConditionsView'
-import { delayRunnable, removeRunnable } from '../../utils/utils'
-import SimpleSphere from '../Components/Spheres/SimpleSphere'
-
 export default class GameScene extends FindMiniScene {
   static NAME = 'GameScene'
   static START = `${GameScene.NAME}Start`
@@ -24,6 +21,24 @@ export default class GameScene extends FindMiniScene {
     this.endX = gameConfig.width - this.distance
     this.endY = gameConfig.height - this.distance
     this.score = 0
+    this.createSounds()
+  }
+
+  createSounds () {
+    this.hitSound = this.sound.add('hit')
+    this.missSound = this.sound.add('miss')
+  }
+
+  hitPlay () {
+    if (this.gameNavigation.isSoundOn) {
+      this.hitSound.play()
+    }
+  }
+
+  missPlay () {
+    if (this.gameNavigation.isSoundOn) {
+      this.missSound.play()
+    }
   }
 
   showConditions (level, conditions) {
@@ -59,7 +74,6 @@ export default class GameScene extends FindMiniScene {
         scaleX: 1.5,
         scaleY: 1.5,
         onComplete: () => {
-          console.warn('emiting')
           this.emitBubbleSpheres(target.x, target.y, target.number)
           target.destroy()
         },
@@ -204,8 +218,10 @@ export default class GameScene extends FindMiniScene {
 
   onSphereClick (target) {
     if (!this.checkToRemove(target)) {
+      this.missPlay()
       return
     }
+    this.hitPlay()
     target.onClickAction()
   }
 
@@ -267,3 +283,6 @@ export default class GameScene extends FindMiniScene {
     return this.spheresContainer.list
   }
 }
+import { delayRunnable, removeRunnable } from '../../utils/utils'
+import SimpleSphere from '../Components/Spheres/SimpleSphere'
+

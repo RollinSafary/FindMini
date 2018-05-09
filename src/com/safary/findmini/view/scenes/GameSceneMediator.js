@@ -62,8 +62,9 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
   onOkayButtonClicked (conditionsView, level) {
     this.createLevel(conditionsView, level)
     const remaining = this.playerVOProxy.levelTimeLimit(level)
-    const soundState = true // this.playerVOProxy.vo.settings.mute
-    this.viewComponent.createNavigationView(remaining, !soundState)
+    const soundState = this.playerVOProxy.vo.settings.mute
+    this.viewComponent.createNavigationView(remaining)
+    this.viewComponent.setSoundState(!soundState)
   }
 
   setListeners () {

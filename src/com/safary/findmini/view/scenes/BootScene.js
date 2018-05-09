@@ -36,6 +36,7 @@ export default class BootScene extends FindMiniScene {
       'assets/audio/background.mp3',
     ])
     this.load.audio('hit', ['assets/sounds/hit.ogg', 'assets/audio/hit.mp3'])
+    this.load.audio('miss', ['assets/sounds/miss.ogg', 'assets/audio/miss.mp3'])
     this.load.on('start', this.onLoadStart, this)
     this.load.on('load', this.onFileLoadComplete, this)
     this.load.on('complete', this.onLoadComplete, this)

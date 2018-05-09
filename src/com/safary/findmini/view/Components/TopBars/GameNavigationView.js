@@ -117,6 +117,10 @@ export default class GameNavigationView extends Phaser.GameObjects.Container {
     )
   }
 
+  get isSoundOn () {
+    return this.soundButton.texture.key === 'musicOn'
+  }
+
   get events () {
     return this.scene.events
   }
