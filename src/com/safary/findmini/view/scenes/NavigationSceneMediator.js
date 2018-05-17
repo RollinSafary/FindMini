@@ -1,5 +1,4 @@
-import { SCENE_LEVEL, SCENE_LOADING, SCENE_NAVIGATION } from '../../constants/Constants'
-import BootScene from './BootScene'
+import { SCENE_NAVIGATION } from '../../constants/Constants'
 import FindMiniSceneMediator from './FindMiniSceneMediator'
 import NavigationScene from './NavigationScene'
 import PlayerVOProxy from '../../model/PlayerVOProxy'
@@ -74,7 +73,7 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
   onStartGameClick () {
     this.registerLevelSceneMediator()
     this.sendNotification(NavigationScene.START_GAME)
-    this.gameScene.stop(SCENE_NAVIGATION)
+    this.scenes.stop(SCENE_NAVIGATION)
   }
 
   registerLevelSceneMediator () {
@@ -101,13 +100,13 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
 
   onSettingsClick () {
     this.sendNotification(NavigationScene.SETTINGS)
-    this.gameScene.stop(SCENE_NAVIGATION)
+    this.scenes.stop(SCENE_NAVIGATION)
   }
 
   onHardcoreClick () {
     this.registerHardcoreSceneMediator()
     this.sendNotification(NavigationScene.HARDCORE)
-    this.gameScene.stop(SCENE_NAVIGATION)
+    this.scenes.stop(SCENE_NAVIGATION)
   }
 
   get events () {

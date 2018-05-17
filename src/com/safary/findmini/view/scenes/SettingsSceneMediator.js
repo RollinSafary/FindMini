@@ -1,13 +1,9 @@
-import { SCENE_LEVEL, SCENE_LOADING, SCENE_NAVIGATION, SCENE_SETTINGS } from '../../constants/Constants'
-import BootScene from './BootScene'
+import { SCENE_SETTINGS } from '../../constants/Constants'
 import FindMiniSceneMediator from './FindMiniSceneMediator'
 import NavigationScene from './NavigationScene'
 import PlayerVOProxy from '../../model/PlayerVOProxy'
-import LevelSceneMediator from './LevelSceneMediator'
-import LoadingScene from './LoadingScene'
 import FindMiniFacade from '../../FindMiniFacade'
-import LevelScene from './LevelScene'
-import SettingsScene from "./SettingsScene";
+import SettingsScene from './SettingsScene'
 export default class SettingsSceneMediator extends FindMiniSceneMediator {
   static NAME = 'SettingsSceneMediator'
 
@@ -42,8 +38,7 @@ export default class SettingsSceneMediator extends FindMiniSceneMediator {
     switch (notificationName) {
       case NavigationScene.SETTINGS:
         this.playerVOProxy = this.facade.retrieveProxy(PlayerVOProxy.NAME)
-        this.gameScene.start(SCENE_SETTINGS)
-        // this.viewComponent.setSoundState(!this.playerVOProxy.vo.settings.mute)
+        this.scenes.start(SCENE_SETTINGS)
         break
     }
   }
@@ -58,7 +53,7 @@ export default class SettingsSceneMediator extends FindMiniSceneMediator {
 
   onMenuClicked () {
     this.sendNotification(SettingsScene.MENU)
-    this.gameScene.stop(SCENE_SETTINGS)
+    this.scenes.stop(SCENE_SETTINGS)
   }
 
   get events () {

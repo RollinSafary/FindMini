@@ -1,9 +1,8 @@
 import { gameConfig } from '../../constants/GameConfig'
-import { BOMB_NAME, OBJECT_TYPES, SCENE_GAME, SCENE_HARDCORE } from '../../constants/Constants'
+import { BOMB_NAME, OBJECT_TYPES, SCENE_HARDCORE } from '../../constants/Constants'
 import FindMiniScene from './FindMiniScene'
 import Phaser from 'phaser'
 import GameNavigationView from '../Components/TopBars/GameNavigationView'
-import ConditionsView from '../Components/Tutorials/ConditionsView'
 import { delayRunnable, removeRunnable } from '../../utils/utils'
 
 export default class HardcoreScene extends FindMiniScene {

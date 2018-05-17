@@ -1,14 +1,16 @@
+import { delayRunnable, removeRunnable } from '../../utils/utils'
+import SimpleSphere from '../Components/Spheres/SimpleSphere'
 import { gameConfig } from '../../constants/GameConfig'
 import { BOMB_NAME, SCENE_GAME } from '../../constants/Constants'
 import FindMiniScene from './FindMiniScene'
 import Phaser from 'phaser'
 import GameNavigationView from '../Components/TopBars/GameNavigationView'
-import ConditionsView from '../Components/Tutorials/ConditionsView'
 export default class GameScene extends FindMiniScene {
   static NAME = 'GameScene'
   static START = `${GameScene.NAME}Start`
   static LEVEL_COMPLETE = `${GameScene.NAME}LevelComplete`
   static LEVEL_FAILED = `${GameScene.NAME}LevelFailed`
+  static SHOW_CONDITIONS_POPUP = `${GameScene.NAME}ShowConditionsPopup`
 
   constructor () {
     super(SCENE_GAME)
@@ -41,12 +43,6 @@ export default class GameScene extends FindMiniScene {
     }
   }
 
-  showConditions (level, conditions) {
-    this.level = level
-    this.conditionsView = new ConditionsView(this, level, conditions)
-    this.add.existing(this.conditionsView)
-  }
-
   createNavigationView (remaining) {
     this.gameNavigation = new GameNavigationView(this)
     this.add.existing(this.gameNavigation)
@@ -58,11 +54,12 @@ export default class GameScene extends FindMiniScene {
     this.gameNavigation.setSoundState(soundState)
   }
 
-  startNewGame (conditionsView, options) {
+  startNewGame (level, options) {
+    this.level = level
     this.events.on('onSphereClick', this.onSphereClick, this)
     this.events.on('onSphereMustDestroy', this.destroySphere, this)
     this.events.on('onBubbleClick', this.onBubbleClick, this)
-    this.clearConditions(conditionsView, options)
+    this.emitSpheres(options)
   }
 
   onBubbleClick (target) {
@@ -118,19 +115,6 @@ export default class GameScene extends FindMiniScene {
         },
       })
     }
-  }
-
-  clearConditions (conditionsView, options) {
-    this.tweens.add({
-      targets: conditionsView.list,
-      alpha: 0,
-      duration: 300,
-      ease: 'Power1',
-      onComplete: () => {
-        conditionsView.destroy()
-        this.emitSpheres(options)
-      },
-    })
   }
 
   emitSpheres (options) {
@@ -263,6 +247,7 @@ export default class GameScene extends FindMiniScene {
         sphere.update()
       }
     }
+    super.update()
   }
 
   createGift (x, y) {}
@@ -283,6 +268,3 @@ export default class GameScene extends FindMiniScene {
     return this.spheresContainer.list
   }
 }
-import { delayRunnable, removeRunnable } from '../../utils/utils'
-import SimpleSphere from '../Components/Spheres/SimpleSphere'
-

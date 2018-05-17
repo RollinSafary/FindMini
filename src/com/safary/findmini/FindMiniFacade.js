@@ -1,21 +1,22 @@
 import { Facade } from '@koreez/pure-mvc'
 import StartupCommand from './controller/StartupCommand'
 import {
-  SCENE_BOOT, SCENE_GAME, SCENE_HARDCORE, SCENE_LEVEL, SCENE_LOADING, SCENE_NAVIGATION,
-  SCENE_SETTINGS
+  SCENE_BOOT, SCENE_GAME, SCENE_HARDCORE, SCENE_LEVEL, SCENE_LOADING, SCENE_NAVIGATION, SCENE_POPUP,
+  SCENE_SETTINGS,
 } from './constants/Constants'
 import PlayerVOProxy from './model/PlayerVOProxy'
 import SavePlayerVOCommand from './controller/player/SavePlayerVOCommand'
 import StartGameCommand from './controller/game/StartGameCommand'
-import NavigationScene from "./view/scenes/NavigationScene";
-import SettingsScene from "./view/scenes/SettingsScene";
-import BootScene from "./view/scenes/BootScene";
-import OnLoadCompleteCommand from "./controller/game/OnLoadCompleteCommand";
-import StartFBGameCommand from "./controller/fb/StartFBGameCommand";
-import LoadingScene from "./view/scenes/LoadingScene";
-import LevelScene from "./view/scenes/LevelScene";
-import HardcoreScene from "./view/scenes/HardcoreScene";
-import GameScene from "./view/scenes/GameScene";
+import NavigationScene from './view/scenes/NavigationScene'
+import SettingsScene from './view/scenes/SettingsScene'
+import BootScene from './view/scenes/BootScene'
+import OnLoadCompleteCommand from './controller/game/OnLoadCompleteCommand'
+import StartFBGameCommand from './controller/fb/StartFBGameCommand'
+import LoadingScene from './view/scenes/LoadingScene'
+import LevelScene from './view/scenes/LevelScene'
+import HardcoreScene from './view/scenes/HardcoreScene'
+import GameScene from './view/scenes/GameScene'
+import PopupScene from './view/scenes/PopupScene'
 
 const consoleArgs = [
   ``,
@@ -75,6 +76,7 @@ export default class FindMiniFacade extends Facade {
     window.game.scene.add(SCENE_GAME, GameScene)
     window.game.scene.add(SCENE_HARDCORE, HardcoreScene)
     window.game.scene.add(SCENE_SETTINGS, SettingsScene)
+    window.game.scene.add(SCENE_POPUP, PopupScene)
     window.game.scene.bootQueue()
   }
 

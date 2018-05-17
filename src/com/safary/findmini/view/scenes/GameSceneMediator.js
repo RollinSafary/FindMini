@@ -1,14 +1,14 @@
 import {
   OBJECT_TYPES,
   SCENE_GAME,
-  SCENE_LEVEL,
 } from '../../constants/Constants'
 import FindMiniSceneMediator from './FindMiniSceneMediator'
-import NavigationScene from './NavigationScene'
 import PlayerVOProxy from '../../model/PlayerVOProxy'
 import LevelScene from './LevelScene'
 import GameScene from './GameScene'
 import FindMiniFacade from '../../FindMiniFacade'
+import ConditionsPopupMediator from '../Components/Popups/ConditionsPopupMediator'
+import ConditionsPopup from '../Components/Popups/ConditionsPopup'
 
 export default class GameSceneMediator extends FindMiniSceneMediator {
   static NAME = 'GameSceneMediator'
@@ -22,16 +22,22 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
     super.onRegister()
   }
   listNotificationInterests () {
-    return [LevelScene.START_LEVEL]
+    return [LevelScene.START_LEVEL, ConditionsPopup.OKAY_CLICKED]
   }
 
   handleNotification (notificationName, ...args) {
     switch (notificationName) {
       case LevelScene.START_LEVEL:
         window.game.scene.start(SCENE_GAME)
+        this.registerConditionsPopupMediator()
         const level = args[0]
-        const levelInfo = this.playerVOProxy.levelInfo(level)
-        this.viewComponent.showConditions(level, levelInfo)
+        this.sendNotification(GameScene.SHOW_CONDITIONS_POPUP, level)
+        break
+      case ConditionsPopup.OKAY_CLICKED:
+        {
+          const level = args[0]
+          this.onOkayButtonClicked(level)
+        }
         break
     }
   }
@@ -49,18 +55,18 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
     return options
   }
 
-  createLevel (conditionsView, level) {
+  createLevel (level) {
     const levelInfo = this.playerVOProxy.levelInfo(level)
     const options = this.createOptionsArray(levelInfo)
-    this.viewComponent.startNewGame(conditionsView, options)
+    this.viewComponent.startNewGame(level, options)
   }
 
   onLevelComplete (level, score) {
     this.sendNotification(GameScene.LEVEL_COMPLETE, level, score)
   }
 
-  onOkayButtonClicked (conditionsView, level) {
-    this.createLevel(conditionsView, level)
+  onOkayButtonClicked (level) {
+    this.createLevel(level)
     const remaining = this.playerVOProxy.levelTimeLimit(level)
     const soundState = this.playerVOProxy.vo.settings.mute
     this.viewComponent.createNavigationView(remaining)
@@ -70,11 +76,6 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
   setListeners () {
     super.setListeners()
     this.viewComponent.events.on('levelComplete', this.onLevelComplete, this)
-    this.viewComponent.events.on(
-      'okayButtonClicked',
-      this.onOkayButtonClicked,
-      this,
-    )
     this.viewComponent.events.on('bombClick', this.onBombClick, this)
     this.viewComponent.events.on('gameOver', this.onGameOver, this)
     this.viewComponent.events.on('giftClicked', this.onGiftClick, this)
@@ -88,6 +89,7 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
 
   onGameOver () {
     this.sendNotification(GameScene.LEVEL_FAILED)
+    this.removeConditionsPopupMediator()
     window.game.scene.stop(SCENE_GAME)
   }
 
@@ -104,5 +106,20 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
 
   onGiftClick (x, y) {
     this.viewComponent.createGift(x, y)
+  }
+
+  registerConditionsPopupMediator () {
+    if (this.facade.hasMediator(ConditionsPopupMediator.NAME)) {
+      return
+    }
+    const conditionsPopup = new ConditionsPopup()
+    this.facade.registerMediator(new ConditionsPopupMediator(conditionsPopup))
+  }
+
+  removeConditionsPopupMediator () {
+    if (!this.facade.hasMediator(ConditionsPopupMediator.NAME)) {
+      return
+    }
+    this.facade.removeMediator(ConditionsPopupMediator.NAME)
   }
 }

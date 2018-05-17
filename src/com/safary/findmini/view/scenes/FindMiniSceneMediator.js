@@ -52,7 +52,11 @@ export default class FindMiniSceneMediator extends Mediator {
     this.sendNotification(this.viewComponent.constructor.DESTROY)
   }
 
-  get gameScene () {
+  get scenes () {
     return window.game.scene
+  }
+
+  get events () {
+    return this.viewComponent.events
   }
 }
