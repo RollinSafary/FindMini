@@ -11,6 +11,7 @@ export const SCENE_HARDCORE = 'hardcore'
 export const SCENE_LEVEL = 'level'
 export const SCENE_NAVIGATION = 'navigation'
 export const SCENE_SETTINGS = 'settings'
+export const SCENE_POPUP = 'popup'
 export const GENERAL_ASSETS_KEY = 'general'
 export const A_DAY_IN_MILLISECONDS = 24 * 60 * 60 * 1000
 export const OBJECT_TYPES = {

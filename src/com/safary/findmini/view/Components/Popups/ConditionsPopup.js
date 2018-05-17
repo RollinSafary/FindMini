@@ -1,15 +1,12 @@
 import Phaser from 'phaser'
 import { gameConfig } from '../../../constants/GameConfig'
 import { OBJECT_TYPES } from '../../../constants/Constants'
-import SphereView from "../Spheres/SphereView";
-import SimpleSphere from "../Spheres/SimpleSphere";
+import StandardPopup from './StandardPopup'
 
-export default class ConditionsView extends Phaser.GameObjects.Container {
-  constructor (scene, level, conditions) {
-    super(scene, 0, 0)
-    this.createBody(level, conditions)
-  }
-
+export default class ConditionsPopup extends StandardPopup {
+  static NAME = 'ConditionsPopup'
+  static OKAY_CLICKED = `${ConditionsPopup.NAME}OkayClicked`
+  static ACTION_DEFAULT = 0
   createBody (level, conditions) {
     this.createBackground(level)
     this.createConditions(conditions)
@@ -105,7 +102,14 @@ export default class ConditionsView extends Phaser.GameObjects.Container {
   }
 
   emitOkay (level) {
-    this.scene.events.emit('okayButtonClicked', this, level)
+    this.events.emit('actionDone', ConditionsPopup.ACTION_DEFAULT, level)
+  }
+
+  show (args) {
+    const level = args.splice(0, 1)[0]
+    const conditions = args.splice(0, 1)[0]
+    this.createBody(level, conditions)
+    super.show()
   }
 }
 
