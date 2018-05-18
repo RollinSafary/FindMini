@@ -8,8 +8,8 @@ import LoadingScene from './LoadingScene'
 import FindMiniFacade from '../../FindMiniFacade'
 import LevelScene from './LevelScene'
 import SettingsScene from './SettingsScene'
-import StandardPopup from "../Components/Popups/StandardPopup";
-import StandardPopupMediator from "../Components/Popups/StandardPopupMediator";
+import StandardPopup from '../Components/Popups/StandardPopup'
+import StandardPopupMediator from '../Components/Popups/StandardPopupMediator'
 export default class PopupSceneMediator extends FindMiniSceneMediator {
   static NAME = 'PopupSceneMediator'
 
@@ -17,6 +17,13 @@ export default class PopupSceneMediator extends FindMiniSceneMediator {
     super(PopupSceneMediator.NAME, viewComponent)
     this.queue = []
     this.shown = false
+  }
+
+  onRegister () {
+    if (this.viewComponent) {
+      this.scene.start(SCENE_POPUP)
+    }
+    super.onRegister()
   }
 
   listNotificationInterests () {
@@ -31,7 +38,6 @@ export default class PopupSceneMediator extends FindMiniSceneMediator {
     switch (notificationName) {
       case StandardPopupMediator.SHOW_POPUP:
         {
-          this.scene.start(SCENE_POPUP)
           const popup = args.splice(0, 1)[0]
           this.show(popup, args)
         }

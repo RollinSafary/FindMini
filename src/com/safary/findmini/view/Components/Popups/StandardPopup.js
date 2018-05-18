@@ -10,6 +10,7 @@ export default class StandardPopup extends Phaser.GameObjects.Container {
   constructor () {
     super(window.game.scene.getScene(SCENE_POPUP), 0, 0)
     this.events = new Phaser.EventEmitter()
+    this.visible = false
   }
 
   createBody () {
@@ -22,8 +23,6 @@ export default class StandardPopup extends Phaser.GameObjects.Container {
       duration: 300,
       alpha: 1,
       onStart: () => {
-        this.visible = true
-        this.alpha = 0
         this.onShowStart()
       },
       onComplete: () => {
@@ -50,6 +49,7 @@ export default class StandardPopup extends Phaser.GameObjects.Container {
 
   onShowStart () {
     this.visible = true
+    this.alpha = 0
     this.depth = 100
     this.events.emit('popupShowStart')
   }
