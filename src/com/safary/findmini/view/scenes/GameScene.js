@@ -82,7 +82,7 @@ export default class GameScene extends FindMiniScene {
     let sum = 0
     let newX
     let newY
-    while (sum !== value - 1) {
+    while (sum <= value - 1) {
       newX = x + Phaser.Math.Between(-75, 75)
       newY = y + Phaser.Math.Between(-75, 75)
       if (newX < this.startX) {
