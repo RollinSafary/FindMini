@@ -29,11 +29,18 @@ export default class GameScene extends FindMiniScene {
   createSounds () {
     this.hitSound = this.sound.add('hit')
     this.missSound = this.sound.add('miss')
+    this.bubbleSound = this.sound.add('bubble')
   }
 
   hitPlay () {
     if (this.gameNavigation.isSoundOn) {
       this.hitSound.play()
+    }
+  }
+
+  bubblePlay () {
+    if (this.gameNavigation.isSoundOn) {
+      this.bubbleSound.play()
     }
   }
 
@@ -72,6 +79,7 @@ export default class GameScene extends FindMiniScene {
         scaleY: 1.5,
         onComplete: () => {
           this.emitBubbleSpheres(target.x, target.y, target.number)
+          this.bubblePlay()
           target.destroy()
         },
       })
