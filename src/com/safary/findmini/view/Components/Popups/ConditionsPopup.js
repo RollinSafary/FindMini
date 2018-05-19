@@ -7,13 +7,18 @@ export default class ConditionsPopup extends StandardPopup {
   static NAME = 'ConditionsPopup'
   static OKAY_CLICKED = `${ConditionsPopup.NAME}OkayClicked`
   static ACTION_DEFAULT = 0
-  createBody (level, conditions) {
-    this.createBackground(level)
+
+  constructor () {
+    super()
+    this.createBackground()
+    this.createTitleText()
+    this.createOkayButton()
+  }
+  createBody (conditions) {
     this.createConditions(conditions)
-    this.createOkayButton(level)
   }
 
-  createBackground (level) {
+  createBackground () {
     this.backgroundRectangle = new Phaser.Geom.Rectangle(
       gameConfig.width * 0.1,
       gameConfig.height * 0.2,
@@ -26,11 +31,14 @@ export default class ConditionsPopup extends StandardPopup {
     this.background.fillRectShape(this.backgroundRectangle)
     this.background.alpha = 0.6
     this.add(this.background)
-    const text = this.scene.add
+  }
+
+  createTitleText () {
+    this.titleText = this.scene.add
       .text(
         gameConfig.width / 2,
         this.backgroundRectangle.y + 50,
-        `LEVEL ${level}`,
+        `LEVEL`,
         {
           fontFamily: 'Arial',
           fontSize: 36,
@@ -38,7 +46,7 @@ export default class ConditionsPopup extends StandardPopup {
         },
       )
       .setOrigin(0.5)
-    this.add(text)
+    this.add(this.titleText)
   }
 
   createConditions (conditions) {
@@ -57,7 +65,7 @@ export default class ConditionsPopup extends StandardPopup {
     }
   }
 
-  createOkayButton (level) {
+  createOkayButton () {
     this.okayButtonDown = this.scene.add
       .image(
         gameConfig.width / 2,
@@ -92,24 +100,42 @@ export default class ConditionsPopup extends StandardPopup {
     this.okayButtonDown.on('pointerup', () => {
       this.okayButtonDown.visible = false
       this.okayButton.visible = true
-      this.emitOkay(level)
+      this.emitOkay()
     }, this)
     this.okayButtonDown.on('pointerout', () => {
       this.okayButtonDown.visible = false
       this.okayButton.visible = true
     }, this)
+    this.disableButtons()
     this.add(text)
   }
 
-  emitOkay (level) {
-    this.events.emit('actionDone', ConditionsPopup.ACTION_DEFAULT, level)
+  emitOkay () {
+    this.events.emit('actionDone', ConditionsPopup.ACTION_DEFAULT, this.level)
   }
 
   show (args) {
-    const level = args.splice(0, 1)[0]
+    this.enableButtons()
+    this.level = args.splice(0, 1)[0]
+    this.titleText.setText(`LEVEL ${this.level}`)
     const conditions = args.splice(0, 1)[0]
-    this.createBody(level, conditions)
+    this.createBody(conditions)
     super.show()
+  }
+
+  onHideStart() {
+    this.disableButtons()
+    super.onHideStart()
+  }
+
+  enableButtons () {
+    this.okayButton.input.enabled = true
+    this.okayButtonDown.input.enabled = true
+  }
+
+  disableButtons () {
+    this.okayButton.input.enabled = false
+    this.okayButtonDown.input.enabled = false
   }
 }
 

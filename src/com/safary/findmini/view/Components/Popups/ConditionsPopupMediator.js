@@ -42,7 +42,6 @@ export default class ConditionsPopupMediator extends StandardPopupMediator {
   }
 
   onPopupHideComplete () {
-    this.viewComponent.destroy()
     super.onPopupHideComplete()
   }
 }
