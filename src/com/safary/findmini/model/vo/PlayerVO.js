@@ -10,7 +10,7 @@ export default class PlayerVO extends UserVO {
     this._retentionBonus = false
     this._friends = []
     this._sessionNumber = -1
-    this._level = 1
+    this._levelsInfo = {}
     this._maxLevelCount = 45
     this._score = 0
     this._theme = 0
@@ -48,10 +48,11 @@ export default class PlayerVO extends UserVO {
   }
 
   set level (value) {
-    if (!value) {
-      return
-    }
-    this._level = value || 1
+    this._levelsInfo[value.level] = value.stars
+  }
+
+  set levelInfo (value) {
+    this._levelsInfo = value || {}
   }
 
   set score (value) {
@@ -120,7 +121,10 @@ export default class PlayerVO extends UserVO {
   }
 
   get level () {
-    return this._level
+    return Object.keys(this._levelsInfo).length + 1
+  }
+  get levelInfo () {
+    return this._levelsInfo
   }
 
   get score () {

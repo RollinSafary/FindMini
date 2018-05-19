@@ -51,7 +51,7 @@ export default class PlayerVOProxy extends Proxy {
         return
       }
       this.vo.retentionData = json.retentionData || new RetentionData(-1, 1)
-      this.vo.level = json.level
+      this.vo.levelInfo = json.levelInfo
       this.vo.score = json.score
       this.vo.settings = json.settings
       this.vo.timestamp = json.timestamp
@@ -103,7 +103,7 @@ export default class PlayerVOProxy extends Proxy {
         },
         installTimestamp: this.vo.installTimestamp,
         name: this.vo.name,
-        level: this.vo.level,
+        levelInfo: this.vo.levelInfo,
         score: this.vo.score,
         settings: this.vo.settings,
         // locale: getUserLanguage(),
@@ -213,12 +213,15 @@ export default class PlayerVOProxy extends Proxy {
     return Math.ceil(sumTime)
   }
   addScore (level, points) {
-    this.vo.score += level * points
+    this.vo.score = this.vo.score + level * points
   }
 
-  levelComplete (level) {
-    if (this.vo.level === level) {
-      this.vo.level++
+  levelComplete (level, starsCount) {
+    const value = {level: level, stars: starsCount}
+    if (this.vo.level > level && this.vo.levelInfo[level - 1] < starsCount) {
+      this.vo.level = value
+    } else if (this.vo.level === level) {
+      this.vo.level = value
     }
     this.sendNotification(PlayerVOProxy.LEVEL_COMPLETE)
   }
