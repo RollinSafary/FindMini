@@ -19,8 +19,6 @@ export default class BubbleSphere extends SphereView {
   }
 
   onClickAction () {
-    this.onClickAction = () => {
       this.scene.events.emit('onBubbleClick', this)
-    }
   }
 }

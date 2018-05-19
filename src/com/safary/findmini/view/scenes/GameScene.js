@@ -90,7 +90,8 @@ export default class GameScene extends FindMiniScene {
     let sum = 0
     let newX
     let newY
-    while (sum <= value - 1) {
+    const nums = []
+    while (sum < value || nums.length < 5) {
       newX = x + Phaser.Math.Between(-75, 75)
       newY = y + Phaser.Math.Between(-75, 75)
       if (newX < this.startX) {
@@ -104,6 +105,7 @@ export default class GameScene extends FindMiniScene {
         newY = this.endY
       }
       const num = Phaser.Math.Between(1, Math.ceil(Math.abs(value - sum) / 2))
+      nums.push(num)
       sum += num
       this.numbersArray.push(num)
       const sphere = new SimpleSphere(this, x, y, num)
