@@ -103,7 +103,7 @@ export default class GameScene extends FindMiniScene {
       } else if (newY > this.endY) {
         newY = this.endY
       }
-      const num = Phaser.Math.Between(1, Math.ceil((value - sum) / 2))
+      const num = Phaser.Math.Between(1, Math.ceil(Math.abs(value - sum) / 2))
       sum += num
       this.numbersArray.push(num)
       const sphere = new SimpleSphere(this, x, y, num)
@@ -244,7 +244,7 @@ export default class GameScene extends FindMiniScene {
     if (this.checkWinConditions(target)) {
       setTimeout(() => {
         this.removeComponents()
-        this.events.emit('levelComplete', this.level, this.score)
+        this.events.emit('levelComplete', this.level, this.score, this.gameNavigation.getTimerValue())
       }, 300)
     }
   }
