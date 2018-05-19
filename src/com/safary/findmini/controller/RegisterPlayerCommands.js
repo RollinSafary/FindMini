@@ -5,11 +5,12 @@ import BootScene from '../view/scenes/BootScene'
 import onThemeChangeCommand from './player/onThemeChangeCommand'
 import FindMiniFacade from '../FindMiniFacade'
 import ChangeSoundOptionsCommand from './player/ChangeSoundOptionsCommand'
+import LevelCompletePopup from "../view/Components/Popups/LevelCompletePopup";
 
 export default class RegisterPlayerCommands extends SyncMacroCommand {
   execute (notification, args) {
     this.facade.registerCommand(
-      GameScene.LEVEL_COMPLETE,
+      LevelCompletePopup.OKAY_CLICKED,
       onLevelCompleteCommand,
     )
     this.facade.registerCommand(

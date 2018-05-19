@@ -9,6 +9,8 @@ import GameScene from './GameScene'
 import FindMiniFacade from '../../FindMiniFacade'
 import ConditionsPopupMediator from '../Components/Popups/ConditionsPopupMediator'
 import ConditionsPopup from '../Components/Popups/ConditionsPopup'
+import LevelCompletePopupMediator from "../Components/Popups/LevelCompletePopupMediator";
+import LevelCompletePopup from "../Components/Popups/LevelCompletePopup";
 
 export default class GameSceneMediator extends FindMiniSceneMediator {
   static NAME = 'GameSceneMediator'
@@ -21,6 +23,12 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
     this.playerVOProxy = this.facade.retrieveProxy(PlayerVOProxy.NAME)
     super.onRegister()
   }
+
+  onRemove () {
+    this.removeLevelCompletePopupMediator()
+    this.removeConditionsPopupMediator()
+    super.onRemove()
+  }
   listNotificationInterests () {
     return [LevelScene.START_LEVEL, ConditionsPopup.OKAY_CLICKED]
   }
@@ -30,6 +38,7 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
       case LevelScene.START_LEVEL:
         window.game.scene.start(SCENE_GAME)
         this.registerConditionsPopupMediator()
+        this.registerLevelCompletePopupMediator()
         const level = args[0]
         this.sendNotification(GameScene.SHOW_CONDITIONS_POPUP, level)
         break
@@ -61,8 +70,9 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
     this.viewComponent.startNewGame(level, options)
   }
 
-  onLevelComplete (level, score) {
-    this.sendNotification(GameScene.LEVEL_COMPLETE, level, score)
+  onLevelComplete (level, score, remaining) {
+    this.sendNotification(GameScene.LEVEL_COMPLETE, level, score, remaining)
+    this.removeConditionsPopupMediator()
   }
 
   onOkayButtonClicked (level) {
@@ -90,6 +100,7 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
   onGameOver () {
     this.sendNotification(GameScene.LEVEL_FAILED)
     this.removeConditionsPopupMediator()
+    this.removeLevelCompletePopupMediator()
     window.game.scene.stop(SCENE_GAME)
   }
 
@@ -117,6 +128,20 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
   }
 
   removeConditionsPopupMediator () {
+    if (!this.facade.hasMediator(ConditionsPopupMediator.NAME)) {
+      return
+    }
+    this.facade.removeMediator(ConditionsPopupMediator.NAME)
+  }
+  registerLevelCompletePopupMediator () {
+    if (this.facade.hasMediator(LevelCompletePopupMediator.NAME)) {
+      return
+    }
+    const levelCompletePopup = new LevelCompletePopup()
+    this.facade.registerMediator(new LevelCompletePopupMediator(levelCompletePopup))
+  }
+
+  removeLevelCompletePopupMediator () {
     if (!this.facade.hasMediator(ConditionsPopupMediator.NAME)) {
       return
     }
