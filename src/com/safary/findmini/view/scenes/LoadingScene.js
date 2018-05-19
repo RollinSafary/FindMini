@@ -13,7 +13,7 @@ export default class LoadingScene extends FindMiniScene {
   }
 
   preload () {
-    this.load.image('loading', 'assets/loading.png')
+    this.load.image('loading', 'assets/images/loading.png')
   }
 
   create () {

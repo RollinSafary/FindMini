@@ -24,20 +24,30 @@ export default class BootScene extends FindMiniScene {
 
   preload () {
     this.themeNumber = Phaser.Math.Between(0, 1)
-    this.load.image('background', `assets/background${this.themeNumber}.jpg`)
-    this.load.image('button', `assets/button.png`)
-    this.load.image('back', `assets/back.png`)
-    this.load.image('musicOn', `assets/musicOn.png`)
-    this.load.image('musicOff', `assets/musicOff.png`)
-    this.load.image('level', 'assets/level.png')
-    this.load.image('levelDisabled', 'assets/levelDisabled.png')
+
+    // images' load
+
+    this.load.image('background', `assets/images/background${this.themeNumber}.jpg`)
+    this.load.image('button', `assets/images/button.png`)
+    this.load.image('back', `assets/images/back.png`)
+    this.load.image('musicOn', `assets/images/musicOn.png`)
+    this.load.image('musicOff', `assets/images/musicOff.png`)
+    this.load.image('level', 'assets/images/level.png')
+    this.load.image('levelDisabled', 'assets/images/levelDisabled.png')
+    this.load.image('popupBackground', 'assets/images/popupBackground.png')
+
+    // sounds' load
+
     this.load.audio('backgroundMusic', [
       'assets/sounds/background.ogg',
-      'assets/audio/background.mp3',
+      'assets/sounds/background.mp3',
     ])
     this.load.audio('hit', ['assets/sounds/hit.ogg', 'assets/audio/hit.mp3'])
     this.load.audio('miss', ['assets/sounds/miss.ogg', 'assets/audio/miss.mp3'])
     this.load.audio('bubble', ['assets/sounds/bubble.ogg', 'assets/audio/bubble.mp3'])
+
+    // setting listeners
+
     this.load.on('start', this.onLoadStart, this)
     this.load.on('load', this.onFileLoadComplete, this)
     this.load.on('complete', this.onLoadComplete, this)
