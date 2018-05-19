@@ -61,7 +61,7 @@ export default class PopupSceneMediator extends FindMiniSceneMediator {
     if (this.shown) {
       this.queue.push({
         popup: popup,
-        otherArgs: args,
+        args: args,
       })
       return
     }
@@ -98,9 +98,10 @@ export default class PopupSceneMediator extends FindMiniSceneMediator {
     this.shown = false
     if (this.queue.length > 0) {
       const parameters = this.queue.shift()
+      console.warn(parameters)
       this._internalShow(
         parameters.popup,
-        ...parameters.args,
+        parameters.args,
       )
     }
   }
