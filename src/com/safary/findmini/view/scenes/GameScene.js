@@ -87,11 +87,9 @@ export default class GameScene extends FindMiniScene {
   }
 
   emitBubbleSpheres (x, y, value) {
-    let sum = 0
     let newX
     let newY
-    const nums = []
-    while (sum < value || nums.length < 5) {
+    for (let i = 0; i < Phaser.Math.Between(value > 1 ? 2: value, value > 5 ? 5 : value); i++) {
       newX = x + Phaser.Math.Between(-75, 75)
       newY = y + Phaser.Math.Between(-75, 75)
       if (newX < this.startX) {
@@ -104,9 +102,7 @@ export default class GameScene extends FindMiniScene {
       } else if (newY > this.endY) {
         newY = this.endY
       }
-      const num = Phaser.Math.Between(1, Math.ceil(Math.abs(value - sum) / 2))
-      nums.push(num)
-      sum += num
+      const num = Phaser.Math.Between(1, value / 2)
       this.numbersArray.push(num)
       const sphere = new SimpleSphere(this, x, y, num)
       sphere.visible = false
