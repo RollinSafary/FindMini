@@ -91,7 +91,18 @@ export default class GameNavigationView extends Phaser.GameObjects.Container {
   }
 
   setScore (value) {
-    this.scoreText.setText(value)
+    this.scene.add.tween({
+      targets: this.scoreText,
+      text: value,
+      duration: 1000,
+      ease: 'Power1',
+      onStart: () => {
+        this.scoreText.text = parseInt(this.scoreText.text)
+      },
+      onUpdate: () => {
+        this.scoreText.setText(Math.ceil(this.scoreText.text))
+      },
+    })
   }
 
   createSoundButton () {

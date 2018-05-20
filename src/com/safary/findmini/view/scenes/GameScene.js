@@ -102,7 +102,11 @@ export default class GameScene extends FindMiniScene {
       } else if (newY > this.endY) {
         newY = this.endY
       }
-      const num = Phaser.Math.Between(1, value / 2)
+      let num
+
+      do {
+        num = Phaser.Math.Between(1, value)
+      } while (this.numbersArray.includes(num))
       this.numbersArray.push(num)
       const sphere = new SimpleSphere(this, x, y, num)
       sphere.visible = false
