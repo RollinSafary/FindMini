@@ -2,6 +2,9 @@ import {
   OBJECT_TYPES,
   SCENE_GAME,
 } from '../../constants/Constants'
+import GameOverPopup from '../Components/Popups/GameOverPopup'
+import GameOverPopupMediator
+  from '../Components/Popups/GameOverPopupMediator'
 import FindMiniSceneMediator from './FindMiniSceneMediator'
 import PlayerVOProxy from '../../model/PlayerVOProxy'
 import LevelScene from './LevelScene'
@@ -9,8 +12,8 @@ import GameScene from './GameScene'
 import FindMiniFacade from '../../FindMiniFacade'
 import ConditionsPopupMediator from '../Components/Popups/ConditionsPopupMediator'
 import ConditionsPopup from '../Components/Popups/ConditionsPopup'
-import LevelCompletePopupMediator from "../Components/Popups/LevelCompletePopupMediator";
-import LevelCompletePopup from "../Components/Popups/LevelCompletePopup";
+import LevelCompletePopupMediator from '../Components/Popups/LevelCompletePopupMediator'
+import LevelCompletePopup from '../Components/Popups/LevelCompletePopup'
 
 export default class GameSceneMediator extends FindMiniSceneMediator {
   static NAME = 'GameSceneMediator'
@@ -27,18 +30,21 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
   onRemove () {
     this.removeLevelCompletePopupMediator()
     this.removeConditionsPopupMediator()
+    this.removeGameOverPopupMediator()
     super.onRemove()
   }
   listNotificationInterests () {
-    return [LevelScene.START_LEVEL, ConditionsPopup.OKAY_CLICKED]
+    return [LevelScene.START_LEVEL, ConditionsPopup.OKAY_CLICKED, GameOverPopup.RESTART_CLICKED]
   }
 
   handleNotification (notificationName, ...args) {
     switch (notificationName) {
       case LevelScene.START_LEVEL:
+      case GameOverPopup.RESTART_CLICKED:
         window.game.scene.start(SCENE_GAME)
         this.registerConditionsPopupMediator()
         this.registerLevelCompletePopupMediator()
+        this.registerGameOverPopupMediator()
         const level = args[0]
         this.sendNotification(GameScene.SHOW_CONDITIONS_POPUP, level)
         break
@@ -73,6 +79,7 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
   onLevelComplete (level, score, remaining) {
     this.sendNotification(GameScene.LEVEL_COMPLETE, level, score, remaining)
     this.removeConditionsPopupMediator()
+    this.removeGameOverPopupMediator()
   }
 
   onOkayButtonClicked (level) {
@@ -93,12 +100,13 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
     this.viewComponent.events.on('musicOn', this.onMusicOn, this)
     this.viewComponent.events.on('menuClicked', this.onMenuClicked, this)
   }
+
   onBombClick () {
-    this.viewComponent.gameOver()
+    this.viewComponent.onBombTap()
   }
 
-  onGameOver () {
-    this.sendNotification(GameScene.LEVEL_FAILED)
+  onGameOver (level) {
+    this.sendNotification(GameScene.LEVEL_FAILED, level)
     this.removeConditionsPopupMediator()
     this.removeLevelCompletePopupMediator()
     window.game.scene.stop(SCENE_GAME)
@@ -112,7 +120,11 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
   }
 
   onMenuClicked () {
-    this.onGameOver()
+    this.viewComponent.removeComponents()
+    this.removeConditionsPopupMediator()
+    this.removeLevelCompletePopupMediator()
+    this.sendNotification(GameScene.MENU_CLICKED)
+    window.game.scene.stop(SCENE_GAME)
   }
 
   onGiftClick (x, y) {
@@ -146,5 +158,19 @@ export default class GameSceneMediator extends FindMiniSceneMediator {
       return
     }
     this.facade.removeMediator(ConditionsPopupMediator.NAME)
+  }
+  registerGameOverPopupMediator () {
+    if (this.facade.hasMediator(GameOverPopupMediator.NAME)) {
+      return
+    }
+    const gameOverPopup = new GameOverPopup()
+    this.facade.registerMediator(new GameOverPopupMediator(gameOverPopup))
+  }
+
+  removeGameOverPopupMediator () {
+    if (!this.facade.hasMediator(GameOverPopupMediator.NAME)) {
+      return
+    }
+    this.facade.removeMediator(GameOverPopupMediator.NAME)
   }
 }

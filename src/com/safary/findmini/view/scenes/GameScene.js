@@ -13,11 +13,11 @@ export default class GameScene extends FindMiniScene {
   static LEVEL_COMPLETE = `${GameScene.NAME}LevelComplete`
   static LEVEL_FAILED = `${GameScene.NAME}LevelFailed`
   static SHOW_CONDITIONS_POPUP = `${GameScene.NAME}ShowConditionsPopup`
+  static MENU_CLICKED = `${GameScene.NAME}MenuClicked`
 
   constructor () {
     super(SCENE_GAME)
     this.throtleBubbleEmit = _.throttle((args) => {
-      console.warn(args)
       const target = args[1][0]
       this.emitBubbleSpheres(target.x, target.y, target.number)
       this.bubblePlay()
@@ -97,7 +97,6 @@ export default class GameScene extends FindMiniScene {
   emitBubbleSpheres (x, y, value) {
     let newX
     let newY
-    const nums = []
     for (let i = 0; i < Phaser.Math.Between(value > 1 ? 2 : value, value > 5 ? 5 : value); i++) {
       newX = x + Phaser.Math.Between(-75, 75)
       newY = y + Phaser.Math.Between(-75, 75)
@@ -112,10 +111,6 @@ export default class GameScene extends FindMiniScene {
         newY = this.endY
       }
       const num = Phaser.Math.Between(1, value / 2)
-      nums.push(num)
-    }
-    console.warn(nums)
-    for (const num of nums) {
       this.numbersArray.push(num)
       const sphere = new SimpleSphere(this, x, y, num)
       sphere.visible = false
@@ -173,9 +168,15 @@ export default class GameScene extends FindMiniScene {
     this.timerRunnable = delayRunnable(this, 1000, this.changeTimer, this)
   }
 
+  onBombTap () {
+    for (const sphere of this.spheresContainer) {
+      sphere.stop()
+    }
+  }
+
   gameOver () {
     this.removeComponents()
-    this.events.emit('gameOver')
+    this.events.emit('gameOver', this.level)
   }
 
   removeComponents () {
