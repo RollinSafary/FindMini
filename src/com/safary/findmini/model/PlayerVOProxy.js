@@ -149,13 +149,11 @@ export default class PlayerVOProxy extends Proxy {
 
   _authenticateMe () {
     return new Promise(async (resolve, reject) => {
-      // const playerInfo = await FBInstant.player.getSignedPlayerInfoAsync(
-      //   'chat_royal',
-      // )
+      const playerInfo = await FBInstant.player.getSignedPlayerInfoAsync()
       const verification = await fetch(
         urlWithParams(`${BASE_URI}/authenticate`, {
-          id: 'someID', // playerInfo.getPlayerID(),
-          signature: 'someSignature', // playerInfo.getSignature(),
+          id: playerInfo.getPlayerID(),
+          signature: playerInfo.getSignature(),
         }),
       )
       const verificationJson = await verification.json()

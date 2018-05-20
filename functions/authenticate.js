@@ -8,47 +8,47 @@ const authenticate = (admin, request, response) => {
   try {
     const query = request.query
     const id = query.id
-    // const signature = query.signature
+    const signature = query.signature
 
-    // const splittedSignature = _.split(signature, '.', 2)
-    // let encodedSignature = splittedSignature[0]
-    // const responsePayload = splittedSignature[1]
-    // const decodedResponsePayload = JSON.parse(
-    //   CryptoJS.enc.Base64.parse(responsePayload).toString(CryptoJS.enc.Utf8)
-    // )
-    // const responsePayloadTimestamp = decodedResponsePayload['issued_at']
-    // const wordArray = CryptoJS.HmacSHA256(responsePayload, constants.APP_SECRET)
+    const splittedSignature = _.split(signature, '.', 2)
+    let encodedSignature = splittedSignature[0]
+    const responsePayload = splittedSignature[1]
+    const decodedResponsePayload = JSON.parse(
+      CryptoJS.enc.Base64.parse(responsePayload).toString(CryptoJS.enc.Utf8)
+    )
+    const responsePayloadTimestamp = decodedResponsePayload['issued_at']
+    const wordArray = CryptoJS.HmacSHA256(responsePayload, constants.APP_SECRET)
 
-    // let hashedResponsePayload = wordArray.toString(CryptoJS.enc.Base64)
-    // // Remove padding equal characters
-    // hashedResponsePayload = hashedResponsePayload.replace(/=+$/g, '')
-    // // Replace characters according to base64url specifications
-    // hashedResponsePayload = hashedResponsePayload.replace(/\+/g, '-')
-    // hashedResponsePayload = hashedResponsePayload.replace(/\//g, '_')
+    let hashedResponsePayload = wordArray.toString(CryptoJS.enc.Base64)
+    // Remove padding equal characters
+    hashedResponsePayload = hashedResponsePayload.replace(/=+$/g, '')
+    // Replace characters according to base64url specifications
+    hashedResponsePayload = hashedResponsePayload.replace(/\+/g, '-')
+    hashedResponsePayload = hashedResponsePayload.replace(/\//g, '_')
 
-    // console.log(
-    //   `${hashedResponsePayload} == ${encodedSignature} : ${_.includes(
-    //     hashedResponsePayload,
-    //     encodedSignature
-    //   )}`
-    // )
-    // console.log(
-    //   `timestamp diff : ${moment().unix() - responsePayloadTimestamp}`
-    // )
+    console.log(
+      `${hashedResponsePayload} == ${encodedSignature} : ${_.includes(
+        hashedResponsePayload,
+        encodedSignature
+      )}`
+    )
+    console.log(
+      `timestamp diff : ${moment().unix() - responsePayloadTimestamp}`
+    )
 
-    // if (
-    //   !_.includes(hashedResponsePayload, encodedSignature) ||
-    //   moment().unix() - responsePayloadTimestamp >=
-    //     constants.AUTHENTICATE_TIMESTAMP_THRESHOLD
-    // ) {
-    //   responseBody = {
-    //     error: {
-    //       message: 'Facebook signature verification failed.'
-    //     }
-    //   }
-    //   response.status(200).send(responseBody)
-    //   return
-    // }
+    if (
+      !_.includes(hashedResponsePayload, encodedSignature) ||
+      moment().unix() - responsePayloadTimestamp >=
+        constants.AUTHENTICATE_TIMESTAMP_THRESHOLD
+    ) {
+      responseBody = {
+        error: {
+          message: 'Facebook signature verification failed.'
+        }
+      }
+      response.status(200).send(responseBody)
+      return
+    }
 
     admin
       .auth()
