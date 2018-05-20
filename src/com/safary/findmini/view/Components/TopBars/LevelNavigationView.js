@@ -26,7 +26,8 @@ export default class LevelNavigationView extends Phaser.GameObjects.Container {
     this.menuButton = this.scene.add.sprite(0, 0, 'back').setInteractive()
     this.menuButton.x = this.menuButton.displayWidth / 2 + 5
     this.menuButton.y = this.menuButton.displayHeight / 2 + 5
-    this.menuButton.on('pointerup', () => {
+    this.menuButton.once('pointerup', () => {
+      console.warn('hasanq')
       this.events.emit('menuClicked')
     })
     this.add(this.menuButton)

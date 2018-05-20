@@ -23,6 +23,28 @@ export default class DoubleTapDangerButton extends SphereView {
     this.removeFrontLayerBackground()
     this.onClickAction = () => {
       this.scene.events.emit('bombClick')
+      this.scene.add.tweens({
+        targets: this,
+        duration: 300,
+        ease: 'Power1',
+        scaleX: 3,
+        scaleY: 3,
+        onStart: () => {},
+        onComplete: () => {
+          const explosion = this.scene.add.sprite(this.x, this.y, 'explosion')
+          this.scene.tweens.add({
+            targets: explosion,
+            duration: 400,
+            ease: 'Power1',
+            scaleX: 5,
+            scaleY: 5,
+            onComplete: () => {
+              explosion.destroy()
+              this.scene.gameOver()
+            },
+          })
+        },
+      })
     }
   }
 }

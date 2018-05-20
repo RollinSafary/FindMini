@@ -140,6 +140,10 @@ export default class SphereView extends Phaser.GameObjects.Container {
     this.moveEnabled = true
   }
 
+  stop () {
+    this.moveEnabled = false
+  }
+
   onClickAction () {
     this.scene.events.emit('onSphereMustDestroy', this)
   }

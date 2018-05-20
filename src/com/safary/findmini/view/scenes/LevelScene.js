@@ -20,10 +20,13 @@ export default class LevelScene extends FindMiniScene {
   }
 
   createNavigationView () {
-    this.navigationContainer = this.add.container(0, 0)
     this.levelNavigation = new LevelNavigationView(this)
-    this.navigationContainer.add(this.levelNavigation)
-    this.navigationContainer.depth = 10
+    this.levelNavigation.depth = 10
+    this.add.existing(this.levelNavigation)
+  }
+
+  removeComponents () {
+    this.levelNavigation.destroy()
   }
 
   setSoundState (soundState) {

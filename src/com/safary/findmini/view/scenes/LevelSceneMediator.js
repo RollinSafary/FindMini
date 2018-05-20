@@ -1,4 +1,5 @@
 import { SCENE_LEVEL } from '../../constants/Constants'
+import GameOverPopup from '../Components/Popups/GameOverPopup'
 import FindMiniSceneMediator from './FindMiniSceneMediator'
 import NavigationScene from './NavigationScene'
 import LevelScene from './LevelScene'
@@ -14,7 +15,12 @@ export default class LevelSceneMediator extends FindMiniSceneMediator {
   }
 
   listNotificationInterests () {
-    return [NavigationScene.START_GAME, PlayerVOProxy.LEVEL_COMPLETE, GameScene.LEVEL_FAILED]
+    return [
+      NavigationScene.START_GAME,
+      PlayerVOProxy.LEVEL_COMPLETE,
+      GameScene.MENU_CLICKED,
+      GameOverPopup.BACK_CLICKED,
+    ]
   }
 
   onRegister () {
@@ -24,7 +30,8 @@ export default class LevelSceneMediator extends FindMiniSceneMediator {
 
   handleNotification (notificationName) {
     switch (notificationName) {
-      case GameScene.LEVEL_FAILED:
+      case GameScene.MENU_CLICKED:
+      case GameOverPopup.BACK_CLICKED:
       case PlayerVOProxy.LEVEL_COMPLETE:
       case NavigationScene.START_GAME:
         window.game.scene.start(SCENE_LEVEL)
@@ -40,7 +47,7 @@ export default class LevelSceneMediator extends FindMiniSceneMediator {
       return
     }
     this.sendNotification(LevelScene.START_LEVEL, level)
-    window.game.scene.stop(SCENE_LEVEL)
+    this.stopScene()
   }
 
   setListeners () {
@@ -62,8 +69,13 @@ export default class LevelSceneMediator extends FindMiniSceneMediator {
     this.sendNotification(FindMiniFacade.GAME_SOUND, true)
   }
 
-  onMenuClicked () {
-    this.sendNotification(LevelScene.MENU_CLICKED)
+  stopScene () {
+    this.viewComponent.removeComponents()
     window.game.scene.stop(SCENE_LEVEL)
+  }
+
+  onMenuClicked () {
+    this.stopScene()
+    this.sendNotification(LevelScene.MENU_CLICKED)
   }
 }
