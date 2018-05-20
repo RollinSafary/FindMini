@@ -9,7 +9,7 @@ export default class StandardPopup extends Phaser.GameObjects.Container {
   static HIDE_COMPLETE = `${StandardPopup.NAME}HideComplete`
   constructor () {
     super(window.game.scene.getScene(SCENE_POPUP), 0, 0)
-    this.events = new Phaser.EventEmitter()
+    this.events = new Phaser.Events.EventEmitter()
     this.visible = false
   }
 
