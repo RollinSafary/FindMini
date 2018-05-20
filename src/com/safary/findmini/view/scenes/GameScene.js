@@ -5,6 +5,8 @@ import { BOMB_NAME, SCENE_GAME } from '../../constants/Constants'
 import FindMiniScene from './FindMiniScene'
 import Phaser from 'phaser'
 import GameNavigationView from '../Components/TopBars/GameNavigationView'
+import _ from 'lodash'
+
 export default class GameScene extends FindMiniScene {
   static NAME = 'GameScene'
   static START = `${GameScene.NAME}Start`
@@ -14,6 +16,13 @@ export default class GameScene extends FindMiniScene {
 
   constructor () {
     super(SCENE_GAME)
+    this.throtleBubbleEmit = _.throttle((args) => {
+      console.warn(args)
+      const target = args[1][0]
+      this.emitBubbleSpheres(target.x, target.y, target.number)
+      this.bubblePlay()
+      target.destroy()
+    }, 400, {leading: true})
   }
 
   create () {
@@ -71,16 +80,15 @@ export default class GameScene extends FindMiniScene {
 
   onBubbleClick (target) {
     if (this.checkToRemove(target)) {
+      this.tweens.killTweensOf(target)
       this.tweens.add({
         targets: target,
         duration: 300,
         ease: 'Power1',
-        scaleX: 1.5,
-        scaleY: 1.5,
-        onComplete: () => {
-          this.emitBubbleSpheres(target.x, target.y, target.number)
-          this.bubblePlay()
-          target.destroy()
+        scaleX: 2,
+        scaleY: 2,
+        onComplete: (...args) => {
+          this.throtleBubbleEmit(args)
         },
       })
     }
@@ -89,7 +97,8 @@ export default class GameScene extends FindMiniScene {
   emitBubbleSpheres (x, y, value) {
     let newX
     let newY
-    for (let i = 0; i < Phaser.Math.Between(value > 1 ? 2: value, value > 5 ? 5 : value); i++) {
+    const nums = []
+    for (let i = 0; i < Phaser.Math.Between(value > 1 ? 2 : value, value > 5 ? 5 : value); i++) {
       newX = x + Phaser.Math.Between(-75, 75)
       newY = y + Phaser.Math.Between(-75, 75)
       if (newX < this.startX) {
@@ -103,6 +112,10 @@ export default class GameScene extends FindMiniScene {
         newY = this.endY
       }
       const num = Phaser.Math.Between(1, value / 2)
+      nums.push(num)
+    }
+    console.warn(nums)
+    for (const num of nums) {
       this.numbersArray.push(num)
       const sphere = new SimpleSphere(this, x, y, num)
       sphere.visible = false

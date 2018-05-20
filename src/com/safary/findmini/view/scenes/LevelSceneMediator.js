@@ -1,9 +1,8 @@
-import { SCENE_GAME, SCENE_LEVEL, SCENE_NAVIGATION } from '../../constants/Constants'
+import { SCENE_LEVEL } from '../../constants/Constants'
 import FindMiniSceneMediator from './FindMiniSceneMediator'
 import NavigationScene from './NavigationScene'
 import LevelScene from './LevelScene'
 import PlayerVOProxy from '../../model/PlayerVOProxy'
-import GameSceneMediator from './GameSceneMediator'
 import GameScene from './GameScene'
 import FindMiniFacade from '../../FindMiniFacade'
 
