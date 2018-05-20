@@ -94,7 +94,7 @@ export default class HardCoreNavigationView extends Phaser.GameObjects.Container
     this.scene.add.tween({
       targets: this.scoreText,
       text: value,
-      duration: 1000,
+      duration: 300,
       ease: 'Power1',
       onStart: () => {
         this.scoreText.text = parseInt(this.scoreText.text)
