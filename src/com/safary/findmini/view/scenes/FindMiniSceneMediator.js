@@ -8,6 +8,10 @@ export default class FindMiniSceneMediator extends Mediator {
     }
     this.setListeners()
   }
+  onRemove () {
+    this.removeListeners()
+    super.onRemove()
+  }
 
   setListeners () {
     this.viewComponent.sys.events.on('boot', this.onSceneBoot, this)
@@ -18,6 +22,17 @@ export default class FindMiniSceneMediator extends Mediator {
     this.viewComponent.sys.events.on('start', this.onSceneStart, this)
     this.viewComponent.sys.events.on('shutdown', this.onSceneShutdown, this)
     this.viewComponent.sys.events.on('destroy', this.onSceneDestroy, this)
+  }
+
+  removeListeners () {
+    this.viewComponent.sys.events.off('boot', this.onSceneBoot, this)
+    this.viewComponent.sys.events.off('pause', this.onScenePause, this)
+    this.viewComponent.sys.events.off('resume', this.onSceneResume, this)
+    this.viewComponent.sys.events.off('sleep', this.onSceneSleep, this)
+    this.viewComponent.sys.events.off('wake', this.onSceneWake, this)
+    this.viewComponent.sys.events.off('start', this.onSceneStart, this)
+    this.viewComponent.sys.events.off('shutdown', this.onSceneShutdown, this)
+    this.viewComponent.sys.events.off('destroy', this.onSceneDestroy, this)
   }
 
   onSceneBoot () {

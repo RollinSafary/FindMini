@@ -1,9 +1,8 @@
 
-import GameOverPopup         from "./GameOverPopup";
+import GameOverPopup from './GameOverPopup'
 import StandardPopupMediator from './StandardPopupMediator'
-import GameScene             from '../../scenes/GameScene'
-import PlayerVOProxy         from '../../../model/PlayerVOProxy'
-import LevelCompletePopup    from './LevelCompletePopup'
+import GameScene from '../../scenes/GameScene'
+import PlayerVOProxy from '../../../model/PlayerVOProxy'
 
 export default class GameOverPopupMediator extends StandardPopupMediator {
   static NAME = 'GameOverPopupMediator'

@@ -2,12 +2,12 @@ import { gameConfig } from '../../constants/GameConfig'
 import { BOMB_NAME, OBJECT_TYPES, SCENE_HARDCORE } from '../../constants/Constants'
 import FindMiniScene from './FindMiniScene'
 import Phaser from 'phaser'
-import GameNavigationView from '../Components/TopBars/GameNavigationView'
 import { delayRunnable, removeRunnable } from '../../utils/utils'
 
 export default class HardcoreScene extends FindMiniScene {
   static NAME = 'HardcoreScene'
   static START = `${HardcoreScene.NAME}Start`
+  static SHOW_NAVIGATION = `${HardcoreScene.NAME}ShowNavigation`
   static GAME_OVER = `${HardcoreScene.NAME}GameOver`
 
   constructor () {
@@ -21,18 +21,6 @@ export default class HardcoreScene extends FindMiniScene {
     this.endX = gameConfig.width - this.distance
     this.endY = gameConfig.height - this.distance
     this.score = 0
-    this.createNavigationView()
-  }
-
-  createNavigationView () {
-    this.gameNavigation = new GameNavigationView(this)
-    this.add.existing(this.gameNavigation)
-    this.gameNavigation.setTimer(0)
-    this.gameNavigation.setScore(0)
-  }
-
-  setSoundState (soundState) {
-    this.gameNavigation.setSoundState(soundState)
   }
 
   startNewGame (hardCoreLevel) {

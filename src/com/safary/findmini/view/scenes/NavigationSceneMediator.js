@@ -1,13 +1,16 @@
-import { SCENE_NAVIGATION } from '../../constants/Constants'
-import FindMiniSceneMediator from './FindMiniSceneMediator'
-import NavigationScene from './NavigationScene'
-import PlayerVOProxy from '../../model/PlayerVOProxy'
-import LevelSceneMediator from './LevelSceneMediator'
-import LoadingScene from './LoadingScene'
-import FindMiniFacade from '../../FindMiniFacade'
-import LevelScene from './LevelScene'
-import SettingsScene from './SettingsScene'
-import HardcoreScene from './HardcoreScene'
+import { SCENE_NAVIGATION }   from '../../constants/Constants'
+import HardCoreNavigationView
+                              from "../Components/TopBars/HardCoreNavigationView";
+import LevelNavigationView    from '../Components/TopBars/LevelNavigationView'
+import FindMiniSceneMediator  from './FindMiniSceneMediator'
+import NavigationScene        from './NavigationScene'
+import PlayerVOProxy          from '../../model/PlayerVOProxy'
+import LevelSceneMediator     from './LevelSceneMediator'
+import LoadingScene           from './LoadingScene'
+import FindMiniFacade         from '../../FindMiniFacade'
+import LevelScene             from './LevelScene'
+import SettingsScene          from './SettingsScene'
+import HardcoreScene          from './HardcoreScene'
 import HardcoreSceneMediator from './HardcoreSceneMediator'
 export default class NavigationSceneMediator extends FindMiniSceneMediator {
   static NAME = 'NavigationSceneMediator'
@@ -47,7 +50,14 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
   }
 
   listNotificationInterests () {
-    return [PlayerVOProxy.INITIALIZE_SUCCESS, LoadingScene.SHUTDOWN, SettingsScene.MENU, HardcoreScene.GAME_OVER, LevelScene.MENU_CLICKED]
+    return [
+      PlayerVOProxy.INITIALIZE_SUCCESS,
+      LoadingScene.SHUTDOWN,
+      SettingsScene.MENU,
+      HardcoreScene.GAME_OVER,
+      HardCoreNavigationView.MENU_CLICKED,
+      LevelNavigationView.MENU_CLICKED,
+    ]
   }
 
   handleNotification (notificationName) {
@@ -58,7 +68,8 @@ export default class NavigationSceneMediator extends FindMiniSceneMediator {
         break
       case HardcoreScene.GAME_OVER:
       case SettingsScene.MENU:
-      case LevelScene.MENU_CLICKED:
+      case HardCoreNavigationView.MENU_CLICKED:
+      case LevelNavigationView.MENU_CLICKED:
         window.game.scene.start(SCENE_NAVIGATION)
         this.setValues()
         break

@@ -1,9 +1,12 @@
 import Phaser from 'phaser'
+import { SCENE_LEVEL } from '../../../constants/Constants'
 import { gameConfig } from '../../../constants/GameConfig'
 
 export default class LevelNavigationView extends Phaser.GameObjects.Container {
-  constructor (scene) {
-    super(scene, 0, 0)
+  static NAME = 'LevelNavigationView'
+  static MENU_CLICKED = `${LevelNavigationView.NAME}MenuClicked`
+  constructor () {
+    super(window.game.scene.getScene(SCENE_LEVEL), 0, 0)
     this.createBody()
   }
 
@@ -11,6 +14,7 @@ export default class LevelNavigationView extends Phaser.GameObjects.Container {
     this.createBackground()
     this.createMenuButton()
     this.createSoundButton()
+    this.disableButtons()
   }
 
   createBackground () {
@@ -23,11 +27,11 @@ export default class LevelNavigationView extends Phaser.GameObjects.Container {
     graphics.alpha = 0.8
   }
   createMenuButton () {
-    this.menuButton = this.scene.add.sprite(0, 0, 'back').setInteractive()
-    this.menuButton.x = this.menuButton.displayWidth / 2 + 5
-    this.menuButton.y = this.menuButton.displayHeight / 2 + 5
+    this.menuButton = this.scene.add.sprite(0, 0, 'back')
+    this.menuButton.setInteractive()
+    this.menuButton.x = this.menuButton.width / 2 + 5
+    this.menuButton.y = this.menuButton.height / 2 + 5
     this.menuButton.once('pointerup', () => {
-      console.warn('hasanq')
       this.events.emit('menuClicked')
     })
     this.add(this.menuButton)
@@ -59,6 +63,15 @@ export default class LevelNavigationView extends Phaser.GameObjects.Container {
       isEnabled ? this.turnOffSound : this.turnOnSound,
       this,
     )
+  }
+
+  enableButtons () {
+    this.menuButton.input.enabled = true
+    this.soundButton.input.enabled = true
+  }
+  disableButtons () {
+    this.menuButton.input.enabled = false
+    this.soundButton.input.enabled = false
   }
 
   get events () {

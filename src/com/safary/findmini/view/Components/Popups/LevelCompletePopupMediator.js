@@ -1,4 +1,3 @@
-
 import StandardPopupMediator from './StandardPopupMediator'
 import GameScene from '../../scenes/GameScene'
 import PlayerVOProxy from '../../../model/PlayerVOProxy'

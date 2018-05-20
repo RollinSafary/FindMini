@@ -1,10 +1,10 @@
 import Phaser from 'phaser'
 import { gameConfig } from '../../../constants/GameConfig'
 
-export default class GameNavigationView extends Phaser.GameObjects.Container {
-  static NAME = 'GameNavigationView'
-  static STARTED = `${GameNavigationView.NAME}Started`
-  static MENU_CLICKED = `${GameNavigationView.NAME}MenuClicked`
+export default class HardCoreNavigationView extends Phaser.GameObjects.Container {
+  static NAME = 'HardCoreNavigationView'
+  static STARTED = `${HardCoreNavigationView.NAME}Started`
+  static MENU_CLICKED = `${HardCoreNavigationView.NAME}MenuClicked`
 
   constructor (scene) {
     super(scene, 0, 0)

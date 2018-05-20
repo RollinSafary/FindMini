@@ -4,7 +4,6 @@ import { gameConfig } from '../../constants/GameConfig'
 import { BOMB_NAME, SCENE_GAME } from '../../constants/Constants'
 import FindMiniScene from './FindMiniScene'
 import Phaser from 'phaser'
-import GameNavigationView from '../Components/TopBars/GameNavigationView'
 import _ from 'lodash'
 
 export default class GameScene extends FindMiniScene {
@@ -57,13 +56,6 @@ export default class GameScene extends FindMiniScene {
     if (this.gameNavigation.isSoundOn) {
       this.missSound.play()
     }
-  }
-
-  createNavigationView (remaining) {
-    this.gameNavigation = new GameNavigationView(this)
-    this.add.existing(this.gameNavigation)
-    this.gameNavigation.setTimer(remaining)
-    this.gameNavigation.setScore(0)
   }
 
   setSoundState (soundState) {

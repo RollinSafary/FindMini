@@ -2,35 +2,16 @@ import { SCENE_LEVEL } from '../../constants/Constants'
 import FindMiniScene from './FindMiniScene'
 import { gameConfig } from '../../constants/GameConfig'
 import { createButton } from '../../utils/utils'
-import LevelNavigationView from '../Components/TopBars/LevelNavigationView'
 
 export default class LevelScene extends FindMiniScene {
   static NAME = 'LevelScene'
   static START = `${LevelScene.NAME}Start`
 
   static START_LEVEL = LevelScene.NAME + 'StartLevel'
-  static MENU_CLICKED = `${LevelScene.NAME}MenuClicked`
+  static SHOW_NAVIGATION = `${LevelScene.NAME}ShowNavigation`
 
   constructor () {
     super(SCENE_LEVEL)
-  }
-
-  create () {
-    this.createNavigationView()
-  }
-
-  createNavigationView () {
-    this.levelNavigation = new LevelNavigationView(this)
-    this.levelNavigation.depth = 10
-    this.add.existing(this.levelNavigation)
-  }
-
-  removeComponents () {
-    this.levelNavigation.destroy()
-  }
-
-  setSoundState (soundState) {
-    this.levelNavigation.setSoundState(soundState)
   }
 
   createLevels (level, maxLevels) {

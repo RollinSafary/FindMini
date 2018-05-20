@@ -1,8 +1,15 @@
-import { OBJECT_TYPES, SCENE_HARDCORE } from '../../constants/Constants'
+import {
+  OBJECT_TYPES,
+  SCENE_GAME,
+  SCENE_HARDCORE,
+} from '../../constants/Constants'
+import HardCoreNavigationView
+  from '../Components/TopBars/HardCoreNavigationView'
+import HardCoreNavigationViewMediator
+  from '../Components/TopBars/HardCoreNavigationViewMediator'
 import FindMiniSceneMediator from './FindMiniSceneMediator'
 import NavigationScene from './NavigationScene'
 import PlayerVOProxy from '../../model/PlayerVOProxy'
-import FindMiniFacade from '../../FindMiniFacade'
 import HardcoreScene from './HardcoreScene'
 
 export default class HardcoreSceneMediator extends FindMiniSceneMediator {
@@ -18,7 +25,7 @@ export default class HardcoreSceneMediator extends FindMiniSceneMediator {
   }
 
   listNotificationInterests () {
-    return [NavigationScene.HARDCORE]
+    return [NavigationScene.HARDCORE, HardCoreNavigationView.STARTED, HardCoreNavigationView.MENU_CLICKED]
   }
 
   handleNotification (notificationName, ...args) {
@@ -26,7 +33,18 @@ export default class HardcoreSceneMediator extends FindMiniSceneMediator {
       case NavigationScene.HARDCORE:
         window.game.scene.start(SCENE_HARDCORE)
         this.createLevel()
-        this.viewComponent.setSoundState(!this.playerVOProxy.vo.settings.mute)
+        this.registerHardcoreNavigationViewMediator()
+        this.sendNotification(HardcoreScene.SHOW_NAVIGATION)
+        break
+      case HardCoreNavigationView.STARTED:
+        const hardCoreNavigationViewMediator = this.facade.retrieveMediator(HardCoreNavigationViewMediator.NAME)
+        this.viewComponent.gameNavigation = hardCoreNavigationViewMediator.viewComponent
+        break
+      case HardCoreNavigationView.MENU_CLICKED:
+        setTimeout(() => {
+          this.removeHardcoreNavigationViewMediator()
+          window.game.scene.stop(SCENE_HARDCORE)
+        }, 50)
         break
     }
   }
@@ -56,29 +74,29 @@ export default class HardcoreSceneMediator extends FindMiniSceneMediator {
   setListeners () {
     super.setListeners()
     this.viewComponent.events.on('gameOver', this.onGameOver, this)
-    this.viewComponent.events.on('musicOff', this.onMusicOff, this)
-    this.viewComponent.events.on('musicOn', this.onMusicOn, this)
-    this.viewComponent.events.on('menuClicked', this.onMenuClicked, this)
     this.viewComponent.events.on('harder', this.onHarder, this)
   }
 
   onGameOver () {
     this.sendNotification(HardcoreScene.GAME_OVER)
+    this.removeHardcoreNavigationViewMediator()
     window.game.scene.stop(SCENE_HARDCORE)
-  }
-
-  onMusicOff () {
-    this.sendNotification(FindMiniFacade.GAME_SOUND, false)
-  }
-  onMusicOn () {
-    this.sendNotification(FindMiniFacade.GAME_SOUND, true)
-  }
-
-  onMenuClicked () {
-    this.onGameOver()
   }
 
   onHarder () {
     this.viewComponent.hardState()
+  }
+
+  registerHardcoreNavigationViewMediator () {
+    if (this.facade.hasMediator(HardCoreNavigationViewMediator.NAME)) {
+      return
+    }
+    this.facade.registerMediator(new HardCoreNavigationViewMediator(null))
+  }
+  removeHardcoreNavigationViewMediator () {
+    if (!this.facade.hasMediator(HardCoreNavigationViewMediator.NAME)) {
+      return
+    }
+    this.facade.removeMediator(new HardCoreNavigationViewMediator(null))
   }
 }
